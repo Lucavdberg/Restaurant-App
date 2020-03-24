@@ -290,6 +290,8 @@ class Program
             Console.WriteLine("Van welke dag wilt u het menu bekijken");
             var day = Console.ReadLine();
             var menukaart = AddValue(day, maandag_een, maandag_twee, dinsdag_een, dinsdag_twee, woensdag_een, woensdag_twee, donderdag_een, donderdag_twee, vrijdag_een, vrijdag_twee, zaterdag_een, zaterdag_twee, zondag_een, zondag_twee);
+
+
         }
         Console.WriteLine("Geen reserveringen beschikbaar");
        
