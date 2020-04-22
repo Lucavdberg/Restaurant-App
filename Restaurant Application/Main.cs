@@ -158,7 +158,7 @@ namespace oefenen1
                 ReserveringClass.reserveringFunc(reserveringJson);
                 
             }
-            Console.WriteLine("test");
+
         }
     }
 }
