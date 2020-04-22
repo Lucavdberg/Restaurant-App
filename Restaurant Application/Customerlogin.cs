@@ -5,74 +5,82 @@ using System.Collections.Generic;
 
 public class Customerlogin
 {
-    public int LoginFunc(JsonClass gebruiker)
+    public int LoginFunc(JsonClassLogin gebruiker)
     {
-       
-
-        Console.WriteLine("Wilt u inloggen of een account aanmaken");
+        Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
         var inloggen_aanmaken = Console.ReadLine();
-        if (inloggen_aanmaken == "aanmaken" || inloggen_aanmaken == "account aanmaken")
+        if (inloggen_aanmaken == "2")
         {
-            Console.Write("Voer een gebruiksnaam in: ");
-            var gebruiksnaam = Console.ReadLine();
-            Console.Write("Voer een wachtwoord in: ");
+            Console.WriteLine("Voer een gebruiksnaam in: ");
+            var gebruikersnaam = Console.ReadLine();
+            Console.WriteLine("Voer een wachtwoord in: ");
             var wachtwoord = Console.ReadLine();
-            Console.Write("Voer een E-mail in: ");
+            Console.WriteLine("Voer een E-mail in: ");
             var email_variabele = Console.ReadLine();
 
+            gebruiker.Email = new List<string> { email_variabele };
+            gebruiker.Gebruiksnaam = new List<string> { gebruikersnaam };
+            gebruiker.id = new List<int> { new Random().Next(1000, 9999) };
+            gebruiker.Wachtwoord = new List<string> { wachtwoord };
+
+            string buffer = File.ReadAllText(@"gebruiker_id.json");
+            JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(buffer);
+
+            JsonClassLogin writeResultJson = new JsonClassLogin();
+
+            writeResultJson.Email = new List<string>();
+            writeResultJson.id = new List<int>();
+            writeResultJson.Gebruiksnaam = new List<string>();
+            writeResultJson.Wachtwoord = new List<string>();
+            for (int i = 0; i < gebruikerIdJson.Email.Count; i++)
+            {
 
 
-            gebruiker.Email = email_variabele;
-            gebruiker.Gebruiksnaam = gebruiksnaam;
-            gebruiker.id = 123123;
-            gebruiker.Wachtwoord = wachtwoord;
+                writeResultJson.Email.Add(gebruikerIdJson.Email[i]);
+                writeResultJson.id.Add(gebruikerIdJson.id[i]);
+                writeResultJson.Gebruiksnaam.Add(gebruikerIdJson.Gebruiksnaam[i]);
+                writeResultJson.Wachtwoord.Add(gebruikerIdJson.Wachtwoord[i]);
+            }
 
-            string strResultJson = JsonConvert.SerializeObject(gebruiker);
-            Console.WriteLine(strResultJson);
+
+            writeResultJson.Email.Add(email_variabele);
+            writeResultJson.Gebruiksnaam.Add(gebruikersnaam);
+            writeResultJson.id.Add(new Random().Next(1000, 9999));
+            writeResultJson.Wachtwoord.Add(wachtwoord);
+
+            string strResultJson = JsonConvert.SerializeObject(writeResultJson);
             File.WriteAllText(@"gebruiker_id.json", strResultJson);
-            Console.WriteLine("stored!");
-            strResultJson = File.ReadAllText(@"gebruiker_id.json");
-            JsonClass resultJsonClass = JsonConvert.DeserializeObject<JsonClass>(strResultJson);
-            Console.WriteLine(resultJsonClass.Email);
-            
         }
 
-        if (inloggen_aanmaken == "inloggen")
+        if (inloggen_aanmaken == "1")
         {
+            string buffer = File.ReadAllText(@"gebruiker_id.json");
+            JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(buffer);
             int counter = 0;
             for (int i = 0; i < 5; i++)
             {
-                string strResultJson = JsonConvert.SerializeObject(gebruiker);
-                strResultJson = File.ReadAllText(@"gebruiker_id.json");
-                JsonClass resultJsonClass = JsonConvert.DeserializeObject<JsonClass>(strResultJson);
-                string inlogNaam = resultJsonClass.Gebruiksnaam;
-                string inlogWachtwoord = resultJsonClass.Wachtwoord;
-
-                Console.Write("gebruiksnaam: ");
+                Console.WriteLine("gebruiksnaam: ");
                 var naam = Console.ReadLine();
-                Console.Write("wachtwoord: ");
+                Console.WriteLine("wachtwoord: ");
                 var wacht = Console.ReadLine();
-                if (naam == inlogNaam && wacht == inlogWachtwoord)
+                for (int j = 0; j < gebruikerIdJson.Gebruiksnaam.Count; j++)
                 {
-                    Console.WriteLine("u bent ingelogd!");
-                    Console.ReadKey();
-                    return 2;
-           
+                    if (naam == gebruikerIdJson.Gebruiksnaam[j] && wacht == gebruikerIdJson.Wachtwoord[j])
+                    {
+                        Console.WriteLine("u bent ingelogd!");
+                        return 2;
+                    } 
                 }
-                          
                 Console.WriteLine("uw gegevens zijn verkeerd!");
                 counter++;
                 if (counter > 2)
                 {
                     Console.WriteLine("Uw inloggevens zijn te vaak fout ingevuld");
-                    
                     Console.WriteLine("login fail");
                     return 1;
                 }
-
             }
         }
-
         return 0;
     }
 }
