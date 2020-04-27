@@ -1,8 +1,9 @@
-﻿public class JsonClassReservering
+﻿using System.Collections.Generic;
+public class JsonClassReservering
 {   
-    public int id { get; set; }
-    public string Datum { get; set; }
-    public string Tijden { get; set; }
-    public int Personen { get; set; }
-    public string Details { get; set; } 
+    public List<int> id { get; set; }
+    public List<string> Datum { get; set; }
+    public List<string> Tijden { get; set; }
+    public List<int> Personen { get; set; }
+    public List<string> Details { get; set; } 
 }
