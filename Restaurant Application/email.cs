@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.IO;
 
 public class email {
-    public void emailFunc(JsonClassLogin email)
+    public void emailFunc()
     {
         MailMessage mail = new MailMessage();
         mail.From = new MailAddress("restaurantappgroep1a@gmail.com");
@@ -18,47 +18,41 @@ public class email {
         smtp.Credentials = new NetworkCredential("restaurantappgroep1a@gmail.com", "groep1groep1");
         smtp.Host = "smtp.gmail.com";
 
-        string strResultJson = JsonConvert.SerializeObject(email);
-        strResultJson = File.ReadAllText(@"gebruiker_id.json");
-        JsonClassLogin resultJsonClass = JsonConvert.DeserializeObject<JsonClassLogin>(strResultJson);
+        string buffer = File.ReadAllText(@"gebruiker_id.json");
+        JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(buffer);
 
-        //ontvanger
-        try
+        Console.WriteLine("Vul hier uw emailadres in zodat wij een mail naar uw kunnen sturen met uw inloggegevens");
+        var ingevoerdeEmail = Console.ReadLine();
+        string naam = "";
+        string wachtwoord = "";
+        string gevondenEmail = "";
+        for (int i = 0; i < gebruikerIdJson.Email.Count; i++)
         {
-            mail.To.Add(new MailAddress(resultJsonClass.Email[0])); // VERANDER DIT LATER >>>> [0]
-            mail.Subject = "Inloggegevens";
-            mail.IsBodyHtml = true;
-            mail.Body = "Gebruiksnaam: " + resultJsonClass.Gebruiksnaam + "<br />" + "Wachtwoord: " + resultJsonClass.Wachtwoord;
-            smtp.Send(mail);
-            Console.WriteLine("Er is een mail gestuurd met uw inloggegevens naar uw email" + "\n" + "klik op een toets om terug te keren naar het hoofdmenu");
-            Console.ReadKey();
-        }
-        catch 
-        {
-            Console.WriteLine("Het ingevoerde email adres dat hoort bij uw account is ongeldig waardoor er geen email kan worden gestuurd met inloggevens");
-            Console.WriteLine("u wordt aangeraden om uw email adres te wijzigen");
-            Console.WriteLine("type(1) om uw email adres te wijzigen of type(2) om terug te gaan naar het hoofdmenu");
-            var aanraden = Console.ReadLine();
-            if (aanraden == "1")
+            if (ingevoerdeEmail == gebruikerIdJson.Email[i])
             {
-                Console.WriteLine("uw huidige email adres is " + resultJsonClass.Email);
-                Console.WriteLine("type uw nieuwe email adres in");
-                resultJsonClass.Email[0] = Console.ReadLine(); // VERANDER DIT LATER >>>> [0]
+                naam = gebruikerIdJson.Gebruiksnaam[i];
+                wachtwoord = gebruikerIdJson.Wachtwoord[i];
+                gevondenEmail = gebruikerIdJson.Email[i];
+            }
+        }
 
-                string strNieuweEmail = JsonConvert.SerializeObject(resultJsonClass);
-                File.WriteAllText(@"gebruiker_id.json", strNieuweEmail);
-                strNieuweEmail = File.ReadAllText(@"gebruiker_id.json");
-                JsonClassLogin resultNieuweEmail = JsonConvert.DeserializeObject<JsonClassLogin>(strNieuweEmail);
-
-                Console.WriteLine("uw nieuwe email is " + resultNieuweEmail.Email);
-                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+        if (naam != "" && wachtwoord != "")
+        {
+            try
+            {
+                mail.To.Add(new MailAddress(gevondenEmail)); // VERANDER DIT LATER >>>> [0]
+                mail.Subject = "Inloggegevens";
+                mail.IsBodyHtml = true;
+                mail.Body = "Gebruiksnaam: " + naam + "<br />" + "Wachtwoord: " + wachtwoord;
+                smtp.Send(mail);
+                Console.WriteLine("Er is een mail gestuurd met uw inloggegevens naar uw email \nklik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
             }
-            if (aanraden == "2")
+            catch
             {
-                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine("Het ingevoerde email adres bestaat niet \nklik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
-            }   
-        } 
+            }
+        }
     }
 }
