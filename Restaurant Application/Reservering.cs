@@ -27,7 +27,6 @@ public class Reservering {
         reservering_id.Personen = newperson;
         reservering_id.Details = details;
         tafels.aantalTafels -= newperson;
-
         
         string strReserveringJson = JsonConvert.SerializeObject(reservering_id);
         File.WriteAllText(@"reservering_id.json", strReserveringJson);
