@@ -15,6 +15,7 @@ public class Reservering {
         Console.WriteLine("vul het aantal personen in: ");
         string personen = Console.ReadLine();
         int newperson = Int32.Parse(personen);
+
         Console.WriteLine("vul hier belangrijke details in: ");
         string details = Console.ReadLine();
         Console.WriteLine("Uw reservering is aangemaakt!");
@@ -27,6 +28,7 @@ public class Reservering {
         reservering_id.Details = details;
         tafels.aantalTafels -= newperson;
 
+        
         string strReserveringJson = JsonConvert.SerializeObject(reservering_id);
         File.WriteAllText(@"reservering_id.json", strReserveringJson);
         strReserveringJson = File.ReadAllText(@"reservering_id.json");
