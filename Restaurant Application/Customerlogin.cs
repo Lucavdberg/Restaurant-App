@@ -2,9 +2,12 @@
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Security;
+using System.Text.RegularExpressions;
 
 public class Customerlogin
 {
+
     public Tuple<int, int> LoginFunc(JsonClassLogin gebruiker)
     {
         Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
@@ -32,41 +35,165 @@ public class Customerlogin
             while (gebruikerIdJson != null)
             {
                 bool check = false;
-                Console.WriteLine("Voer een gebruiksnaam in: ");
-                gebruikersnaam = Console.ReadLine();
-                Console.WriteLine("Voer een wachtwoord in: ");
-                wachtwoord = Console.ReadLine();
-                Console.WriteLine("Voer een E-mail in: ");
-                email_variabele = Console.ReadLine();
+                bool check1 = false;
+                bool checkE = false;
+                // gebruiksnaam controleren
+                try
+                {
+                     check1 = false;
+                    do
+                    {
+                        Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
+                         gebruikersnaam = Console.ReadLine();
+
+
+
+                        if (Regex.IsMatch(gebruikersnaam, "^[A-Za-z]+$", RegexOptions.IgnoreCase) && (char.IsUpper(gebruikersnaam[0])))
+                        {
+                            check1 = true;
+                        }
+
+
+                    } while (!check1);
+                }
+                catch
+                {
+                    Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
+                }
+
+                //Console.WriteLine("Voer een wachtwoord in: ");
+                //wachtwoord = Console.ReadLine();
+                mask();
+
+                // Emeil controleren
+                try
+                {
+                     checkE = false;
+                    do
+                    {
+                        Console.WriteLine("Voer een geldig E-mail in: ");
+                         email_variabele = Console.ReadLine();
+
+
+
+                        if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", string.Empty).Length == 0)
+                        {
+                            checkE = true;
+                        }
+
+
+                    } while (!checkE);
+                }
+                catch
+                {
+                    Console.WriteLine("Voer een geldig E-mail in: ");
+                }
+
+
                 for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                 {
                     if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                     {
                         check = true;
-                        Console.WriteLine("Dit account bestaat al");
+                      
                     }
+                    
+                }
+                if (check = true)
+                {
+                    Console.WriteLine("Dit account bestaat al");
                 }
                 if (check == false)
                 {
                     break;
                 }
+                if (checkE == true)
+                {
+                    break;
+                }
+                if (check1 == true)
+                {
+                    break;
+                }
+
+
+
             }
 
             while (gebruikerIdJson == null)
             {
                 bool check = false;
-                Console.WriteLine("Voer een gebruiksnaam in: ");
-                gebruikersnaam = Console.ReadLine();
+                bool check2 = false;
+                bool checkE2 = false;
+                // gebruikersnaam controleren
+                try
+                {
+                    check2 = false;
+                    do
+                    {
+                        Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
+                         gebruikersnaam = Console.ReadLine();
+
+
+
+                        if (Regex.IsMatch(gebruikersnaam, "^[A-Za-z]+$", RegexOptions.IgnoreCase) && (char.IsUpper(gebruikersnaam[0])))
+                        {
+                            check2 = true;
+                        }
+
+
+                    } while (!check2);
+                }
+                catch
+                {
+                    Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
+                }
+                
+                
                 Console.WriteLine("Voer een wachtwoord in: ");
                 wachtwoord = Console.ReadLine();
-                Console.WriteLine("Voer een E-mail in: ");
-                email_variabele = Console.ReadLine();
+
+                // Emeil controleren
+                try
+                {
+                    checkE2 = false;
+                    do
+                    {
+                        Console.WriteLine("Voer een geldig E-mail in: ");
+                        string d = Console.ReadLine();
+
+
+
+                        if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", string.Empty).Length == 0)
+                        {
+                            checkE2 = true;
+                        }
+
+
+                    } while (!checkE2);
+                }
+                catch
+                {
+                    Console.WriteLine("Voer een geldig E-mail in: ");
+                }
+   
+              
+                  
+
                 if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                 {
                     check = true;
                     Console.WriteLine("Vul de velden in");
-                }            
+                }
                 if (check == false)
+                {
+                    break;
+                }
+                if (checkE2 == true)
+                {
+                    break;
+                }
+                if (check2 == true)
                 {
                     break;
                 }
@@ -143,6 +270,35 @@ public class Customerlogin
             }
         }
         return Tuple.Create(0, 0);
+
+       
     }
+    private static SecureString mask()
+    {
+        Console.WriteLine("Enter your passwoord");
+        SecureString pass = new SecureString();
+        ConsoleKeyInfo keyInfo;
+
+        do
+        {
+            keyInfo = Console.ReadKey(true);
+            if (!char.IsControl(keyInfo.KeyChar))
+            {
+                pass.AppendChar(keyInfo.KeyChar);
+                Console.Write("*");
+
+            }
+            else if (keyInfo.Key == ConsoleKey.Backspace && pass.Length > 0)
+            {
+                Console.Write("\b \b");
+            }
+        }
+        while (keyInfo.Key != ConsoleKey.Enter);
+        {
+            return pass;
+        }
+    }
+
+
 }
 
