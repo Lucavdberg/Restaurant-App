@@ -69,14 +69,13 @@ namespace oefenen1
                     }
                     if (login.Item1 == 2)
                     {
-                        string curFile = @"C:\Users\F\source\repos\Restaurant-App\Restaurant Application\bin\Debug\netcoreapp3.1\reservering_id.json";
-                        Console.WriteLine(File.Exists(curFile) ? "File exists." : "File does not exist.");
+                        string curFile = @"reservering_id.json";
                         var exist = File.Exists(curFile) ? true : false;
 
                         if (exist == false)
                         {
-                            string lol = JsonConvert.SerializeObject(null);
-                            File.WriteAllText(@"reservering_id.json", lol);
+                            string existance = JsonConvert.SerializeObject(null);
+                            File.WriteAllText(@"reservering_id.json", existance);
                         }
 
                         string buffer = File.ReadAllText(@"reservering_id.json");
@@ -96,7 +95,7 @@ namespace oefenen1
                                 {
                                     if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
                                     {
-                                        Console.WriteLine(reserveringIdJson.Datum[i] + "\n" + reserveringIdJson.Tijden[i] + "\n" + reserveringIdJson.Personen[i] + "\n" + reserveringIdJson.Details[i] + "\n");
+                                        Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                                     }
                                 }
                                 Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
@@ -124,7 +123,7 @@ namespace oefenen1
                                 if (count < 3)
                                 {
                                     Console.WriteLine("u kunt nu een reservering plaatsen");
-                                    ReserveringClass.reserveringFunc(tafelClass.tafelFunc(), login.Item2);
+                                    ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                                 }
                                 if (count >= 3)
                                 {
@@ -136,7 +135,7 @@ namespace oefenen1
                             if (reserveringIdJson == null)
                             {
                                 Console.WriteLine("u kunt nu een reservering plaatsen");
-                                ReserveringClass.reserveringFunc(tafelClass.tafelFunc(), login.Item2);
+                                ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                             }
                         }
                         else if (Ingelogd == "3")
