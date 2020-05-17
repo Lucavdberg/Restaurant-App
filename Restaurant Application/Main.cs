@@ -24,7 +24,7 @@ namespace oefenen1
                 Console.WriteLine("\n");
                 restaurantClass.restaurantFunc();
                 Console.WriteLine("U kunt via deze applicatie een reservering plaatsen en het menu bekijken");
-                Console.WriteLine("Wilt u een menu bekijken type(1), wilt u een gerecht opzoeken type(2), wilt u een reservering maken type(3)");
+                Console.WriteLine(" [1]. Menu bekijken\n [2]. Gerecht opzoeken\n [3]. Reservering maken\n [4]. Review plaatsen");
                 var menu_of_reservering = Console.ReadLine();
                 if (menu_of_reservering == "1")
                 {
@@ -144,6 +144,13 @@ namespace oefenen1
                             }  
                         }     
                     }
+                }
+                else if (menu_of_reservering == "4")
+                {
+                    Review reviewClass = new Review();
+                    reviewClass.ReviewFunc();
+                    Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                    Console.ReadKey();
                 }
             }
         }
