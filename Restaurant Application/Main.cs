@@ -18,31 +18,44 @@ namespace oefenen1
             JsonClassTafels tafelJson = new JsonClassTafels();
             ReserveringAnnuleren reserveringAnnulerenClass = new ReserveringAnnuleren();
             Restaurant restaurantClass = new Restaurant();
+            Admin adminClass = new Admin();
 
             while (true) 
             {
                 Console.WriteLine("\n");
                 restaurantClass.restaurantFunc();
                 Console.WriteLine("U kunt via deze applicatie een reservering plaatsen en het menu bekijken");
+<<<<<<< HEAD
                 Console.WriteLine(" [1]. Menu bekijken\n [2]. Gerecht opzoeken\n [3]. Reservering maken\n [4]. Review plaatsen");
+=======
+                Console.WriteLine("\n---------------------------------------\n");
+                Console.WriteLine("Wilt u een menu bekijken typ: '1', wilt u een gerecht opzoeken typ: '2', wilt u een reservering maken typ: '3'");
+                Console.WriteLine("Bent u beheerder typ: '4'");
+>>>>>>> 07a4c3001771017bc5f83efc2067eae2683e5bd3
                 var menu_of_reservering = Console.ReadLine();
                 if (menu_of_reservering == "1")
                 {
-                    Console.WriteLine("Van welke dag wilt u het menu bekijken");
+                    Console.WriteLine("Van welke dag wilt u het menu bekijken?");
                     var day = Console.ReadLine();
+                    Console.WriteLine("---------------------------------------");
                     Menu menuVanEenDagClass = new Menu();
                     menuVanEenDagClass.MenuVanDeDagFunc(day, gerechtenIngevuldClass.gerechtenIngevuldFunc());
                 }
+                else if (menu_of_reservering == "4")
+                {
+                    adminClass.adminFunc(gerechtenIngevuldClass.gerechtenIngevuldFunc());
+                }
                 else if (menu_of_reservering == "2")
                 {
-                    Console.WriteLine("welke gerecht wil je ?");
+                    Console.WriteLine("Van welk gerecht wilt u weten op welke dag deze beschikbaar is?");
                     var gerecht = Console.ReadLine();
+                    Console.WriteLine("---------------------------------------");
                     gerechten gerechtenClass = new gerechten();
                     gerechtenClass.gerechtenFunc(gerecht, gerechtenIngevuldClass.gerechtenIngevuldFunc());
                 }
                 else if (menu_of_reservering == "3")
                 {
-                    Console.WriteLine("om een reservering te plaatsen moet u eerst inloggen of een account aanmaken");
+                    Console.WriteLine("Om een reservering te plaatsen moet u eerst inloggen of een account aanmaken");
                     Tuple<int, int> login = loginClass.LoginFunc(gebruikerJson);
                     if (login.Item1 == 3)
                     {
@@ -60,14 +73,13 @@ namespace oefenen1
                     }
                     if (login.Item1 == 2)
                     {
-                        string curFile = @"C:\Users\F\source\repos\Restaurant-App\Restaurant Application\bin\Debug\netcoreapp3.1\reservering_id.json";
-                        Console.WriteLine(File.Exists(curFile) ? "File exists." : "File does not exist.");
+                        string curFile = @"reservering_id.json";
                         var exist = File.Exists(curFile) ? true : false;
 
                         if (exist == false)
                         {
-                            string lol = JsonConvert.SerializeObject(null);
-                            File.WriteAllText(@"reservering_id.json", lol);
+                            string existance = JsonConvert.SerializeObject(null);
+                            File.WriteAllText(@"reservering_id.json", existance);
                         }
 
                         string buffer = File.ReadAllText(@"reservering_id.json");
@@ -87,7 +99,7 @@ namespace oefenen1
                                 {
                                     if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
                                     {
-                                        Console.WriteLine(reserveringIdJson.Datum[i] + "\n" + reserveringIdJson.Tijden[i] + "\n" + reserveringIdJson.Personen[i] + "\n" + reserveringIdJson.Details[i] + "\n");
+                                        Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                                     }
                                 }
                                 Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
@@ -115,7 +127,7 @@ namespace oefenen1
                                 if (count < 3)
                                 {
                                     Console.WriteLine("u kunt nu een reservering plaatsen");
-                                    ReserveringClass.reserveringFunc(tafelClass.tafelFunc(), login.Item2);
+                                    ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                                 }
                                 if (count >= 3)
                                 {
@@ -127,7 +139,7 @@ namespace oefenen1
                             if (reserveringIdJson == null)
                             {
                                 Console.WriteLine("u kunt nu een reservering plaatsen");
-                                ReserveringClass.reserveringFunc(tafelClass.tafelFunc(), login.Item2);
+                                ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                             }
                         }
                         else if (Ingelogd == "3")
