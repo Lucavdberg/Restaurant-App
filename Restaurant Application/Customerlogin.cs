@@ -40,19 +40,16 @@ public class Customerlogin
                 // gebruiksnaam controleren
                 try
                 {
-                     check1 = false;
+                 //    check1 = false;
                     do
                     {
                         Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
                          gebruikersnaam = Console.ReadLine();
 
-
-
                         if (Regex.IsMatch(gebruikersnaam, "^[A-Za-z]+$", RegexOptions.IgnoreCase) && (char.IsUpper(gebruikersnaam[0])))
                         {
                             check1 = true;
                         }
-
 
                     } while (!check1);
                 }
@@ -61,9 +58,8 @@ public class Customerlogin
                     Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
                 }
 
-                //Console.WriteLine("Voer een wachtwoord in: ");
-                //wachtwoord = Console.ReadLine();
-                mask();
+                Console.WriteLine("Voer een wachtwoord in: ");
+                wachtwoord = Console.ReadLine();
 
                 // Emeil controleren
                 try
@@ -273,32 +269,7 @@ public class Customerlogin
 
        
     }
-    private static SecureString mask()
-    {
-        Console.WriteLine("Enter your passwoord");
-        SecureString pass = new SecureString();
-        ConsoleKeyInfo keyInfo;
 
-        do
-        {
-            keyInfo = Console.ReadKey(true);
-            if (!char.IsControl(keyInfo.KeyChar))
-            {
-                pass.AppendChar(keyInfo.KeyChar);
-                Console.Write("*");
-
-            }
-            else if (keyInfo.Key == ConsoleKey.Backspace && pass.Length > 0)
-            {
-                Console.Write("\b \b");
-            }
-        }
-        while (keyInfo.Key != ConsoleKey.Enter);
-        {
-            return pass;
-        }
-    }
-
-
+   
 }
 
