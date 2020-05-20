@@ -13,6 +13,9 @@ public class Reservering
         string buffer = File.ReadAllText(@"gebruiker_id.json");
         JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(buffer);
 
+        string bufferThree = File.ReadAllText(@"tafel.json");
+        JsonClassLogin tafelJson = JsonConvert.DeserializeObject<JsonClassLogin>(bufferThree);
+
         string datum;
         string tijdstip;
         string personen;
@@ -30,16 +33,18 @@ public class Reservering
                 Console.WriteLine("vul een tijdstip in: ");
                 tijdstip = Console.ReadLine();
                 Console.WriteLine("vul het aantal personen in: ");
+
                 do
                 {
                     //zorgt ervoor dat het ingevoerde aantal personen positief is en lager is dan 50
                     personen = Console.ReadLine();
                     newperson = Int32.Parse(personen);
-                    if (newperson <= 0 || newperson > 50)
+
+                    if (newperson <= 0 || newperson > tafels.aantalTafels)
                     {
                         Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het maximum aantal zitplaatsen namelijk 50");
                     }
-                } while (newperson <= 0 || newperson > 50);
+                } while (newperson <= 0 || newperson > tafels.aantalTafels);
                 
                 Console.WriteLine("vul hier belangrijke details in: ");
                 details = Console.ReadLine();
@@ -62,11 +67,13 @@ public class Reservering
         //reservering_id.Details = new List<string> { details };
         //reservering_id.id = new List<int> { gebruikerIdJson.id[cijfer] };
         //trekt het aantal personen van de reservatie af van het maximum van 50 personen voor het restaurant
-        tafels.aantalTafels -= newperson;
+        
+       // tafels.ReserveerDag(datum, newperson);
 
         //maakt een nieuwe JsonClassReservering aan
         JsonClassReservering resultJson = new JsonClassReservering();
 
+        tafels.aantalTafels = new list<int>();
         //maakt nieuwe lijsten aan
         resultJson.Datum = new List<string>();
         resultJson.Tijden = new List<string>();
@@ -87,12 +94,31 @@ public class Reservering
                 resultJson.id.Add(reserveringIdJson.id[i]);
             }
         }
+
+        if (tafelJson != null)
+        {
+            for (int i = 0; i < tafelJson.aantalTafels.Count; i++)
+            {
+                tafelJson.aantalTafels.Add(tafelJson.aantalTafels[i]);
+                tafelJson.datum.Add(tafelJson.datum[i]);
+            }
+        }
         //de lijst wordt gevuld met de ingevoerde gegevens
         resultJson.Datum.Add(datum);
         resultJson.Tijden.Add(tijdstip);
         resultJson.Personen.Add(newperson);
         resultJson.Details.Add(details);
         resultJson.id.Add(gebruikerIdJson.id[cijfer]);
+        tafels.aantalTafels.Add(newperson);
+        tafelJson.datum.Add(datum);
+
+        for (int i = 0; i < tafelJson.datum.Count; i++)
+        {
+            if (datum == tafelJson.datum[i])
+            {
+                tafelJson.aantalTafels[i] -= newperson;
+            }
+        }
 
         //de resultjson lijst zetten we om in een json file
         string strReserveringJson = JsonConvert.SerializeObject(resultJson);
@@ -148,7 +174,7 @@ public class Reservering
                 string tijdenGewijzigd = Console.ReadLine();
                 Console.WriteLine("vul een nieuwe aantal personen in");
                 var personenGewijzigd = Console.ReadLine();
-                resultJson.Personen[resultJson.Personen.Count - 1] = Int32.Parse(personenGewijzigd);
+                resultJson.Personen[resultJson.Personen.Count - 1] = Int32.Parse(personenGewijzigd);/// TODO: programe crach
                 Console.WriteLine("vul de nieuwe belangrijke details in");
                 var detailsGewijzigd = Console.ReadLine();
                 resultJson.Details[resultJson.Details.Count - 1] = detailsGewijzigd;

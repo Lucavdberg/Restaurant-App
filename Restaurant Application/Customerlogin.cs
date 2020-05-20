@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class Customerlogin
 {
@@ -32,8 +33,30 @@ public class Customerlogin
             while (gebruikerIdJson != null)
             {
                 bool check = false;
-                Console.WriteLine("Voer een gebruiksnaam in: ");
-                gebruikersnaam = Console.ReadLine();
+                // Console.WriteLine("Voer een gebruiksnaam in: ");
+                //gebruikersnaam = Console.ReadLine();
+                try
+                {
+                    bool check1 = false;
+                    do
+                    {
+                        Console.WriteLine("Enter a valid username / contuin just letters and the first letter must be cabital");
+                        string d = Console.ReadLine();
+
+
+
+                        if (Regex.IsMatch(d, "^[A-Za-z]+$", RegexOptions.IgnoreCase) && (char.IsUpper(d[0])))
+                        {
+                            check1 = true;
+                        }
+
+
+                    } while (!check1);
+                }
+                catch
+                {
+                    Console.WriteLine("Enter valid username");
+                }
                 Console.WriteLine("Voer een wachtwoord in: ");
                 wachtwoord = Console.ReadLine();
                 Console.WriteLine("Voer een E-mail in: ");

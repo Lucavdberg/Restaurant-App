@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 
+
 namespace oefenen1
 {
     class Program
@@ -14,7 +15,7 @@ namespace oefenen1
             JsonClassGerechtenIngevuld gerechtenIngevuldClass = new JsonClassGerechtenIngevuld();
             JsonClassReservering reserveringJson = new JsonClassReservering();
             Reservering ReserveringClass = new Reservering();
-            Tafel tafelClass = new Tafel();
+            Tafel tafelClass = new Tafel(null, 0);
             JsonClassTafels tafelJson = new JsonClassTafels();
             ReserveringAnnuleren reserveringAnnulerenClass = new ReserveringAnnuleren();
             Restaurant restaurantClass = new Restaurant();
@@ -60,7 +61,7 @@ namespace oefenen1
                     }
                     if (login.Item1 == 2)
                     {
-                        string curFile = @"C:\Users\F\source\repos\Restaurant-App\Restaurant Application\bin\Debug\netcoreapp3.1\reservering_id.json";
+                        string curFile = @"reservering_id.json";
                         Console.WriteLine(File.Exists(curFile) ? "File exists." : "File does not exist.");
                         var exist = File.Exists(curFile) ? true : false;
 

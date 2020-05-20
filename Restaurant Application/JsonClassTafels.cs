@@ -1,4 +1,8 @@
-﻿public class JsonClassTafels
+﻿using System;
+
+public class JsonClassTafels
 {   
-    public int aantalTafels { get; set; }
+    public list<int> aantalTafels { get; set; }
+    public list<string> datum { get; set; }
+   
 }
