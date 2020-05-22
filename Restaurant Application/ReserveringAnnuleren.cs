@@ -8,12 +8,8 @@ public class ReserveringAnnuleren
     {
         string buffer = File.ReadAllText(@"reservering_id.json");
         JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(buffer);
-
         string bufferTwo = File.ReadAllText(@"gebruiker_id.json");
         JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(bufferTwo);
-
-        string bufferThree = File.ReadAllText(@"tafels.json");
-        JsonClassTafels tafelJson = JsonConvert.DeserializeObject<JsonClassTafels>(bufferThree);
 
         int count = 0;
         Console.WriteLine("Dit zijn al uw reserveringen");
@@ -21,22 +17,16 @@ public class ReserveringAnnuleren
         {
             if (reserveringIdJson.id[i] == gebruikerIdJson.id[cijfer])
             {
-                Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                Console.WriteLine(reserveringIdJson.Datum[i] + "\n" + reserveringIdJson.Tijden[i] + "\n" + reserveringIdJson.Personen[i] + "\n" + reserveringIdJson.Details[i] + "\n");
                 count++;
             }
         }
-        if (count == 0)
-        {
-            Console.WriteLine("u heeft nog geen reserveringen");
-            Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
-            Console.ReadKey();
-        }
-
+        Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
         string keuze;
         int intKeuze;
+
         while (true)
         {
-            Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
             try
             {
                 do
@@ -51,17 +41,11 @@ public class ReserveringAnnuleren
 
                 //we loopen hier door de id's van gebruikers in de reserveringen json
                 int counter = 0;
-                string gekozenDatum = "";
-                int gekozenPersonen = 0;
-                int gekozenID = 0;
                 for (int i = 0; i < reserveringIdJson.id.Count; i++)
                 {
                     //als de id in de reservering json gelijk is aan de id van de ingelogde gebruiker
                     if (reserveringIdJson.id[i] == gebruikerIdJson.id[cijfer] && counter == intKeuze - 1)
                     {
-                        gekozenDatum = reserveringIdJson.Datum[i];
-                        gekozenPersonen = reserveringIdJson.Personen[i];
-                        gekozenID = reserveringIdJson.id[i];
                         reserveringIdJson.id.RemoveAt(i);
                         reserveringIdJson.Datum.RemoveAt(i);
                         reserveringIdJson.Tijden.RemoveAt(i);
@@ -74,26 +58,11 @@ public class ReserveringAnnuleren
                         counter++;
                     }
                 }
-                
-                for (int i = 0; i < tafelJson.id.Count; i++)
-                {
-                    for (int j = 0; j < tafelJson.id[i].Count; j++) 
-                    {
-                        if (tafelJson.datum[i] == gekozenDatum && tafelJson.id[i][j] == gebruikerIdJson.id[cijfer])
-                        {
-                            tafelJson.aantalPlaatsen[i] += gekozenPersonen;
-                            tafelJson.id[i].RemoveAt(j);
-                        }
-                    }
-                }
-
-                string strNieuweTafelJson = JsonConvert.SerializeObject(tafelJson);
-                File.WriteAllText(@"tafels.json", strNieuweTafelJson);
 
                 string strReserveringJson = JsonConvert.SerializeObject(reserveringIdJson);
                 File.WriteAllText(@"reservering_id.json", strReserveringJson);
-                string bufferFour = File.ReadAllText(@"reservering_id.json");
-                JsonClassReservering nieuweReserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferFour);
+                string bufferThree = File.ReadAllText(@"reservering_id.json");
+                JsonClassReservering nieuweReserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferThree);
 
                 Console.WriteLine("Uw reservering is geannuleerd");
                 Console.WriteLine("Dit is uw nieuwe lijst van reserveringen");
@@ -101,7 +70,7 @@ public class ReserveringAnnuleren
                 {
                     if (nieuweReserveringIdJson.id[i] == gebruikerIdJson.id[cijfer])
                     {
-                        Console.WriteLine("Datum: " + nieuweReserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + nieuweReserveringIdJson.Tijden[i] + "\n" + "Personen: " + nieuweReserveringIdJson.Personen[i] + "\n" + "Details: " + nieuweReserveringIdJson.Details[i] + "\n");
+                        Console.WriteLine(nieuweReserveringIdJson.Datum[i] + "\n" + nieuweReserveringIdJson.Tijden[i] + "\n" + nieuweReserveringIdJson.Personen[i] + "\n" + nieuweReserveringIdJson.Details[i] + "\n");
                     }
                 }
                 Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
@@ -110,7 +79,7 @@ public class ReserveringAnnuleren
             }
             catch
             {
-                Console.WriteLine("");
+                Console.WriteLine("Voer een getal in");
             }
         }
     }

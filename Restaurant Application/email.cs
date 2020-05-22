@@ -40,7 +40,7 @@ public class email {
         {
             try
             {
-                mail.To.Add(new MailAddress(gevondenEmail)); 
+                mail.To.Add(new MailAddress(gevondenEmail)); // VERANDER DIT LATER >>>> [0]
                 mail.Subject = "Inloggegevens";
                 mail.IsBodyHtml = true;
                 mail.Body = "Gebruiksnaam: " + naam + "<br />" + "Wachtwoord: " + wachtwoord;
