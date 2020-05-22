@@ -22,6 +22,7 @@ public class Admin
         var naam = Console.ReadLine();
         Console.WriteLine("Wat is uw admin wachtwoord?");
         var ww = Console.ReadLine();
+// string[][] AdminGerechtenJson.maandag = new string[11][];
         if (naam == "Admin" && ww == "Admin123")
         {
             if (AdminGerechtenJson == null)
