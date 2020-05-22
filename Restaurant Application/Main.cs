@@ -19,9 +19,13 @@ namespace oefenen1
             ReserveringAnnuleren reserveringAnnulerenClass = new ReserveringAnnuleren();
             Restaurant restaurantClass = new Restaurant();
             Admin adminClass = new Admin();
+            Review reviewClass = new Review();
+            gerechten gerechtenClass = new gerechten();
+            Menu menuVanEenDagClass = new Menu();
 
             while (true) 
             {
+                Console.Clear();
                 Console.WriteLine("\n");
                 restaurantClass.restaurantFunc();
                 Console.WriteLine("U kunt via deze applicatie een reservering plaatsen en het menu bekijken");
@@ -31,8 +35,6 @@ namespace oefenen1
                 {
                     Console.WriteLine("Van welke dag wilt u het menu bekijken?");
                     var day = Console.ReadLine();
-                    Console.WriteLine("---------------------------------------");
-                    Menu menuVanEenDagClass = new Menu();
                     menuVanEenDagClass.MenuVanDeDagFunc(day, gerechtenIngevuldClass.gerechtenIngevuldFunc());
                 }
                 else if (menu_of_reservering == "4")
@@ -44,7 +46,6 @@ namespace oefenen1
                     Console.WriteLine("Van welk gerecht wilt u weten op welke dag deze beschikbaar is?");
                     var gerecht = Console.ReadLine();
                     Console.WriteLine("---------------------------------------");
-                    gerechten gerechtenClass = new gerechten();
                     gerechtenClass.gerechtenFunc(gerecht, gerechtenIngevuldClass.gerechtenIngevuldFunc());
                 }
                 else if (menu_of_reservering == "3")
@@ -154,7 +155,6 @@ namespace oefenen1
                 }
                 else if (menu_of_reservering == "5")
                 {
-                    Review reviewClass = new Review();
                     reviewClass.ReviewFunc();
                     Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
                     Console.ReadKey();
