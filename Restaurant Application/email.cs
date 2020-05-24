@@ -21,7 +21,7 @@ public class email {
         string buffer = File.ReadAllText(@"gebruiker_id.json");
         JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(buffer);
 
-        Console.WriteLine("Vul hier uw emailadres in zodat wij een mail naar uw kunnen sturen met uw inloggegevens");
+        Console.WriteLine("Vul hier uw emailadres in zodat wij een mail naar u kunnen sturen met uw inloggegevens");
         var ingevoerdeEmail = Console.ReadLine();
         string naam = "";
         string wachtwoord = "";
