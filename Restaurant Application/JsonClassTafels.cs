@@ -1,8 +1,7 @@
-﻿using System;
-
+﻿using System.Collections.Generic;
 public class JsonClassTafels
-{   
-    public list<int> aantalTafels { get; set; }
-    public list<string> datum { get; set; }
-   
+{
+    public List<int> aantalPlaatsen { get; set; }
+    public List<string> datum { get; set; }
+    public List<List<int>> id { get; set; }
 }
