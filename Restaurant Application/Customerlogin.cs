@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class Customerlogin
 {
@@ -34,12 +35,35 @@ public class Customerlogin
                 bool check = false;
                 bool checkTwo = false;
                 int checker = 0;
+                bool checkE  = false;
                 Console.WriteLine("Voer een gebruiksnaam in: (met een lengte van 5 karakters met letters en de eerste letter als hoofdletter )");
                 gebruikersnaam = Console.ReadLine();
-                Console.WriteLine("Voer een wachtwoord in: ");
+                Console.WriteLine("Voer een wachtwoord in: (met een lengte van 8 karakters met letters en de eerste letter als hoofdletter)");
                 wachtwoord = Console.ReadLine();
-                Console.WriteLine("Voer een E-mail in: ");
-                email_variabele = Console.ReadLine();
+                
+                try
+                {
+                     checkE = false;
+                    do
+                    {
+                        Console.WriteLine("Voer een E-mail in: (xxx@xxx.xxx)");
+                        email_variabele = Console.ReadLine();
+
+
+
+                        if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)@\\w+([-.]\\w+)\\.\\w+([-.]\\w+)*", string.Empty).Length == 0)
+                        {
+                            checkE = true;
+                        }
+
+
+                    } while (checkE);
+                }
+                catch
+                {
+                    Console.WriteLine("Voer een gildge E-mail in: (xx32wex@xxx.xxx)");
+                }
+
                 if (gebruikerIdJson != null) {
                     for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {
@@ -47,9 +71,15 @@ public class Customerlogin
                         {
                             check = true;
                             Console.WriteLine("Dit account bestaat al");
+
                         }
                     }
+                    if (checkE == true)
+                    {
+                        break;
+                    }
                 }
+
                 if (gebruikerIdJson == null) {
                     if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                     {
