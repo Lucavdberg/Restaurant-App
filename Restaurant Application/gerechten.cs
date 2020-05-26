@@ -18,7 +18,7 @@ public class gerechten
         string buffer = File.ReadAllText(@"gerechten.json");
         JsonClassGerechten AdminGerechtenJson = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer);
         bool gerechtenCheck = false;
-        try
+        if (AdminGerechtenJson != null)
         {
             for (int i = 0; i < AdminGerechtenJson.maandag.Length; i++)
             {
@@ -103,7 +103,7 @@ public class gerechten
                 Console.WriteLine("Dit gerecht staat helaas op dit moment niet in ons menu voor deze week");
             }
         }
-        catch
+        if (AdminGerechtenJson == null)
         {
             Console.WriteLine("Nog geen menu toegevoegd");
         }

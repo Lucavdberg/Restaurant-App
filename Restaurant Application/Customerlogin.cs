@@ -31,13 +31,48 @@ public class Customerlogin
 
             while (true)
             {
-                bool check = false;
-                bool checkTwo = false;
-                int checker = 0;
-                Console.WriteLine("Voer een gebruiksnaam in: ");
-                gebruikersnaam = Console.ReadLine();
-                Console.WriteLine("Voer een wachtwoord in: ");
-                wachtwoord = Console.ReadLine();
+                bool checkWachtwoord = false;
+                bool checkGebruikersnaam = false;
+                do
+                {
+                    Console.WriteLine("Voer een gebruiksnaam in: (met een lengte van 5 karakters met letters en de eerste letter als hoofdletter)");
+                    gebruikersnaam = Console.ReadLine();
+                    foreach (char character in gebruikersnaam)
+                    {
+                        if (!Char.IsLetter(character) || gebruikersnaam.Length < 5 || !Char.IsUpper(gebruikersnaam[0]))
+                        {
+                            checkGebruikersnaam = true;
+                        }
+                        else
+                        {
+                            checkGebruikersnaam = false;
+                        }
+                    }
+                    if (checkGebruikersnaam == true)
+                    {
+                        Console.WriteLine("voer een langere gebruikersnaam in met een lengte van 5 karakters met letters en de eerste letter als hoofdletter");
+                    }
+                } while (checkGebruikersnaam == true);
+                do
+                {
+                    Console.WriteLine("Voer een wachtwoord in: (met een lengte van 8 karakters met letters en de eerste letter als hoofdletter)");
+                    wachtwoord = Console.ReadLine();
+                    foreach (char character in wachtwoord)
+                    {
+                        if (!Char.IsLetter(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
+                        {
+                            checkWachtwoord = true;
+                        }
+                        else
+                        {
+                            checkWachtwoord = false;
+                        }
+                    }
+                    if (checkWachtwoord == true)
+                    {
+                        Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
+                    }
+                } while (checkWachtwoord == true);
                 Console.WriteLine("Voer een E-mail in: ");
                 email_variabele = Console.ReadLine();
                 if (gebruikerIdJson != null) {
@@ -45,7 +80,7 @@ public class Customerlogin
                     {
                         if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                         {
-                            check = true;
+                            checkWachtwoord = true;
                             Console.WriteLine("Dit account bestaat al");
                         }
                     }
@@ -53,35 +88,11 @@ public class Customerlogin
                 if (gebruikerIdJson == null) {
                     if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                     {
-                        check = true;
+                        checkWachtwoord = true;
                         Console.WriteLine("Vul de velden in");
                     }
                 }
-                foreach (char character in gebruikersnaam)
-                {
-                    if (!Char.IsLetter(character) || gebruikersnaam.Length < 5 || !Char.IsUpper(gebruikersnaam[0]))
-                    {
-                        checkTwo = true;
-                        checker = 2;
-                    }
-                }
-                foreach (char character in wachtwoord)
-                {
-                    if (!Char.IsLetter(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
-                    {
-                        check = true;
-                        checker = 1;
-                    }   
-                }
-                if (check == true && checker == 1)
-                {
-                    Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
-                }
-                if (checkTwo == true && checker == 2)
-                {
-                    Console.WriteLine("voer een langere gebruikersnaam in met een lengte van 5 karakters met letters en de eerste letter als hoofdletter");
-                }
-                if (check == false && checkTwo == false)
+                if (checkWachtwoord == false && checkGebruikersnaam == false)
                 {
                     break;
                 }
