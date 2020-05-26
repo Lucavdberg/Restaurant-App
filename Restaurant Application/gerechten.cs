@@ -1,127 +1,112 @@
 ﻿using System;
-
+using Newtonsoft.Json;
+using System.IO;
 public class gerechten
 {
     public void gerechtenFunc(string gerecht, JsonClassGerechten opzoekClass)
     {
-        bool gerechtenCheck = true;
+        //kijkt of de json file bestaat in dezelfde directory als het project
+        string curFile = @"gerechten.json";
+        var exist = File.Exists(curFile) ? true : false;
 
-        for (int i = 0; i < opzoekClass.maandag.Length; i++)
+        //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+        if (exist == false)
         {
-            for (int j = 0; j < 1; j++)
+            string lol = JsonConvert.SerializeObject(null);
+            File.WriteAllText(@"gerechten.json", lol);
+        }
+        string buffer = File.ReadAllText(@"gerechten.json");
+        JsonClassGerechten AdminGerechtenJson = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer);
+        bool gerechtenCheck = false;
+        try
+        {
+            for (int i = 0; i < AdminGerechtenJson.maandag.Length; i++)
             {
-                if (gerecht == opzoekClass.maandag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Maandag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.maandag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Maandag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < opzoekClass.dinsdag.Length; i++)
-        {
-            for (int j = 0; j < 1; j++)
+            for (int i = 0; i < AdminGerechtenJson.dinsdag.Length; i++)
             {
-                if (gerecht == opzoekClass.dinsdag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Dinsdag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.dinsdag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Dinsdag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < opzoekClass.woensdag.Length; i++)
-        {
-            for (int j = 0; j < 1; j++)
+            for (int i = 0; i < AdminGerechtenJson.woensdag.Length; i++)
             {
-                if (gerecht == opzoekClass.woensdag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Woensdag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.woensdag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Woensdag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < opzoekClass.donderdag.Length; i++)
-        {
-            for (int j = 0; j < 1; j++)
+            for (int i = 0; i < AdminGerechtenJson.donderdag.Length; i++)
             {
-                if (gerecht == opzoekClass.donderdag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Donderdag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.donderdag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Donderdag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < opzoekClass.vrijdag.Length; i++)
-        {
-            for (int j = 0; j < 1; j++)
+            for (int i = 0; i < AdminGerechtenJson.vrijdag.Length; i++)
             {
-                if (gerecht == opzoekClass.vrijdag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Vrijdag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.vrijdag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Vrijdag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < opzoekClass.zaterdag.Length; i++)
-        {
-            for (int j = 0; j < 1; j++)
+            for (int i = 0; i < AdminGerechtenJson.zaterdag.Length; i++)
             {
-                if (gerecht == opzoekClass.zaterdag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Zaterdag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.zaterdag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Zaterdag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < opzoekClass.zondag.Length; i++)
-        {
-            for (int j = 0; j < 1; j++)
+            for (int i = 0; i < AdminGerechtenJson.zondag.Length; i++)
             {
-                if (gerecht == opzoekClass.zondag[i][j])
+                for (int j = 0; j < 1; j++)
                 {
-                    Console.WriteLine("Dit gerecht staat in ons menu voor Zondag");
-                    gerechtenCheck = true;
-                }
-                else
-                {
-                    gerechtenCheck = false;
+                    if (gerecht == AdminGerechtenJson.zondag[i][j])
+                    {
+                        Console.WriteLine("Dit gerecht staat in ons menu voor Zondag");
+                        gerechtenCheck = true;
+                    }
                 }
             }
+
+            if (gerechtenCheck == false)
+            {
+                Console.WriteLine("Dit gerecht staat helaas op dit moment niet in ons menu voor deze week");
+            }
         }
-
-        if (gerechtenCheck == false)
-            Console.WriteLine("Dit gerecht staat helaas op dit moment niet in ons menu voor deze week");
-
-
+        catch
+        {
+            Console.WriteLine("Nog geen menu toegevoegd");
+        }
         Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
         Console.ReadKey();
     }
