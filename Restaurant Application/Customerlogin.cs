@@ -2,13 +2,11 @@
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
-using System.Security;
 using System.Text.RegularExpressions;
 
 public class Customerlogin
 {
-
-    public Tuple<int, int> LoginFunc(JsonClassLogin gebruiker)
+    public Tuple<int, int> LoginFunc(JsonClassLogin writeResultJson)
     {
         Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
         var inloggen_aanmaken = Console.ReadLine();
@@ -21,8 +19,8 @@ public class Customerlogin
             //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
             if (exist == false)
             {
-                string lol = JsonConvert.SerializeObject(null);
-                File.WriteAllText(@"gebruiker_id.json", lol);
+                string existance = JsonConvert.SerializeObject(null);
+                File.WriteAllText(@"gebruiker_id.json", existance);
             }
             
             string buffer = File.ReadAllText(@"gebruiker_id.json");
@@ -32,51 +30,33 @@ public class Customerlogin
             var wachtwoord = "";
             var email_variabele = "";
 
-            while (gebruikerIdJson != null)
+            while (true)
             {
                 bool check = false;
-                bool check1 = false;
-                bool checkE = false;
-                // gebruiksnaam controleren
-                try
-                {
-                 //    check1 = false;
-                    do
-                    {
-                        Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
-                         gebruikersnaam = Console.ReadLine();
-
-                        if (Regex.IsMatch(gebruikersnaam, "^[A-Za-z]+$", RegexOptions.IgnoreCase) && (char.IsUpper(gebruikersnaam[0])))
-                        {
-                            check1 = true;
-                        }
-
-                    } while (!check1);
-                }
-                catch
-                {
-                    Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
-                }
-
+                bool checkTwo = false;
+                int checker = 0;
+               
+                Console.WriteLine("Voer een gebruiksnaam in: ");
+                gebruikersnaam = Console.ReadLine();
                 Console.WriteLine("Voer een wachtwoord in: ");
                 wachtwoord = Console.ReadLine();
-
-                // Emeil controleren
+                // Console.WriteLine("Voer een E-mail in: ");
+                // email_variabele = Console.ReadLine();
+                  bool checkE = false;
+                //Emeil controleren
                 try
                 {
-                     checkE = false;
+                   // checkE = false;
                     do
                     {
-                        Console.WriteLine("Voer een geldig E-mail in: ");
-                         email_variabele = Console.ReadLine();
+                        Console.WriteLine("Voer een  E-mail in: ");
+                        email_variabele = Console.ReadLine();
 
+                        if (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
 
-
-                        if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", string.Empty).Length == 0)
                         {
                             checkE = true;
                         }
-
 
                     } while (!checkE);
                 }
@@ -84,123 +64,65 @@ public class Customerlogin
                 {
                     Console.WriteLine("Voer een geldig E-mail in: ");
                 }
+            
 
 
-                for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
+                if (gebruikerIdJson != null)
                 {
-                    if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                   
+
+                    for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
+                    {
+                        if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                        {
+                            check = true;
+                            Console.WriteLine("Dit account bestaat al");
+                        }
+                    }
+                }
+                
+                if (gebruikerIdJson == null) {
+                    if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                     {
                         check = true;
-                      
+                        Console.WriteLine("Vul de velden in");
                     }
-                    
                 }
-                if (check = true)
+                foreach (char character in gebruikersnaam)
                 {
-                    Console.WriteLine("Dit account bestaat al");
-                }
-                if (check == false)
-                {
-                    break;
-                }
-                if (checkE == true)
-                {
-                    break;
-                }
-                if (check1 == true)
-                {
-                    break;
-                }
-
-
-
-            }
-
-            while (gebruikerIdJson == null)
-            {
-                bool check = false;
-                bool check2 = false;
-                bool checkE2 = false;
-                // gebruikersnaam controleren
-                try
-                {
-                    check2 = false;
-                    do
+                    if (!Char.IsLetter(character) || gebruikersnaam.Length < 5 || !Char.IsUpper(gebruikersnaam[0]))
                     {
-                        Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
-                         gebruikersnaam = Console.ReadLine();
-
-
-
-                        if (Regex.IsMatch(gebruikersnaam, "^[A-Za-z]+$", RegexOptions.IgnoreCase) && (char.IsUpper(gebruikersnaam[0])))
-                        {
-                            check2 = true;
-                        }
-
-
-                    } while (!check2);
+                        checkTwo = true;
+                        checker = 2;
+                    }
                 }
-                catch
+                foreach (char character in wachtwoord)
                 {
-                    Console.WriteLine("Voer een geldige gebruikersnaam in / bevat alleen letters en de eerste letter moet hoofdletter zijn ");
-                }
-                
-                
-                Console.WriteLine("Voer een wachtwoord in: ");
-                wachtwoord = Console.ReadLine();
-
-                // Emeil controleren
-                try
-                {
-                    checkE2 = false;
-                    do
+                    if (!Char.IsLetter(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
                     {
-                        Console.WriteLine("Voer een geldig E-mail in: ");
-                        string d = Console.ReadLine();
-
-
-
-                        if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*", string.Empty).Length == 0)
-                        {
-                            checkE2 = true;
-                        }
-
-
-                    } while (!checkE2);
+                        check = true;
+                        checker = 1;
+                    }   
                 }
-                catch
+
+ 
+
+
+
+                if (check == true && checker == 1)
                 {
-                    Console.WriteLine("Voer een geldig E-mail in: ");
+                    Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
                 }
-   
-              
-                  
+                if (checkTwo == true && checker == 2)
+                {
+                    Console.WriteLine("voer een langere gebruikersnaam in met een lengte van 5 karakters met letters en de eerste letter als hoofdletter");
+                }
 
-                if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
-                {
-                    check = true;
-                    Console.WriteLine("Vul de velden in");
-                }
-                if (check == false)
-                {
-                    break;
-                }
-                if (checkE2 == true)
-                {
-                    break;
-                }
-                if (check2 == true)
+                if (check == false && checkTwo == false && checkE == true)
                 {
                     break;
                 }
             }
-
-            gebruiker.Email = new List<string> { email_variabele };
-            gebruiker.Gebruiksnaam = new List<string> { gebruikersnaam };
-            gebruiker.id = new List<int> { new Random().Next(1000, 9999) };
-            gebruiker.Wachtwoord = new List<string> { wachtwoord };
-
-            JsonClassLogin writeResultJson = new JsonClassLogin();
 
             writeResultJson.Email = new List<string>();
             writeResultJson.id = new List<int>();
@@ -217,7 +139,6 @@ public class Customerlogin
                     writeResultJson.Wachtwoord.Add(gebruikerIdJson.Wachtwoord[i]);
                 }
             } 
-
 
             writeResultJson.Email.Add(email_variabele);
             writeResultJson.Gebruiksnaam.Add(gebruikersnaam);
@@ -266,10 +187,5 @@ public class Customerlogin
             }
         }
         return Tuple.Create(0, 0);
-
-       
     }
-
-   
 }
-
