@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Threading;
 
+
 public class Review
 {
     public void ReviewFunc()
@@ -38,6 +39,7 @@ public class Review
 
             Console.WriteLine("\nBekijk de gerechten hierboven.\n (Druk op een toets om verder te gaan met de review).");
             Console.ReadKey();
+
 
             //Kijkt of de json file bestaat in dezelfde directory als het project.
             string search_jsonfile = @"reviews.json";
@@ -116,7 +118,6 @@ public class Review
         }
         else if (keuze == "x" || keuze == "X") //Terug naar het hoofdmenu
         {
-            
         }
         else
         {
