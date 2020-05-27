@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class Customerlogin
 {
@@ -106,8 +107,27 @@ public class Customerlogin
                         Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
                     }
                 } while (checkWachtwoord == true);
-                Console.WriteLine("Voer een E-mail in: ");
-                email_variabele = Console.ReadLine();
+                bool checkEmail = false;
+                //Emeil controleren
+                try
+                {
+                    do
+                    {
+                        Console.WriteLine("Voer een  E-mail in: ");
+                        email_variabele = Console.ReadLine();
+
+                        if (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
+
+                        {
+                            checkEmail = true;
+                        }
+
+                    } while (!checkEmail);
+                }
+                catch
+                {
+                    Console.WriteLine("Voer een geldig E-mail in: ");
+                }
                 if (gebruikerIdJson != null) {
                     for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {
@@ -125,7 +145,8 @@ public class Customerlogin
                         Console.WriteLine("Vul de velden in");
                     }
                 }
-                if (checkWachtwoord == false && checkGebruikersnaam == false)
+                if (checkWachtwoord == false && checkGebruikersnaam == false && checkEmail == true)
+
                 {
                     break;
                 }
