@@ -5,6 +5,39 @@ using System.Collections.Generic;
 
 public class Customerlogin
 {
+    public static string ReadPassword()
+    {
+        string password = "";
+        ConsoleKeyInfo info = Console.ReadKey(true);
+        while (info.Key != ConsoleKey.Enter)
+        {
+            if (info.Key != ConsoleKey.Backspace)
+            {
+                Console.Write("*");
+                password += info.KeyChar;
+            }
+            else if (info.Key == ConsoleKey.Backspace)
+            {
+                if (!string.IsNullOrEmpty(password))
+                {
+                    // haal een letter van de lijst met het wachtwoord weg
+                    password = password.Substring(0, password.Length - 1);
+                    // de locatie van de cursor
+                    int pos = Console.CursorLeft;
+                    // verplaats de cursor naar links met een character
+                    Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                    // vervang het met een spatie
+                    Console.Write(" ");
+                    // verplaats de cursor naar links met een character (opnieuw)
+                    Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                }
+            }
+            info = Console.ReadKey(true);
+        }
+        // een nieuwe lijn toevoegen want de gebruiker heeft op 'enter' gedrukt
+        Console.WriteLine();
+        return password;
+    }
     public Tuple<int, int> LoginFunc(JsonClassLogin writeResultJson)
     {
         Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
@@ -135,7 +168,7 @@ public class Customerlogin
                     Console.WriteLine("gebruiksnaam: ");
                     var naam = Console.ReadLine();
                     Console.WriteLine("wachtwoord: ");
-                    var wacht = Console.ReadLine();
+                    var wacht = ReadPassword();
                     for (int j = 0; j < gebruikerIdJson.Gebruiksnaam.Count; j++)
                     {
                         if (naam == gebruikerIdJson.Gebruiksnaam[j] && wacht == gebruikerIdJson.Wachtwoord[j])
