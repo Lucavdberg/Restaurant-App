@@ -74,13 +74,11 @@ public class Customerlogin
                         Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
                     }
                 } while (checkWachtwoord == true);
-               // Console.WriteLine("Voer een E-mail in: ");
-               // email_variabele = Console.ReadLine();
+
                 bool checkEmail = false;
                 //Emeil controleren
                 try
                 {
-                    // checkE = false;
                     do
                     {
                         Console.WriteLine("Voer een  E-mail in: ");
@@ -98,7 +96,6 @@ public class Customerlogin
                 {
                     Console.WriteLine("Voer een geldig E-mail in: ");
                 }
-
                 if (gebruikerIdJson != null) {
                     for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {

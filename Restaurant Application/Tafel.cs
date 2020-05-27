@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class Tafel
 {
     public JsonClassTafels tafelFunc()
     {
         JsonClassTafels tafelsJson = new JsonClassTafels();
-        tafelsJson.aantalTafels = 50;
+        tafelsJson.aantalPlaatsen = new List<int>();
         return tafelsJson;
     }
 }
