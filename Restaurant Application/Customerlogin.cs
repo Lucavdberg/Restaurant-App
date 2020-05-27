@@ -38,7 +38,7 @@ public class Customerlogin
         Console.WriteLine();
         return password;
     }
-    public Tuple<int, int> LoginFunc(JsonClassLogin gebruiker)
+    public Tuple<int, int> LoginFunc(JsonClassLogin writeResultJson)
     {
         Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
         var inloggen_aanmaken = Console.ReadLine();
@@ -51,8 +51,8 @@ public class Customerlogin
             //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
             if (exist == false)
             {
-                string lol = JsonConvert.SerializeObject(null);
-                File.WriteAllText(@"gebruiker_id.json", lol);
+                string existance = JsonConvert.SerializeObject(null);
+                File.WriteAllText(@"gebruiker_id.json", existance);
             }
             
             string buffer = File.ReadAllText(@"gebruiker_id.json");
@@ -62,70 +62,74 @@ public class Customerlogin
             var wachtwoord = "";
             var email_variabele = "";
 
-            while (gebruikerIdJson != null)
+            while (true)
             {
-                bool check = false;
-                Console.WriteLine("Voer een gebruiksnaam in: ");
-                gebruikersnaam = Console.ReadLine();
-                Console.WriteLine("Voer een wachtwoord in: ");
-                wachtwoord = ReadPassword();
+                bool checkWachtwoord = false;
+                bool checkGebruikersnaam = false;
+                do
+                {
+                    Console.WriteLine("Voer een gebruiksnaam in: (met een lengte van 5 karakters met letters en de eerste letter als hoofdletter)");
+                    gebruikersnaam = Console.ReadLine();
+                    foreach (char character in gebruikersnaam)
+                    {
+                        if (!Char.IsLetter(character) || gebruikersnaam.Length < 5 || !Char.IsUpper(gebruikersnaam[0]))
+                        {
+                            checkGebruikersnaam = true;
+                        }
+                        else
+                        {
+                            checkGebruikersnaam = false;
+                        }
+                    }
+                    if (checkGebruikersnaam == true)
+                    {
+                        Console.WriteLine("voer een langere gebruikersnaam in met een lengte van 5 karakters met letters en de eerste letter als hoofdletter");
+                    }
+                } while (checkGebruikersnaam == true);
+                do
+                {
+                    Console.WriteLine("Voer een wachtwoord in: (met een lengte van 8 karakters met letters en de eerste letter als hoofdletter)");
+                    wachtwoord = Console.ReadLine();
+                    foreach (char character in wachtwoord)
+                    {
+                        if (!Char.IsLetter(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
+                        {
+                            checkWachtwoord = true;
+                        }
+                        else
+                        {
+                            checkWachtwoord = false;
+                        }
+                    }
+                    if (checkWachtwoord == true)
+                    {
+                        Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
+                    }
+                } while (checkWachtwoord == true);
                 Console.WriteLine("Voer een E-mail in: ");
                 email_variabele = Console.ReadLine();
-                for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
-                {
-                    if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                if (gebruikerIdJson != null) {
+                    for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {
-                        check = true;
-                        Console.WriteLine("Dit account bestaat al");
+                        if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                        {
+                            checkWachtwoord = true;
+                            Console.WriteLine("Dit account bestaat al");
+                        }
                     }
                 }
-                foreach (char character in wachtwoord)
-                {
-                    if (!Char.IsLetterOrDigit(character))
+                if (gebruikerIdJson == null) {
+                    if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
                     {
-                        check = true;
-                    }
-                    if (wachtwoord.Length < 8)
-                    {
-                        check = true;
+                        checkWachtwoord = true;
+                        Console.WriteLine("Vul de velden in");
                     }
                 }
-                if (check == true)
-                {
-                    Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en/of cijfers");
-                }
-                if (check == false)
+                if (checkWachtwoord == false && checkGebruikersnaam == false)
                 {
                     break;
                 }
             }
-
-            while (gebruikerIdJson == null)
-            {
-                bool check = false;
-                Console.WriteLine("Voer een gebruiksnaam in: ");
-                gebruikersnaam = Console.ReadLine();
-                Console.WriteLine("Voer een wachtwoord in: ");
-                wachtwoord = ReadPassword();
-                Console.WriteLine("Voer een E-mail in: ");
-                email_variabele = Console.ReadLine();
-                if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
-                {
-                    check = true;
-                    Console.WriteLine("Vul de velden in");
-                }            
-                if (check == false)
-                {
-                    break;
-                }
-            }
-
-            gebruiker.Email = new List<string> { email_variabele };
-            gebruiker.Gebruiksnaam = new List<string> { gebruikersnaam };
-            gebruiker.id = new List<int> { new Random().Next(1000, 9999) };
-            gebruiker.Wachtwoord = new List<string> { wachtwoord };
-
-            JsonClassLogin writeResultJson = new JsonClassLogin();
 
             writeResultJson.Email = new List<string>();
             writeResultJson.id = new List<int>();
@@ -142,7 +146,6 @@ public class Customerlogin
                     writeResultJson.Wachtwoord.Add(gebruikerIdJson.Wachtwoord[i]);
                 }
             } 
-
 
             writeResultJson.Email.Add(email_variabele);
             writeResultJson.Gebruiksnaam.Add(gebruikersnaam);
@@ -193,4 +196,3 @@ public class Customerlogin
         return Tuple.Create(0, 0);
     }
 }
-

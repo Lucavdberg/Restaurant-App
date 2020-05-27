@@ -12,8 +12,8 @@ public class Admin
         //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
         if (exist == false)
         {
-            string lol = JsonConvert.SerializeObject(null);
-            File.WriteAllText(@"gerechten.json", lol);
+            string existance = JsonConvert.SerializeObject(null);
+            File.WriteAllText(@"gerechten.json", existance);
         }
         string buffer = File.ReadAllText(@"gerechten.json");
         JsonClassGerechten AdminGerechtenJson = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer);
@@ -22,7 +22,6 @@ public class Admin
         var naam = Console.ReadLine();
         Console.WriteLine("Wat is uw admin wachtwoord?");
         var ww = Console.ReadLine();
-// string[][] AdminGerechtenJson.maandag = new string[11][];
         if (naam == "Admin" && ww == "Admin123")
         {
             if (AdminGerechtenJson == null)

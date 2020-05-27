@@ -19,7 +19,7 @@ public class Menu
         }
         string buffer = File.ReadAllText(@"gerechten.json");
         JsonClassGerechten AdminGerechtenJson = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer);
-        try
+        if (AdminGerechtenJson != null)
         {
             if (day == "maandag" || day == "Maandag" || day == "menu maandag" || day == "het menu van maandag")
             {
@@ -92,7 +92,7 @@ public class Menu
                 }
             }
         }
-        catch
+        if (AdminGerechtenJson == null)
         {
             Console.WriteLine("De admin moet nog een menu toevoegen.");
         }
