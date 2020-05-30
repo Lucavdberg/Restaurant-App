@@ -18,9 +18,10 @@ public class ReserveringAnnuleren
         int count = 0;
         Console.WriteLine("Dit zijn al uw reserveringen");
         for (int i = 0; i < reserveringIdJson.id.Count; i++)
-        {
+        {    
             if (reserveringIdJson.id[i] == gebruikerIdJson.id[cijfer])
             {
+                Console.WriteLine("reservering nummer: " + (count + 1));
                 Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                 count++;
             }
@@ -34,7 +35,7 @@ public class ReserveringAnnuleren
 
         string keuze;
         int intKeuze;
-        while (true)
+        while (count != 0)
         {
             Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
             try
