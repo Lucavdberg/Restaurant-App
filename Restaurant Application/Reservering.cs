@@ -50,16 +50,19 @@ public class Reservering
             {
                 for (int i = 0; i < tafelJson.datum.Count; i++)
                 {
-                    //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                    while (datum == reserveringIdJson.Datum[i] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[i])
+                    for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
                     {
-                        Console.WriteLine("U kunt maar 1 reservering plaatsen op dezelfde dag");
-                        Console.WriteLine("vul een andere datum in: ");
-                        datum = Console.ReadLine();
-                        //vervangt het symbool ´/´ en spatie met het symbool `-`
-                        foreach (var c in charsToRemove)
+                        //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
+                        while (datum == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
                         {
-                            datum = datum.Replace(c, "-");
+                            Console.WriteLine("U kunt maar 1 reservering plaatsen op dezelfde dag");
+                            Console.WriteLine("vul een andere datum in: ");
+                            datum = Console.ReadLine();
+                            //vervangt het symbool ´/´ en spatie met het symbool `-`
+                            foreach (var c in charsToRemove)
+                            {
+                                datum = datum.Replace(c, "-");
+                            }
                         }
                     }
                     //als het ingevoerde datum gelijk is aan een datum in de json file
@@ -205,8 +208,6 @@ public class Reservering
                                     Console.WriteLine("voer alleen getallen in");
                                 }
                                 min = plaatsen -= personAmount;
-                                Console.WriteLine(plaatsen);
-                                Console.WriteLine(min);
                                 minus = min < 0 ? true : false;
                             }
                             if (minus == false)
@@ -508,4 +509,6 @@ public class Reservering
         Console.ReadKey();
     }
 }
+
+
 //bij het aanpassen van de reservering moet de code van tekens invoeren in het begin geplakt worden
