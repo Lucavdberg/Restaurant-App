@@ -1,6 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
+using System.ComponentModel.DataAnnotations.Schema;
+
 public class Admin
 {
     public void adminFunc(JsonClassGerechten newgerechten)
@@ -22,6 +24,14 @@ public class Admin
         var naam = Console.ReadLine();
         Console.WriteLine("Wat is uw admin wachtwoord?");
         var ww = Console.ReadLine();
+        while (naam != "Admin" || ww != "Admin123")
+        {
+            Console.WriteLine("De inloggevens zijn onjuist");
+            Console.WriteLine("Wat is uw admin gebruiksernaam?");
+            naam = Console.ReadLine();
+            Console.WriteLine("Wat is uw admin wachtwoord?");
+            ww = Console.ReadLine();
+        } 
         if (naam == "Admin" && ww == "Admin123")
         {
             if (AdminGerechtenJson == null)
@@ -40,7 +50,13 @@ public class Admin
             JsonClassGerechten AGJ = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer2);
             Console.WriteLine("Logged In!");
             Console.WriteLine("Van welke dag wilt u iets veranderen in het menu?");
-            var dag = Console.ReadLine();
+            string dag = "";
+            do
+            {
+                Console.WriteLine("type een dag van de week");
+                dag = Console.ReadLine();
+            }
+            while (dag != "maandag" && dag != "Maandag" && dag != "dinsdag" && dag != "Dinsdag" && dag != "woensdag" && dag != "Woensdag" && dag != "donderdag" && dag != "Donderdag" && dag != "vrijdag" && dag != "Vrijdag" && dag != "zaterdag" && dag != "Zaterdag" && dag != "zondag" && dag != "Zondag");
             if (dag == "maandag" || dag == "Maandag")
             {
                 gerechtenJson.maandag = new string[11][];
@@ -311,7 +327,7 @@ public class Admin
                 }
             }
             string nieuw = JsonConvert.SerializeObject(gerechtenJson);
-                File.WriteAllText(@"gerechten.json", nieuw);
+            File.WriteAllText(@"gerechten.json", nieuw);
 
         }
         Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
