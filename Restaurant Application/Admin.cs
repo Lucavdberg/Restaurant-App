@@ -1,8 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
-using System.ComponentModel.DataAnnotations.Schema;
-
 public class Admin
 {
     public void adminFunc(JsonClassGerechten newgerechten)
@@ -57,6 +55,7 @@ public class Admin
                 dag = Console.ReadLine();
             }
             while (dag != "maandag" && dag != "Maandag" && dag != "dinsdag" && dag != "Dinsdag" && dag != "woensdag" && dag != "Woensdag" && dag != "donderdag" && dag != "Donderdag" && dag != "vrijdag" && dag != "Vrijdag" && dag != "zaterdag" && dag != "Zaterdag" && dag != "zondag" && dag != "Zondag");
+
             if (dag == "maandag" || dag == "Maandag")
             {
                 gerechtenJson.maandag = new string[11][];
