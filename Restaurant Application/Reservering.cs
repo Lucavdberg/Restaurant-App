@@ -103,10 +103,10 @@ public class Reservering
                     }
                 }
             }
-            //probeert het ingevoerde datum te veranderen naar datetime met als output resultDate
+            //probeert de ingevoerde datum te veranderen naar datetime met als output resultDate
             bool timeCheck = DateTime.TryParse(datum, out resultDate);
-            //als het omzetten naar Datetime is gelukt en het resultaat gelijk of hoger is dan de datum van vandaag en als de lengte van de datum gelijk is aan 10
-            if (timeCheck == true && resultDate >= DateTime.Today && datum.Length == 10)
+            //als het omzetten naar Datetime is gelukt en het resultaat gelijk of hoger is dan de datum van vandaag en als de lengte van de datum gelijk is aan 10 en checkt of de reservering niet later dan een jaar vanaf nu wordt geplaatst
+            if (timeCheck == true && resultDate >= DateTime.Today && datum.Length == 10 && resultDate <= DateTime.Today.AddYears(1))
             {
                 break;
             }
@@ -118,7 +118,11 @@ public class Reservering
             //als het resultaat lager is dan de datum van vandaag
             else if (resultDate < DateTime.Today)
             {
-                Console.WriteLine("Vul geen oude datums in");
+                Console.WriteLine("Vul geen oude datums in.");
+            }
+            else if (resultDate > DateTime.Today.AddYears(1))
+            {
+                Console.WriteLine("U kunt alleen reserveren tussen nu en over een jaar, niet later dan dat.");
             }
         }
 
