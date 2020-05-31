@@ -179,12 +179,6 @@ namespace oefenen1
                     Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
                     Console.ReadKey();
                 }
-                else if (menu_of_reservering == "5")
-                {
-                    reviewClass.ReviewFunc();
-                    Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
-                    Console.ReadKey();
-                }
             }
         }
     }
