@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using System.IO;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -58,6 +58,7 @@ public class Admin
         }
         if (naam == "Admin" && ww == "Admin123")
         {
+            Console.WriteLine("Logged In!\n");
             Console.WriteLine("Welkom Administrator! Wat wilt u doen");
             Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n");
             string keuze = Console.ReadLine();
@@ -77,7 +78,6 @@ public class Admin
                 }
                 string buffer2 = File.ReadAllText(@"gerechten.json");
                 JsonClassGerechten AGJ = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer2);
-                Console.WriteLine("Logged In!");
                 Console.WriteLine("Van welke dag wilt u iets veranderen in het menu?");
                 string dag = "";
                 do

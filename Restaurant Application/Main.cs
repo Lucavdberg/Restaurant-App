@@ -88,76 +88,91 @@ namespace oefenen1
 
                         string bufferTwo = File.ReadAllText(@"gebruiker_id.json");
                         JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(bufferTwo);
-
-                        Console.WriteLine("Wilt u bestaande reserveringen bekijken type(1), wilt u een nieuwe reservering aanmaken type(2) of wilt u een bestaande reservering annuleren type(3)");
-                        var Ingelogd = Console.ReadLine();
-                        if (Ingelogd == "1")
+                        while (true)
                         {
-                            if (reserveringIdJson != null)
+                            Console.Clear();
+                            Console.WriteLine("Wilt u bestaande reserveringen bekijken type(1), wilt u een nieuwe reservering aanmaken type(2) of wilt u een bestaande reservering annuleren type(3), Wilt u uitlogen type(4)");
+                            var Ingelogd = Console.ReadLine();
+                            if (Ingelogd == "1")
                             {
-                                Console.WriteLine("Dit zijn al uw reserveringen");
-                                for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                                if (reserveringIdJson != null)
                                 {
-                                    if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
+                                    Console.WriteLine("Dit zijn al uw reserveringen");
+                                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
                                     {
-                                        Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                                        if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
+                                        {
+                                            Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                                        }
                                     }
+                                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                                    Console.ReadKey();
                                 }
-                                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
-                                Console.ReadKey();
+                                if (reserveringIdJson == null)
+                                {
+                                    Console.WriteLine("U heeft nog geen reservering aangemaakt");
+                                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                                    Console.ReadKey();
+                                }  
                             }
-                            if (reserveringIdJson == null)
+                            else if (Ingelogd == "2")
                             {
-                                Console.WriteLine("U heeft nog geen reservering aangemaakt");
-                                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
-                                Console.ReadKey();
-                            }  
-                        }
-                        else if (Ingelogd == "2")
-                        {
-                            if (reserveringIdJson != null)
-                            {
-                                int count = 0;
-                                for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                                if (reserveringIdJson != null)
                                 {
-                                    if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
+                                    int count = 0;
+                                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
                                     {
-                                        count++;
+                                        if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
+                                        {
+                                            count++;
+                                        }
+                                    }
+                                    if (count < 3)
+                                    {
+                                        Console.WriteLine("u kunt nu een reservering plaatsen");
+                                        ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
+                                    }
+                                    if (count >= 3)
+                                    {
+                                        Console.WriteLine("u kunt geen reservering meer aanmaken omdat u de limiet van 3 reserveringen heeft bereikt \nannuleer een bestaande reservering voor het aanmaken van een nieuwe reservering");
+                                        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                                        Console.ReadKey();
                                     }
                                 }
-                                if (count < 3)
+                                if (reserveringIdJson == null)
                                 {
                                     Console.WriteLine("u kunt nu een reservering plaatsen");
                                     ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                                 }
-                                if (count >= 3)
+                            }
+                            else if (Ingelogd == "3")
+                            {
+                                if (reserveringIdJson != null)
                                 {
-                                    Console.WriteLine("u kunt geen reservering meer aanmaken omdat u de limiet van 3 reserveringen heeft bereikt \nannuleer een bestaande reservering voor het aanmaken van een nieuwe reservering");
+                                    reserveringAnnulerenClass.ReserveringAnnulerenFunc(login.Item2);
+                                }
+                                if (reserveringIdJson == null)
+                                {
+                                    Console.WriteLine("U heeft nog geen reservering aangemaakt");
                                     Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
                                     Console.ReadKey();
-                                }
+                                }  
                             }
-                            if (reserveringIdJson == null)
+                            else if (Ingelogd == "4")
                             {
-                                Console.WriteLine("u kunt nu een reservering plaatsen");
-                                ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
+                                Console.WriteLine("U bent uitgelogd!");
+                                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                                Console.ReadKey();
+                                break;
                             }
                         }
-                        else if (Ingelogd == "3")
-                        {
-                            if (reserveringIdJson != null)
-                            {
-                                reserveringAnnulerenClass.ReserveringAnnulerenFunc(login.Item2);
-                            }
-                            if (reserveringIdJson == null)
-                            {
-                                Console.WriteLine("U heeft nog geen reservering aangemaakt");
-                                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
-                                Console.ReadKey();
-                            }  
-                        }     
+
                     }
+
+
                 }
+                
+                
                 else if (menu_of_reservering == "5")
                 {
                     reviewClass.ReviewFunc();
