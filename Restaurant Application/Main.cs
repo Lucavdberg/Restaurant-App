@@ -34,7 +34,13 @@ namespace oefenen1
                 if (menu_of_reservering == "1")
                 {
                     Console.WriteLine("Van welke dag wilt u het menu bekijken");
-                    var day = Console.ReadLine();
+                    string day = "";
+                    do
+                    {
+                        Console.WriteLine("type een dag van de week");
+                        day = Console.ReadLine();
+                    }
+                    while (day != "maandag" && day != "Maandag" && day != "dinsdag" && day != "Dinsdag" && day != "woensdag" && day != "Woensdag" && day != "donderdag" && day != "Donderdag" && day != "vrijdag" && day != "Vrijdag" && day != "zaterdag" && day != "Zaterdag" && day != "zondag" && day != "Zondag");
                     menuVanEenDagClass.MenuVanDeDagFunc(day, gerechtenIngevuldClass.gerechtenIngevuldFunc());
                 }
                 else if (menu_of_reservering == "4")
@@ -158,8 +164,6 @@ namespace oefenen1
                                 Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
                                 Console.ReadKey();
                                 break;
-
-
                             }
                         }
 
@@ -169,6 +173,12 @@ namespace oefenen1
                 }
                 
                 
+                else if (menu_of_reservering == "5")
+                {
+                    reviewClass.ReviewFunc();
+                    Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                    Console.ReadKey();
+                }
                 else if (menu_of_reservering == "5")
                 {
                     reviewClass.ReviewFunc();
