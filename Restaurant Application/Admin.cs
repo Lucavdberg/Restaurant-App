@@ -1,10 +1,36 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using System.IO;
+using System.ComponentModel.DataAnnotations.Schema;
+
 public class Admin
 {
+    public void AdminReserveringenBekijken()
+    {
+        string bufferTwo = File.ReadAllText(@"reservering_id.json");
+        JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferTwo);
+        Console.Clear();
+        if (reserveringIdJson != null)
+        {
+            Console.WriteLine("Alle reserveringen die zijn geplaatst:\n");
+            for (int i = 0; i < reserveringIdJson.Datum.Count; i++)
+            {
+                //laat alle reserveringen zien in de json file
+                Console.WriteLine("Reservering ID: " + reserveringIdJson.id[i]);
+                Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
+                Console.WriteLine("Reservering datum:              " + reserveringIdJson.Datum[i]);
+                Console.WriteLine("Reservering tijdstip:           " + reserveringIdJson.Tijden[i]);
+                Console.WriteLine("Aantal personen aanwezig:       " + reserveringIdJson.Personen[i]);
+                Console.WriteLine("Opmerkingen bij de reservering: " + reserveringIdJson.Details[i] + "\n");
+            }
+        }
+
+        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+        Console.ReadKey();
+    }
     public void adminFunc(JsonClassGerechten newgerechten)
     {
+        Console.Clear();
         //kijkt of de json file bestaat in dezelfde directory als het project
         string curFile = @"gerechten.json";
         var exist = File.Exists(curFile) ? true : false;
@@ -21,30 +47,45 @@ public class Admin
         Console.WriteLine("Wat is uw admin gebruiksernaam?");
         var naam = Console.ReadLine();
         Console.WriteLine("Wat is uw admin wachtwoord?");
-        var ww = Console.ReadLine();
+        var ww = Customerlogin.ReadPassword();
+        while (naam != "Admin" || ww != "Admin123")
+        {
+            Console.WriteLine("De inloggevens zijn onjuist");
+            Console.WriteLine("Wat is uw admin gebruiksernaam?");
+            naam = Console.ReadLine();
+            Console.WriteLine("Wat is uw admin wachtwoord?");
+            ww = Console.ReadLine();
+        }
         if (naam == "Admin" && ww == "Admin123")
         {
-            if (AdminGerechtenJson == null)
+            Console.WriteLine("Logged In!\n");
+            Console.WriteLine("Welkom Administrator! Wat wilt u doen");
+            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n [3]. reveiw verwijderen\n");
+            string keuze = Console.ReadLine();
+            if (keuze == "1")
             {
-                gerechtenJson.maandag = newgerechten.maandag;
-                gerechtenJson.dinsdag = newgerechten.dinsdag;
-                gerechtenJson.woensdag = newgerechten.woensdag;
-                gerechtenJson.donderdag = newgerechten.donderdag;
-                gerechtenJson.vrijdag = newgerechten.vrijdag;
-                gerechtenJson.zaterdag = newgerechten.zaterdag;
-                gerechtenJson.zondag = newgerechten.zondag;
-                string nieuw2 = JsonConvert.SerializeObject(gerechtenJson);
-                File.WriteAllText(@"gerechten.json", nieuw2);
-            }
-            string buffer2 = File.ReadAllText(@"gerechten.json");
-            JsonClassGerechten AGJ = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer2);
-            Console.WriteLine("Logged In!");
-            Console.WriteLine("Wilt u  iets veranderenn in het menu type 1, of een reveiw verwijderen type 2");
-            string ans1 = Console.ReadLine();
-            if (ans1 == "1")
-            {
+                if (AdminGerechtenJson == null)
+                {
+                    gerechtenJson.maandag = newgerechten.maandag;
+                    gerechtenJson.dinsdag = newgerechten.dinsdag;
+                    gerechtenJson.woensdag = newgerechten.woensdag;
+                    gerechtenJson.donderdag = newgerechten.donderdag;
+                    gerechtenJson.vrijdag = newgerechten.vrijdag;
+                    gerechtenJson.zaterdag = newgerechten.zaterdag;
+                    gerechtenJson.zondag = newgerechten.zondag;
+                    string nieuw2 = JsonConvert.SerializeObject(gerechtenJson);
+                    File.WriteAllText(@"gerechten.json", nieuw2);
+                }
+                string buffer2 = File.ReadAllText(@"gerechten.json");
+                JsonClassGerechten AGJ = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer2);
                 Console.WriteLine("Van welke dag wilt u iets veranderen in het menu?");
-                var dag = Console.ReadLine();
+                string dag = "";
+                do
+                {
+                    Console.WriteLine("type een dag van de week");
+                    dag = Console.ReadLine();
+                }
+                while (dag != "maandag" && dag != "Maandag" && dag != "dinsdag" && dag != "Dinsdag" && dag != "woensdag" && dag != "Woensdag" && dag != "donderdag" && dag != "Donderdag" && dag != "vrijdag" && dag != "Vrijdag" && dag != "zaterdag" && dag != "Zaterdag" && dag != "zondag" && dag != "Zondag");
                 if (dag == "maandag" || dag == "Maandag")
                 {
                     gerechtenJson.maandag = new string[11][];
@@ -317,63 +358,63 @@ public class Admin
                 string nieuw = JsonConvert.SerializeObject(gerechtenJson);
                 File.WriteAllText(@"gerechten.json", nieuw);
 
-            }
-            else if (ans1 == "2")
-            {
-                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
-                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); int count = 0;
-                
-                Console.WriteLine("Dit zijn de reveiws");
-                
-                for (int i = 0; i < reviews1.Naam.Count; i++)
-                {
-                    Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i]+ "\n" + "score : " + reviews1.Score[i] + "\n");
 
-                }
-
-                Console.WriteLine("type de naam van de reviewer van de review dat je wilt verwijderen");              
-                string naamReviewer = Console.ReadLine();
-                Console.WriteLine("type de naam van de gerecht van de review dat je wilt verwijderen");
-                string naamGerecht = Console.ReadLine();
-                if (reviews1 != null)
-                {
-                   for (int i = 0; i < reviews1.Naam.Count; i++)
-                   {
-                      if (reviews1.Naam[i] == naamReviewer && reviews1.Gerecht[i] == naamGerecht)
-                      {
-                         reviews1.Naam.RemoveAt(i);
-                         reviews1.Gerecht.RemoveAt(i);
-                         reviews1.Review.RemoveAt(i);
-                         reviews1.Score.RemoveAt(i);
-                      }
-                   }
-                          
-                }
-                else
-                {
-                  Console.WriteLine("er is nog geen review");
-                }
-                Console.WriteLine("dit zijn nu de reviews");
-                for (int i = 0; i < reviews1.Naam.Count; i++)
-                {
-                    Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "Gerecht: " + reviews1.Gerecht[i] + "\n" + "Review: " + reviews1.Review[i] + "\n" + "Score : " + reviews1.Score[i] + "\n");
-
-                }
-                string reviews2 = JsonConvert.SerializeObject(reviews1);
-                File.WriteAllText(@"reviews.json", reviews2);              
-            }
-           
-            else
-            {
                 Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
             }
+            else if (keuze == "2")
+            {
+                AdminReserveringenBekijken();
+            }
+            else if (keuze == "3")
+            {
+                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
+                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); int count = 0;
+
+
+                Console.WriteLine("Dit zijn de reveiws");
+                for (int i = 0; i < reviews1.Naam.Count; i++)
+                {
+                    
+                    Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+
+                }
+                
+                if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
+                {                   
+                    Console.WriteLine("type de naam van de reviewer van de review dat je wilt verwijderen");
+                    string naamReviewer = Console.ReadLine();
+                    Console.WriteLine("type de naam van de gerecht van de review dat je wilt verwijderen");
+                    string naamGerecht = Console.ReadLine();
+                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    {
+                        if (reviews1.Naam[i] == naamReviewer && reviews1.Gerecht[i] == naamGerecht)
+                        {
+                            reviews1.Naam.RemoveAt(i);
+                            reviews1.Gerecht.RemoveAt(i);
+                            reviews1.Review.RemoveAt(i);
+                            reviews1.Score.RemoveAt(i);
+                          
+                        }                                               
+                    }
+                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    {
+                        Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+                   
+                    }
+                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.ReadKey();
+                }
+                else 
+                {
+                    Console.WriteLine("er is nog geen review");
+                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.ReadKey();
+                }              
+                string reviews2 = JsonConvert.SerializeObject(reviews1);
+                File.WriteAllText(@"reviews.json", reviews2);
+            }
         }
-           
-        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
-        Console.ReadKey();
-            
-
     }
-
+    
 }
