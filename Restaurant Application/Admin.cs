@@ -60,7 +60,7 @@ public class Admin
         {
             Console.WriteLine("Logged In!\n");
             Console.WriteLine("Welkom Administrator! Wat wilt u doen");
-            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n");
+            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n [3]. Review verwijderen\n");
             string keuze = Console.ReadLine();
             if (keuze == "1")
             {
@@ -366,6 +366,55 @@ public class Admin
             {
                 AdminReserveringenBekijken();
             }
+            else if (keuze == "3")
+            {
+                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
+                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); int count = 0;
+
+
+                Console.WriteLine("Dit zijn de reveiws");
+                for (int i = 0; i < reviews1.Naam.Count; i++)
+                {
+                    
+                    Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+
+                }
+                
+                if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
+                {                   
+                    Console.WriteLine("type de naam van de reviewer van de review dat je wilt verwijderen");
+                    string naamReviewer = Console.ReadLine();
+                    Console.WriteLine("type de naam van de gerecht van de review dat je wilt verwijderen");
+                    string naamGerecht = Console.ReadLine();
+                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    {
+                        if (reviews1.Naam[i] == naamReviewer && reviews1.Gerecht[i] == naamGerecht)
+                        {
+                            reviews1.Naam.RemoveAt(i);
+                            reviews1.Gerecht.RemoveAt(i);
+                            reviews1.Review.RemoveAt(i);
+                            reviews1.Score.RemoveAt(i);
+                          
+                        }                                               
+                    }
+                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    {
+                        Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+                   
+                    }
+                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.ReadKey();
+                }
+                else 
+                {
+                    Console.WriteLine("er is nog geen review");
+                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.ReadKey();
+                }              
+                string reviews2 = JsonConvert.SerializeObject(reviews1);
+                File.WriteAllText(@"reviews.json", reviews2);
+            }
         }
     }
+    
 }
