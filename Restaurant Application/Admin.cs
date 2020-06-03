@@ -60,7 +60,7 @@ public class Admin
         {
             Console.WriteLine("Logged In!\n");
             Console.WriteLine("Welkom Administrator! Wat wilt u doen");
-            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n [3]. reveiw verwijderen\n");
+            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n [3]. Review verwijderen\n");
             string keuze = Console.ReadLine();
             if (keuze == "1")
             {
