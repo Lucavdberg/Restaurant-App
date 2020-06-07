@@ -35,10 +35,11 @@ public class Reservering
         string reservering;
         int personAmount;
         DateTime resultDate;
-
+        DateTime resultTime;
+        Console.WriteLine(" Wat leuk dat u bij ons komt eten, om te reserveren moet u de volgende velden invullen.");
         while (true)
         {
-            Console.WriteLine("vul een datum in: ");
+            Console.WriteLine(" Datum: ");
             datum = Console.ReadLine();
             var charsToRemove = new string[] { "/", " " }; 
             //vervangt het symbool (´/´) en (spatie) naar het symbool `-`
@@ -55,8 +56,8 @@ public class Reservering
                         //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
                         while (datum == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
                         {
-                            Console.WriteLine("U kunt maar 1 reservering plaatsen op dezelfde dag");
-                            Console.WriteLine("vul een andere datum in: ");
+                            Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
+                            Console.WriteLine(" Vul alstublieft een andere datum in: ");
                             datum = Console.ReadLine();
                             //vervangt het symbool ´/´ en spatie met het symbool `-`
                             foreach (var c in charsToRemove)
@@ -71,8 +72,8 @@ public class Reservering
                         //als het aantal zitplaatsen op dit datum gelijk/lager is dan 0
                         if (tafelJson.aantalPlaatsen[i] <= 0)
                         {
-                            Console.WriteLine("op deze datum zijn er " + tafelJson.aantalPlaatsen[i] + " plekken beschikbaar waardoor u een andere datum zult moeten kiezen");
-                            Console.WriteLine("vul een andere datum in: ");
+                            Console.WriteLine(" Op deze datum zijn er " + tafelJson.aantalPlaatsen[i] + " plekken beschikbaar waardoor u een andere datum zult moeten kiezen");
+                            Console.WriteLine(" Vul alstublieft een andere datum in: ");
                             datum = Console.ReadLine();
                             //vervangt het symbool ´/´ en spatie met het symbool `-`
                             foreach (var c in charsToRemove)
@@ -82,12 +83,12 @@ public class Reservering
                         }
                         else
                         {
-                            Console.WriteLine("op deze datum zijn er " + tafelJson.aantalPlaatsen[i] + " plekken beschikbaar");
-                            Console.WriteLine("type(1) om door te gaan of type(2) om een andere datum te kiezen");
+                            Console.WriteLine(" Op deze datum zijn er " + tafelJson.aantalPlaatsen[i] + " plekken beschikbaar");
+                             Console.WriteLine(" [1]. Doorgaan\n [2]. Andere datum selecteren\n");
                             var datumKeuze = Console.ReadLine();
                             if (datumKeuze == "2")
                             {
-                                Console.WriteLine("vul een andere datum in: ");
+                                Console.WriteLine(" Vul alstublieft een andere datum in: ");
                                 datum = Console.ReadLine();
                                 //vervangt het symbool ´/´ en spatie met het symbool `-`
                                 foreach (var c in charsToRemove)
@@ -113,49 +114,37 @@ public class Reservering
             //als het omzetten naar Datetime niet is gelukt of als de lengte van de datum lager is dan 10
             else if (timeCheck == false || datum.Length < 10)
             {
-                Console.WriteLine("Vul een correcte datum in met getallen" + "\neen voorbeeld: 01-01-2020");
+                Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: 01-01-2020.\n");
             }
             //als het resultaat lager is dan de datum van vandaag
             else if (resultDate < DateTime.Today)
             {
-                Console.WriteLine("Vul geen oude datums in.");
+                Console.WriteLine(" Deze datum is reeds verstreken, vul alstublieft een nieuwe datum in.\n");
             }
             else if (resultDate > DateTime.Today.AddYears(1))
             {
-                Console.WriteLine("U kunt alleen reserveren tussen nu en over een jaar, niet later dan dat.");
+                Console.WriteLine(" U kunt alleen reserveren tussen nu en over een jaar, niet later dan dat.\n");
             }
         }
 
         while (true)
         {
-            bool isNumeric = true;
-            Console.WriteLine("vul een tijdstip in: ");
+            Console.WriteLine(" Tijdstip: ");
             tijdstip = Console.ReadLine();
-            //loopt door elke getal van de input
-            foreach (char c in tijdstip)
-            {
-                //als het geen getal is en niet gelijk is aan het symbool ':'
-                if (!Char.IsDigit(c) && c != ':')
-                {
-                    isNumeric = false;
-                }
-                //als de lengte van de input niet groter is dan 5 of niet kleiner is dan 5
-                if (tijdstip.Length > 5 || tijdstip.Length < 5)
-                {
-                    isNumeric = false;
-                }
-            }
-            if (isNumeric == false)
-            {
-                Console.WriteLine("Vul een correcte tijdstip in met getallen" + "\neen voorbeeld: 10:30");
-            }
-            if (string.IsNullOrWhiteSpace(tijdstip) || string.IsNullOrEmpty(tijdstip))
-            {
-                Console.WriteLine("Dit vak moet ingevuld zijn");
-            }
-            if (isNumeric == true && !string.IsNullOrWhiteSpace(tijdstip) && !string.IsNullOrEmpty(tijdstip))
+            bool timeCheck1 = DateTime.TryParse(tijdstip, out resultTime);
+            DateTime timeMin = DateTime.Parse("17:00:00");
+            DateTime timeMax = DateTime.Parse("22:00:00");
+            if (timeCheck1 == true && resultTime <= timeMax && resultTime >= timeMin)
             {
                 break;
+            }
+            else if(timeCheck1 == false)
+            {
+                Console.WriteLine(" Onjuiste tijd. Vul het tijdstip in volgens dit format: 23:59\n");
+            }
+            else
+            {
+                Console.WriteLine(" Ons restaurant is open van 17:00 tot 00:00 en u kunt alleen reserveren tussen 17:00 en 22:00!\n");
             }
         }
 
@@ -163,7 +152,7 @@ public class Reservering
         while (true) 
         {
             bool isNumeric = true;
-            Console.WriteLine("vul het aantal personen in: ");
+            Console.WriteLine(" Aantal personen: ");
             personen = Console.ReadLine();
             //loopt door elke getallen van de input
             foreach (char c in personen)
@@ -177,12 +166,12 @@ public class Reservering
             //als de input bestaat uit iets anders dan getallen
             if (isNumeric == false)
             {
-                Console.WriteLine("voer alleen getallen in");
+                Console.WriteLine(" Voer het aantal personen in getallen in.");
             }
             //als de input van de gebruiker leeg is of alleen bestaat uit spaties of gelijk is aan null
             if (string.IsNullOrWhiteSpace(personen) || string.IsNullOrEmpty(personen))
             {
-                Console.WriteLine("Dit vak moet ingevuld zijn");
+                Console.WriteLine(" Wij willen graag van u weten met hoeveel personen u komt eten.");
             }
             //als de input bestaat uit getallen en niet leeg is of alleen bestaat uit spaties of gelijk is aan null
             if (isNumeric == true && !string.IsNullOrWhiteSpace(personen) && !string.IsNullOrEmpty(personen))
@@ -200,8 +189,8 @@ public class Reservering
                             while (minus == true)
                             {
                                 plaatsen = tafelJson.aantalPlaatsen[i];
-                                Console.WriteLine("Het aantal beschikbare plekken op datum " + tafelJson.datum[i] + " is " + tafelJson.aantalPlaatsen[i] + " waardoor er niet genoeg plekken zijn\nu zult een nieuw aantal personen moeten invoeren");
-                                Console.WriteLine("vul het aantal personen in: ");
+                                Console.WriteLine(" Het aantal beschikbare plekken op datum " + tafelJson.datum[i] + " is " + tafelJson.aantalPlaatsen[i] + " waardoor er niet genoeg plekken zijn\nu zult een nieuw aantal personen moeten invoeren");
+                                Console.WriteLine(" Aantal personen: ");
                                 personen = Console.ReadLine();
                                 try
                                 {
@@ -209,7 +198,7 @@ public class Reservering
                                 }
                                 catch
                                 {
-                                    Console.WriteLine("voer alleen getallen in");
+                                    Console.WriteLine(" Voer het aantal personen in getallen in.");
                                 }
                                 min = plaatsen -= personAmount;
                                 minus = min < 0 ? true : false;
@@ -223,7 +212,7 @@ public class Reservering
                 }   
                 if (personAmount <= 0 || personAmount > 50)
                 {
-                    Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het maximum aantal zitplaatsen namelijk 50");
+                    Console.WriteLine(" Het ingevoerde getal moet positief zijn en ook lager dan het maximum aantal zitplaatsen namelijk: 50");
                 }
                 else if (personAmount > 0 && personAmount < 50)
                 {
@@ -236,7 +225,7 @@ public class Reservering
         while (true)
         {
             bool isLetter = true;
-            Console.WriteLine("vul hier belangrijke details in: ");
+            Console.WriteLine(" Vul hier eventuele details in (verjaardag, allergiën, etc). Heeft u geen details, typ dan 'geen': ");
             details = Console.ReadLine();
             //loopt door elke letter van de input
             foreach (char c in details)
@@ -250,12 +239,12 @@ public class Reservering
             //als de input bestaat uit iets anders dan letters of spaties
             if (isLetter == false)
             {
-                Console.WriteLine("Vul alleen letters in");
+                Console.WriteLine(" Vul alleen letters in");
             }
             //als de input van de gebruiker leeg is of alleen bestaat uit spaties of gelijk is aan null
             if (string.IsNullOrWhiteSpace(details) || string.IsNullOrEmpty(details))
             {
-                Console.WriteLine("Dit vak moet ingevuld zijn als u geen details wilt schrijven vul dan 'geen' in");
+                Console.WriteLine(" Dit vak moet ingevuld zijn als u geen details wilt schrijven vul dan 'geen' in");
             }
             //als de input bestaat uit letters en niet leeg is of alleen bestaat uit spaties of gelijk is aan null
             if (isLetter == true && !string.IsNullOrWhiteSpace(details) && !string.IsNullOrEmpty(details))
@@ -264,8 +253,8 @@ public class Reservering
             }
         }
 
-        Console.WriteLine("Uw reservering is aangemaakt!");
-        Console.WriteLine("Type (1) voor het bekijken van uw reservering of (2) om uw reservering te wijzigen");
+        Console.WriteLine(" Uw reservering is aangemaakt!");
+        Console.WriteLine(" [1]. Reservering bekijken\n [2]. Reservering wijzigen\n");
         reservering = Console.ReadLine(); 
         
         //maakt nieuwe lijsten aan
@@ -352,24 +341,28 @@ public class Reservering
 
         if (reservering == "1")
         {
-            Console.WriteLine("Uw nieuwe reservering");
-            Console.WriteLine("Datum: " + datum);
-            Console.WriteLine("Tijdstip: " + tijdstip);
-            Console.WriteLine("Personen: " + personen);
-            Console.WriteLine("Details: " + details + "\n");
+            Console.WriteLine(" Uw nieuwe reservering");
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
+            Console.WriteLine(" Reservering datum:              " + datum);
+            Console.WriteLine(" Reservering tijdstip:           " + tijdstip);
+            Console.WriteLine(" Aantal personen aanwezig:       " + personen);
+            Console.WriteLine(" Opmerkingen bij de reservering: " + details+ "\n");
+            Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+            Console.ReadKey();
         }
         else
         {
-            Console.WriteLine("Uw nieuwe reservering");
-            Console.WriteLine("Datum: " + datum);
-            Console.WriteLine("Tijdstip: " + tijdstip);
-            Console.WriteLine("Personen: " + personen);
-            Console.WriteLine("Details: " + details + "\n");
-            Console.WriteLine("Wilt u de datum wijzigen type (1), wilt u de tijdstip wijzigen type (2), wilt u het aantal personen wijzigen type (3), wilt u de belangrijke details wijzigen type(4), Wilt u alles wijzigen type(5)");
+            Console.WriteLine(" Uw nieuwe reservering");
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
+            Console.WriteLine(" Reservering datum:              " + datum);
+            Console.WriteLine(" Reservering tijdstip:           " + tijdstip);
+            Console.WriteLine(" Aantal personen aanwezig:       " + personen);
+            Console.WriteLine(" Opmerkingen bij de reservering: " + details + "\n");
+            Console.WriteLine(" [1]. Datum wijzigen\n [2]. Tijdstip wijzigen\n [3]. Aantal personen wijzigen\n [4]. Details wijzigen\n [5]. Alles wijzigen");
             var wijzigen = Console.ReadLine();
             if (wijzigen == "1")
             {
-                Console.WriteLine("vul een nieuwe datum in");
+                Console.WriteLine(" Datum: ");
                 string datumGewijzigd = Console.ReadLine();
                 resultJson.Datum[resultJson.Datum.Count - 1] = datumGewijzigd;
                 if (check == true)
@@ -418,13 +411,13 @@ public class Reservering
             }
             if (wijzigen == "2")
             {
-                Console.WriteLine("vul een nieuwe tijdstip in");
+                Console.WriteLine(" Tijdstip: ");
                 string tijdenGewijzigd = Console.ReadLine();
                 resultJson.Tijden[resultJson.Tijden.Count - 1] = tijdenGewijzigd;
             }
             if (wijzigen == "3")
             {
-                Console.WriteLine("vul een nieuwe aantal personen in");
+                Console.WriteLine(" Aantal personen: ");
                 var personenGewijzigd = Console.ReadLine();
                 resultJson.Personen[resultJson.Personen.Count - 1] = Int32.Parse(personenGewijzigd);
                 if (check == true)
@@ -438,22 +431,22 @@ public class Reservering
             }
             if (wijzigen == "4")
             {
-                Console.WriteLine("vul de nieuwe belangrijke details in");
+                Console.WriteLine(" Details reservering: ");
                 var detailsGewijzigd = Console.ReadLine();
                 resultJson.Details[resultJson.Details.Count - 1] = detailsGewijzigd;
             }
             if (wijzigen == "5")
             {
-                Console.WriteLine("vul een nieuwe datum in");
+                Console.WriteLine(" Datum: ");
                 string datumGewijzigd = Console.ReadLine();
                 resultJson.Datum[resultJson.Datum.Count - 1] = datumGewijzigd;
-                Console.WriteLine("vul een nieuwe tijdstip in");
+                Console.WriteLine(" Tijdstip: ");
                 string tijdenGewijzigd = Console.ReadLine();
                 resultJson.Tijden[resultJson.Tijden.Count - 1] = tijdenGewijzigd;
-                Console.WriteLine("vul een nieuwe aantal personen in");
+                Console.WriteLine(" Aantal personen: ");
                 var personenGewijzigd = Console.ReadLine();
                 resultJson.Personen[resultJson.Personen.Count - 1] = Int32.Parse(personenGewijzigd);
-                Console.WriteLine("vul de nieuwe belangrijke details in");
+                Console.WriteLine(" Details reservering: ");
                 var detailsGewijzigd = Console.ReadLine();
                 resultJson.Details[resultJson.Details.Count - 1] = detailsGewijzigd;
 
@@ -509,7 +502,7 @@ public class Reservering
         string strNieuweTafelJson = JsonConvert.SerializeObject(tafels);
         File.WriteAllText(@"tafels.json", strNieuweTafelJson);
 
-        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+        Console.WriteLine(" Klik op een toets om terug te keren naar het hoofdmenu");
         Console.ReadKey();
     }
 }
