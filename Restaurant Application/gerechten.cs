@@ -105,7 +105,7 @@ public class gerechten
         }
         if (AdminGerechtenJson == null)
         {
-            Console.WriteLine("Nog geen menu toegevoegd");
+            Console.WriteLine("De admin moet nog een menu toevoegen.");
         }
         Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
         Console.ReadKey();

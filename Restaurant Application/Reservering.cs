@@ -501,8 +501,8 @@ public class Reservering
         }
         string strNieuweTafelJson = JsonConvert.SerializeObject(tafels);
         File.WriteAllText(@"tafels.json", strNieuweTafelJson);
+        Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
 
-        Console.WriteLine(" Klik op een toets om terug te keren naar het hoofdmenu");
         Console.ReadKey();
     }
 }

@@ -29,7 +29,7 @@ public class ReserveringAnnuleren
         if (count == 0)
         {
             Console.WriteLine("u heeft nog geen reserveringen");
-            Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+            Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
             Console.ReadKey();
         }
 
@@ -54,7 +54,6 @@ public class ReserveringAnnuleren
                 int counter = 0;
                 string gekozenDatum = "";
                 int gekozenPersonen = 0;
-                int gekozenID = 0;
                 for (int i = 0; i < reserveringIdJson.id.Count; i++)
                 {
                     //als de id in de reservering json gelijk is aan de id van de ingelogde gebruiker
@@ -62,7 +61,6 @@ public class ReserveringAnnuleren
                     {
                         gekozenDatum = reserveringIdJson.Datum[i];
                         gekozenPersonen = reserveringIdJson.Personen[i];
-                        gekozenID = reserveringIdJson.id[i];
                         reserveringIdJson.id.RemoveAt(i);
                         reserveringIdJson.Datum.RemoveAt(i);
                         reserveringIdJson.Tijden.RemoveAt(i);
@@ -105,7 +103,7 @@ public class ReserveringAnnuleren
                         Console.WriteLine("Datum: " + nieuweReserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + nieuweReserveringIdJson.Tijden[i] + "\n" + "Personen: " + nieuweReserveringIdJson.Personen[i] + "\n" + "Details: " + nieuweReserveringIdJson.Details[i] + "\n");
                     }
                 }
-                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
                 Console.ReadKey();
                 break;
             }
