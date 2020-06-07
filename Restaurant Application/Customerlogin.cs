@@ -45,9 +45,11 @@ public class Customerlogin
         var inloggen_aanmaken = "";
         do
         {
-            Console.WriteLine("Wilt u inloggen type(1), een account aanmaken type(2) of terug naar het hoofdmenu type(3)");
+            Console.WriteLine(" [1]. Inloggen\n [2]. Account aanmaken\n [3]. Terug naar het hoofdmenu");
+            Console.Write(" Uw keuze: ");
             inloggen_aanmaken = Console.ReadLine();
         } while (inloggen_aanmaken != "1" && inloggen_aanmaken != "2" && inloggen_aanmaken != "3");
+
         if (inloggen_aanmaken == "2")
         {
             //kijkt of de json file bestaat in dezelfde directory als het project
@@ -183,6 +185,8 @@ public class Customerlogin
 
         if (inloggen_aanmaken == "1")
         {
+            Console.Clear();
+            Console.WriteLine("\n - Inloggen... Vul uw gegevens in.");
             try
             {
                 string buffer = File.ReadAllText(@"gebruiker_id.json");
@@ -190,31 +194,31 @@ public class Customerlogin
                 int counter = 0;
                 for (int i = 0; i < 5; i++)
                 {
-                    Console.WriteLine("gebruiksnaam: ");
+                    Console.Write("\n Uw gebruikersnaam: ");
                     var naam = Console.ReadLine();
-                    Console.WriteLine("wachtwoord: ");
+                    Console.Write(" Uw wachtwoord: ");
                     var wacht = ReadPassword();
                     for (int j = 0; j < gebruikerIdJson.Gebruiksnaam.Count; j++)
                     {
                         if (naam == gebruikerIdJson.Gebruiksnaam[j] && wacht == gebruikerIdJson.Wachtwoord[j])
                         {
-                            Console.WriteLine("u bent ingelogd!");
+                            Console.WriteLine(" - U bent ingelogd!");
                             return Tuple.Create(2, j);
                         }
                     }
-                    Console.WriteLine("uw gegevens zijn verkeerd!");
+                    Console.WriteLine(" - Uw gegevens zijn verkeerd!");
                     counter++;
                     if (counter > 2)
                     {
-                        Console.WriteLine("Uw inloggevens zijn te vaak fout ingevuld");
-                        Console.WriteLine("login fail");
+                        Console.WriteLine(" - Uw inloggevens zijn te vaak fout ingevuld");
+                        Console.WriteLine(" - login fail");
                         return Tuple.Create(1, 100);
                     }
                 }
             }
             catch
             {
-                Console.WriteLine("U moet eerst een account aanmaken");
+                Console.WriteLine(" - U moet eerst een account aanmaken");
                 return Tuple.Create(3, 100);
             }
         }

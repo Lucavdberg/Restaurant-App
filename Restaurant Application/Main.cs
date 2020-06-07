@@ -30,9 +30,9 @@ namespace oefenen1
                 Console.Clear();
                 Console.WriteLine("\n");
                 restaurantClass.restaurantFunc();
-                Console.WriteLine("U kunt via deze applicatie een reservering plaatsen en het menu bekijken");
                 Console.WriteLine(" [1]. Menu bekijken\n [2]. Gerecht opzoeken\n [3]. Reservering maken\n [4]. Beheerder Login\n [5]. Review plaatsen\n");
                 autoDeleteReserveringClass.AutoDeleteReserveringFunc();
+                Console.Write(" Uw keuze: ");
                 var menu_of_reservering = Console.ReadLine();
                 if (menu_of_reservering == "1")
                 {
@@ -65,7 +65,7 @@ namespace oefenen1
                 }
                 else if (menu_of_reservering == "3")
                 {
-                    Console.WriteLine("om een reservering te plaatsen moet u eerst inloggen of een account aanmaken");
+                    Console.WriteLine("\n - Om een reservering te plaatsen moet u eerst inloggen, of een account aanmaken.\n");
                     Tuple<int, int> login = loginClass.LoginFunc(gebruikerJson);
                     if (login.Item1 == 3)
                     {
