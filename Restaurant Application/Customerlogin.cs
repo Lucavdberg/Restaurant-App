@@ -116,11 +116,18 @@ public class Customerlogin
                         Console.WriteLine("Voer een  E-mail in: ");
                         email_variabele = Console.ReadLine();
 
-                        if (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
+
+                        if (email_variabele == "")
+                        {
+                            checkEmail = false;
+                        }
+
+                        else if  (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|outlook|live|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
 
                         {
                             checkEmail = true;
                         }
+                       
 
                     } while (!checkEmail);
                 }
@@ -131,7 +138,7 @@ public class Customerlogin
                 if (gebruikerIdJson != null) {
                     for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {
-                        if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                        if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] && gebruikerIdJson.Email[i ] != ""|| gebruikersnaam == "" || wachtwoord == "" )
                         {
                             checkWachtwoord = true;
                             Console.WriteLine("Dit account bestaat al");
