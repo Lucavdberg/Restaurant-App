@@ -41,8 +41,13 @@ public class Customerlogin
     }
     public Tuple<int, int> LoginFunc(JsonClassLogin writeResultJson)
     {
-        Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
-        var inloggen_aanmaken = Console.ReadLine();
+        //Console.WriteLine("Wilt u inloggen type(1) of een account aanmaken type(2)");
+        var inloggen_aanmaken = "";
+        do
+        {
+            Console.WriteLine("Wilt u inloggen type(1), een account aanmaken type(2) of terug naar het hoofdmenu type(3)");
+            inloggen_aanmaken = Console.ReadLine();
+        } while (inloggen_aanmaken != "1" && inloggen_aanmaken != "2" && inloggen_aanmaken != "3");
         if (inloggen_aanmaken == "2")
         {
             //kijkt of de json file bestaat in dezelfde directory als het project
@@ -67,13 +72,14 @@ public class Customerlogin
             {
                 bool checkWachtwoord = false;
                 bool checkGebruikersnaam = false;
+                bool checkExistance = false;
                 do
                 {
-                    Console.WriteLine("Voer een gebruiksnaam in: (met een lengte van 5 karakters met letters en de eerste letter als hoofdletter)");
+                    Console.WriteLine("Voer een gebruiksnaam in: (met een lengte van 5 karakters met letters en/of cijfers en de eerste letter als hoofdletter)");
                     gebruikersnaam = Console.ReadLine();
                     foreach (char character in gebruikersnaam)
                     {
-                        if (!Char.IsLetter(character) || gebruikersnaam.Length < 5 || !Char.IsUpper(gebruikersnaam[0]))
+                        if (!Char.IsLetterOrDigit(character) || gebruikersnaam.Length < 5 || !Char.IsUpper(gebruikersnaam[0]))
                         {
                             checkGebruikersnaam = true;
                         }
@@ -82,18 +88,18 @@ public class Customerlogin
                             checkGebruikersnaam = false;
                         }
                     }
-                    if (checkGebruikersnaam == true)
+                    if (string.IsNullOrWhiteSpace(gebruikersnaam) || string.IsNullOrEmpty(gebruikersnaam)) 
                     {
-                        Console.WriteLine("voer een langere gebruikersnaam in met een lengte van 5 karakters met letters en de eerste letter als hoofdletter");
+                        checkGebruikersnaam = true;
                     }
                 } while (checkGebruikersnaam == true);
                 do
                 {
-                    Console.WriteLine("Voer een wachtwoord in: (met een lengte van 8 karakters met letters en de eerste letter als hoofdletter)");
+                    Console.WriteLine("Voer een wachtwoord in: (met een lengte van 8 karakters met letters en/of cijfers en de eerste letter als hoofdletter)");
                     wachtwoord = Console.ReadLine();
                     foreach (char character in wachtwoord)
                     {
-                        if (!Char.IsLetter(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
+                        if (!Char.IsLetterOrDigit(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
                         {
                             checkWachtwoord = true;
                         }
@@ -102,51 +108,43 @@ public class Customerlogin
                             checkWachtwoord = false;
                         }
                     }
-                    if (checkWachtwoord == true)
+                    if (string.IsNullOrWhiteSpace(wachtwoord) || string.IsNullOrEmpty(wachtwoord))
                     {
-                        Console.WriteLine("voer een sterker wachtwoord in met een lengte van 8 karakters met letters en de eerste letter als hoofdletter");
+                        checkWachtwoord = true;
                     }
                 } while (checkWachtwoord == true);
                 bool checkEmail = false;
-                //Emeil controleren
                 try
                 {
                     do
                     {
                         Console.WriteLine("Voer een  E-mail in: ");
                         email_variabele = Console.ReadLine();
-
                         if (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
-
                         {
                             checkEmail = true;
                         }
-
                     } while (!checkEmail);
                 }
                 catch
                 {
                     Console.WriteLine("Voer een geldig E-mail in: ");
                 }
-                if (gebruikerIdJson != null) {
+                if (gebruikerIdJson != null) 
+                {
                     for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {
-                        if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || wachtwoord == gebruikerIdJson.Wachtwoord[i] || email_variabele == gebruikerIdJson.Email[i] || gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                        if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i] || email_variabele == gebruikerIdJson.Email[i])
                         {
-                            checkWachtwoord = true;
-                            Console.WriteLine("Dit account bestaat al");
+                            checkExistance = true;  
                         }
                     }
-                }
-                if (gebruikerIdJson == null) {
-                    if (gebruikersnaam == "" || wachtwoord == "" || email_variabele == "")
+                    if(checkExistance == true)
                     {
-                        checkWachtwoord = true;
-                        Console.WriteLine("Vul de velden in");
+                        Console.WriteLine("Dit account bestaat al");
                     }
                 }
-                if (checkWachtwoord == false && checkGebruikersnaam == false && checkEmail == true)
-
+                if (checkWachtwoord == false && checkGebruikersnaam == false && checkEmail == true && checkExistance == false)
                 {
                     break;
                 }
@@ -213,6 +211,11 @@ public class Customerlogin
                 Console.WriteLine("U moet eerst een account aanmaken");
                 return Tuple.Create(3, 100);
             }
+        }
+
+        if (inloggen_aanmaken == "3")
+        {
+            return Tuple.Create(100, 100);
         }
         return Tuple.Create(0, 0);
     }
