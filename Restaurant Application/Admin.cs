@@ -99,7 +99,6 @@ public class Admin
         {
             Console.WriteLine("Het restaurant heeft nog geen gebruikers");
         }
-
         Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
@@ -225,6 +224,7 @@ public class Admin
                         Console.WriteLine("Prijs gerecht:");
                         var prijsgerecht = Console.ReadLine();
                         var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+
                         gerechtenJson.woensdag[i] = new string[] { result1, result2, result3, result4 };
                     }
                 }
@@ -435,7 +435,7 @@ public class Admin
                 File.WriteAllText(@"gerechten.json", nieuw);
 
 
-                Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
             }
             else if (keuze == "2")

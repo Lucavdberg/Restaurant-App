@@ -120,7 +120,13 @@ public class Customerlogin
                     {
                         Console.WriteLine("Voer een  E-mail in: ");
                         email_variabele = Console.ReadLine();
-                        if (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
+                        if (email_variabele == "")
+                        {
+                            checkEmail = false;
+                        }
+
+                        else if  (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|outlook|live|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
+
                         {
                             checkEmail = true;
                         }

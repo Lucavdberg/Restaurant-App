@@ -94,7 +94,6 @@ namespace oefenen1
 
                         string bufferTwo = File.ReadAllText(@"gebruiker_id.json");
                         JsonClassLogin gebruikerIdJson = JsonConvert.DeserializeObject<JsonClassLogin>(bufferTwo);
-
                         while (true)
                         {
                             string buffer = File.ReadAllText(@"reservering_id.json");
@@ -102,6 +101,7 @@ namespace oefenen1
 
                             Console.Clear();
                             Console.WriteLine("Wilt u bestaande reserveringen bekijken type(1), wilt u een nieuwe reservering aanmaken type(2) of wilt u een bestaande reservering annuleren type(3), wilt u uw inloggegevens bekijken en/of wijzigen type(4) of Wilt u uitloggen type(5)");
+
                             var Ingelogd = Console.ReadLine();
                             if (Ingelogd == "1")
                             {
@@ -184,7 +184,7 @@ namespace oefenen1
                             }
                         }
                     }
-                } 
+                }
                 else if (menu_of_reservering == "5")
                 {
                     reviewClass.ReviewFunc();
