@@ -16,7 +16,7 @@ public class Admin
             for (int i = 0; i < reserveringIdJson.Datum.Count; i++)
             {
                 //laat alle reserveringen zien in de json file
-                Console.WriteLine("Reservering ID: " + reserveringIdJson.id[i]);
+                Console.WriteLine("Klanten ID: " + reserveringIdJson.id[i]);
                 Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
                 Console.WriteLine("Reservering datum:              " + reserveringIdJson.Datum[i]);
                 Console.WriteLine("Reservering tijdstip:           " + reserveringIdJson.Tijden[i]);
@@ -24,8 +24,82 @@ public class Admin
                 Console.WriteLine("Opmerkingen bij de reservering: " + reserveringIdJson.Details[i] + "\n");
             }
         }
+        if (reserveringIdJson == null)
+        {
+            Console.WriteLine("Het restaurant heeft nog geen reviews");
+        }
 
-        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.ReadKey();
+    }
+    public void AdminReviewsBekijken()
+    {
+        //kijkt of de json file bestaat in dezelfde directory als het project
+        string curFile = @"reviews.json";
+        var exist = File.Exists(curFile) ? true : false;
+
+        //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+        if (exist == false)
+        {
+            string existance = JsonConvert.SerializeObject(null);
+            File.WriteAllText(@"reviews.json", existance);
+        }
+
+        string bufferTwo = File.ReadAllText(@"reviews.json");
+        JsonClassReview reviewJson = JsonConvert.DeserializeObject<JsonClassReview>(bufferTwo);
+        Console.Clear();
+        if (reviewJson != null)
+        {
+            Console.WriteLine("Alle reviews die zijn geplaatst:\n");
+            for (int i = 0; i < reviewJson.Score.Count; i++)
+            {
+                Console.WriteLine("Reviewer:                       " + reviewJson.Naam[i]);
+                Console.WriteLine("gerecht:                        " + reviewJson.Gerecht[i]);
+                Console.WriteLine("De review:                      " + reviewJson.Review[i]);
+                Console.WriteLine("De score:                       " + reviewJson.Score[i] + "\n");
+            }
+        }
+        if (reviewJson == null)
+        {
+            Console.WriteLine("Het restaurant heeft nog geen reviews");
+        }
+
+        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.ReadKey();
+    }
+    public void AdminGegevensBekijken()
+    {
+        //kijkt of de json file bestaat in dezelfde directory als het project
+        string curFile = @"gebruiker_id.json";
+        var exist = File.Exists(curFile) ? true : false;
+
+        //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+        if (exist == false)
+        {
+            string existance = JsonConvert.SerializeObject(null);
+            File.WriteAllText(@"gebruiker_id.json", existance);
+        }
+
+        string bufferTwo = File.ReadAllText(@"gebruiker_id.json");
+        JsonClassLogin gebruikerJson = JsonConvert.DeserializeObject<JsonClassLogin>(bufferTwo);
+        Console.Clear();
+        if (gebruikerJson != null)
+        {
+            Console.WriteLine("Alle gegevens van gebruikers:\n");
+            for (int i = 0; i < gebruikerJson.Gebruiksnaam.Count; i++)
+            {
+                Console.WriteLine("Klanten ID: " + gebruikerJson.id[i]);
+                Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
+                Console.WriteLine("Gebruikersnaam:                 " + gebruikerJson.Gebruiksnaam[i]);
+                Console.WriteLine("Wachtwoord:                     " + gebruikerJson.Wachtwoord[i]);
+                Console.WriteLine("E-mail:                         " + gebruikerJson.Email[i] + "\n");
+            }
+        }
+        if (gebruikerJson == null)
+        {
+            Console.WriteLine("Het restaurant heeft nog geen gebruikers");
+        }
+        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void adminFunc(JsonClassGerechten newgerechten)
@@ -54,13 +128,14 @@ public class Admin
             Console.WriteLine("Wat is uw admin gebruiksernaam?");
             naam = Console.ReadLine();
             Console.WriteLine("Wat is uw admin wachtwoord?");
-            ww = Console.ReadLine();
+            ww = Customerlogin.ReadPassword();
         }
-        if (naam == "Admin" && ww == "Admin123")
+        while (naam == "Admin" && ww == "Admin123")
         {
+            Console.Clear();
             Console.WriteLine("Logged In!\n");
             Console.WriteLine("Welkom Administrator! Wat wilt u doen");
-            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle reserveringen bekijken\n [3]. Review verwijderen\n");
+            Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle gegevens van gebruikers bekijken\n [3]. Alle reviews bekijken\n [4]. Alle reserveringen bekijken\n [5]. Review verwijderen\n [6]. Reservering verwijderen\n [7]. Uitloggen\n");
             string keuze = Console.ReadLine();
             if (keuze == "1")
             {
@@ -149,6 +224,7 @@ public class Admin
                         Console.WriteLine("Prijs gerecht:");
                         var prijsgerecht = Console.ReadLine();
                         var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+
                         gerechtenJson.woensdag[i] = new string[] { result1, result2, result3, result4 };
                     }
                 }
@@ -364,24 +440,41 @@ public class Admin
             }
             else if (keuze == "2")
             {
-                AdminReserveringenBekijken();
+                AdminGegevensBekijken();
             }
             else if (keuze == "3")
             {
-                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
-                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); int count = 0;
+                AdminReviewsBekijken();
+            }
+            else if (keuze == "4")
+            {
+                AdminReserveringenBekijken();
+            }
+            else if (keuze == "5")
+            {
+                //kijkt of de json file bestaat in dezelfde directory als het project
+                string curFileTwo = @"reviews.json";
+                var existTwo = File.Exists(curFileTwo) ? true : false;
 
-
-                Console.WriteLine("Dit zijn de reveiws");
-                for (int i = 0; i < reviews1.Naam.Count; i++)
+                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+                if (existTwo == false)
                 {
-                    
-                    Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
-
+                    string existance = JsonConvert.SerializeObject(null);
+                    File.WriteAllText(@"reviews.json", existance);
                 }
-                
-                if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
-                {                   
+
+                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
+                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1);
+
+                if (reviews1 != null && reviews1.Naam.Count > 0) 
+                { 
+                    Console.WriteLine("Dit zijn de reviews");
+                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    {
+                    
+                        Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+
+                    }
                     Console.WriteLine("type de naam van de reviewer van de review dat je wilt verwijderen");
                     string naamReviewer = Console.ReadLine();
                     Console.WriteLine("type de naam van de gerecht van de review dat je wilt verwijderen");
@@ -394,25 +487,150 @@ public class Admin
                             reviews1.Gerecht.RemoveAt(i);
                             reviews1.Review.RemoveAt(i);
                             reviews1.Score.RemoveAt(i);
-                          
-                        }                                               
+
+                        }
                     }
                     for (int i = 0; i < reviews1.Naam.Count; i++)
                     {
                         Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
-                   
+
                     }
-                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
                     Console.ReadKey();
+                    
                 }
                 else 
                 {
                     Console.WriteLine("er is nog geen review");
-                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
                     Console.ReadKey();
                 }              
                 string reviews2 = JsonConvert.SerializeObject(reviews1);
                 File.WriteAllText(@"reviews.json", reviews2);
+            }
+            else if (keuze == "6")
+            {
+                //kijkt of de json file bestaat in dezelfde directory als het project
+                string curFileThree = @"reservering_id.json";
+                var existThree = File.Exists(curFileThree) ? true : false;
+
+                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+                if (existThree == false)
+                {
+                    string existance = JsonConvert.SerializeObject(null);
+                    File.WriteAllText(@"reservering_id.json", existance);
+                }
+
+                string bufferThree = File.ReadAllText(@"reservering_id.json");
+                JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferThree);
+
+                //kijkt of de json file bestaat in dezelfde directory als het project
+                string curFileTwo = @"tafels.json";
+                var existTwo = File.Exists(curFileTwo) ? true : false;
+
+                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+                if (existTwo == false)
+                {
+                    string existance = JsonConvert.SerializeObject(null);
+                    File.WriteAllText(@"tafels.json", existance);
+                }
+
+                string bufferTwo = File.ReadAllText(@"tafels.json");
+                JsonClassTafels tafelJson = JsonConvert.DeserializeObject<JsonClassTafels>(bufferTwo);
+
+                if (reserveringIdJson == null)
+                {
+                    Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
+                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.ReadKey();
+                }
+
+                int count = 0;
+                Console.WriteLine("Dit zijn al de reserveringen");
+                if (reserveringIdJson != null)
+                {
+                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                    {
+                        Console.WriteLine("reservering nummer: " + (count + 1));
+                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                        count++;
+                    }
+                    if (count == 0)
+                    {
+                        Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
+                        Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                        Console.ReadKey();
+                    }
+                }
+
+                string keuzeReservering;
+                int intKeuze;
+                while (count != 0)
+                {
+                    Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
+                    try
+                    {
+                        do
+                        {
+                            keuzeReservering = Console.ReadLine();
+                            intKeuze = Int32.Parse(keuzeReservering);
+                            if (intKeuze <= 0 || intKeuze > count)
+                            {
+                                Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                            }
+                        } while (intKeuze <= 0 || intKeuze > count);
+
+                        var gekozenDatum = reserveringIdJson.Datum[intKeuze - 1];
+                        var gekozenPersonen = reserveringIdJson.Personen[intKeuze - 1];
+                        var gekozenID = reserveringIdJson.id[intKeuze - 1];
+                        reserveringIdJson.id.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Datum.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Tijden.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Personen.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Details.RemoveAt(intKeuze - 1);
+                        for (int k = 0; k < tafelJson.id.Count; k++)
+                        {
+                            for (int j = 0; j < tafelJson.id[k].Count; j++)
+                            {
+                                if (tafelJson.datum[k] == gekozenDatum && tafelJson.id[k][j] == gekozenID)
+                                {
+                                    tafelJson.aantalPlaatsen[k] += gekozenPersonen;
+                                    tafelJson.id[k].RemoveAt(j);
+                                        
+                                }
+                            }
+                        }   
+                    }
+                    catch
+                    {
+                        Console.WriteLine("");
+                    }
+
+                    string strNieuweReserveringJson = JsonConvert.SerializeObject(reserveringIdJson);
+                    File.WriteAllText(@"reservering_id.json", strNieuweReserveringJson);
+
+                    string strNieuweTafelJson = JsonConvert.SerializeObject(tafelJson);
+                    File.WriteAllText(@"tafels.json", strNieuweTafelJson);
+
+                    Console.Clear();
+                    Console.WriteLine("Dit is de nieuwe lijst van reserveringen");
+                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                    {
+                        Console.WriteLine("reservering nummer: " + (i + 1));
+                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                        count++;
+                    }
+                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.ReadKey();
+                    break;
+                }
+            }
+            else if (keuze == "7") 
+            {
+                Console.WriteLine("U bent uitgelogd!");
+                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                Console.ReadKey();
+                break;
             }
         }
     }
