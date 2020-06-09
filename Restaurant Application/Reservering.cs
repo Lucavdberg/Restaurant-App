@@ -6,7 +6,7 @@ using System.Globalization;
 
 public class Reservering 
 {
-    public void reserveringFunc(JsonClassReservering resultJson, JsonClassTafels tafels, int cijfer)
+    public void reserveringFunc(JsonClassReservering resultJson, JsonClassTafels tafels, int IdIngelogdPersoon)
     {
         string bufferTwo = File.ReadAllText(@"reservering_id.json");
         JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferTwo);
@@ -54,7 +54,7 @@ public class Reservering
                     for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
                     {
                         //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                        while (datum == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
+                        while (datum == reserveringIdJson.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJson.id[j])
                         {
                             Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                             Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -288,7 +288,7 @@ public class Reservering
                     indexGebruiker = i;
                     tafels.aantalPlaatsen[i] -= personAmount;
                     check = false;
-                    tafels.id[i].Add(gebruikerIdJson.id[cijfer]);
+                    tafels.id[i].Add(gebruikerIdJson.id[IdIngelogdPersoon]);
                     break;  
                 }
                 else if (datum != tafelJson.datum[i])
@@ -302,14 +302,14 @@ public class Reservering
         {
             tafels.aantalPlaatsen.Add(50 - personAmount);
             tafels.datum.Add(datum);
-            tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+            tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
         }
 
         if (tafelJson == null)
         {
             tafels.aantalPlaatsen.Add(50 - personAmount);
             tafels.datum.Add(datum);
-            tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+            tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
         }
 
         //reserveringIdJson is de json file waar de reserveringen in worden opgeslagen
@@ -330,7 +330,7 @@ public class Reservering
         resultJson.Tijden.Add(tijdstip);
         resultJson.Personen.Add(personAmount);
         resultJson.Details.Add(details);
-        resultJson.id.Add(gebruikerIdJson.id[cijfer]);
+        resultJson.id.Add(gebruikerIdJson.id[IdIngelogdPersoon]);
 
         //de resultjson lijst zetten we om in een json file
         string strReserveringJson = JsonConvert.SerializeObject(resultJson);
@@ -381,7 +381,7 @@ public class Reservering
                             for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
+                                while (datumGewijzigd == reserveringIdJson.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJson.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -481,7 +481,7 @@ public class Reservering
                         {
                             tafels.aantalPlaatsen[i] -= personAmount;
                             check = false;
-                            tafels.id[i].Add(gebruikerIdJson.id[cijfer]);
+                            tafels.id[i].Add(gebruikerIdJson.id[IdIngelogdPersoon]);
                             break;
                         }
                         else if (datumGewijzigd != tafelJsonTwo.datum[i])
@@ -496,14 +496,14 @@ public class Reservering
                 {
                     tafels.aantalPlaatsen.Add(50 - personAmount);
                     tafels.datum.Add(datumGewijzigd);
-                    tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+                    tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
                 }
 
                 if (tafelJsonTwo == null)
                 {
                     tafels.aantalPlaatsen.Add(50 - personAmount);
                     tafels.datum.Add(datumGewijzigd);
-                    tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+                    tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
                 }
             }
             if (wijzigen == "2")
@@ -672,7 +672,7 @@ public class Reservering
                             for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
+                                while (datumGewijzigd == reserveringIdJson.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJson.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -905,7 +905,7 @@ public class Reservering
                         {
                             tafels.aantalPlaatsen[i] -= Int32.Parse(personenGewijzigd);
                             check = false;
-                            tafels.id[i].Add(gebruikerIdJson.id[cijfer]);
+                            tafels.id[i].Add(gebruikerIdJson.id[IdIngelogdPersoon]);
                             break;
                         }
                         else if (datumGewijzigd != tafelJsonTwo.datum[i])
@@ -919,7 +919,7 @@ public class Reservering
                 {
                     tafels.aantalPlaatsen.Add(50 - Int32.Parse(personenGewijzigd));
                     tafels.datum.Add(datumGewijzigd);
-                    tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+                    tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
                 }
             }
             string strNieuweReserveringJson = JsonConvert.SerializeObject(resultJson);

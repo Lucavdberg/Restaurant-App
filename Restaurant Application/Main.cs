@@ -30,7 +30,7 @@ namespace oefenen1
                 Console.Clear();
                 Console.WriteLine("\n");
                 restaurantClass.restaurantFunc();
-                Console.WriteLine(" [1]. Menu bekijken\n [2]. Gerecht opzoeken\n [3]. Reservering maken\n [4]. Beheerder Login\n [5]. Review plaatsen\n");
+                Console.WriteLine(" [1]. Menu bekijken\n [2]. Gerecht opzoeken\n [3]. Inloggen of account aanmaken\n [4]. Beheerder Login\n [5]. Review plaatsen\n");
                 autoDeleteReserveringClass.AutoDeleteReserveringFunc();
                 Console.Write(" Uw keuze: ");
                 var menu_of_reservering = Console.ReadLine();
