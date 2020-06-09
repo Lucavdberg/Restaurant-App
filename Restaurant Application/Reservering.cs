@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
-using System.Globalization;
 
 public class Reservering 
 {
@@ -114,7 +113,7 @@ public class Reservering
             //als het omzetten naar Datetime niet is gelukt of als de lengte van de datum lager is dan 10
             else if (timeCheck == false || datum.Length < 10)
             {
-                Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: 01-01-2020.\n");
+                Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: " + DateTime.Today.ToString("dd-MM-yyyy") + ".\n");
             }
             //als het resultaat lager is dan de datum van vandaag
             else if (resultDate < DateTime.Today)
@@ -135,7 +134,6 @@ public class Reservering
             DateTime timeMin = DateTime.Parse("17:00:00");
             DateTime timeMax = DateTime.Parse("22:00:00");
             if (timeCheck1 == true && resultTime <= timeMax && resultTime >= timeMin)
-<<<<<<< Updated upstream
             {
                 break;
             }
@@ -145,17 +143,6 @@ public class Reservering
             }
             else
             {
-=======
-            {
-                break;
-            }
-            else if(timeCheck1 == false)
-            {
-                Console.WriteLine(" Onjuiste tijd. Vul het tijdstip in volgens dit format: 23:59\n");
-            }
-            else
-            {
->>>>>>> Stashed changes
                 Console.WriteLine(" Ons restaurant is open van 17:00 tot 00:00 en u kunt alleen reserveren tussen 17:00 en 22:00!\n");
             }
         }
@@ -266,9 +253,17 @@ public class Reservering
         }
 
         Console.WriteLine(" Uw reservering is aangemaakt!");
-        Console.WriteLine(" [1]. Reservering bekijken\n [2]. Reservering wijzigen\n");
-        reservering = Console.ReadLine(); 
-        
+        Console.WriteLine(" [1]. Reservering bekijken\n [2]. Reservering wijzigen\n [3]. Terug naar de customer scherm\n");
+        do
+        {
+            reservering = Console.ReadLine();
+            if (reservering != "1" && reservering != "2" && reservering != "3")
+            {
+                Console.Clear();
+                Console.WriteLine(" [1]. Reservering bekijken\n [2]. Reservering wijzigen\n [3]. Terug naar de customer scherm\n");
+            }
+        } while (reservering != "1" && reservering != "2" && reservering != "3");
+
         //maakt nieuwe lijsten aan
         resultJson.Datum = new List<string>();
         resultJson.Tijden = new List<string>();
@@ -359,14 +354,10 @@ public class Reservering
             Console.WriteLine(" Reservering tijdstip:           " + tijdstip);
             Console.WriteLine(" Aantal personen aanwezig:       " + personen);
             Console.WriteLine(" Opmerkingen bij de reservering: " + details+ "\n");
-<<<<<<< Updated upstream
-            Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
-=======
->>>>>>> Stashed changes
-            Console.ReadKey();
         }
-        else
+        else if (reservering == "2")
         {
+            Console.Clear();
             Console.WriteLine(" Uw nieuwe reservering");
             Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
             Console.WriteLine(" Reservering datum:              " + datum);
@@ -374,16 +365,12 @@ public class Reservering
             Console.WriteLine(" Aantal personen aanwezig:       " + personen);
             Console.WriteLine(" Opmerkingen bij de reservering: " + details + "\n");
             Console.WriteLine(" [1]. Datum wijzigen\n [2]. Tijdstip wijzigen\n [3]. Aantal personen wijzigen\n [4]. Details wijzigen\n [5]. Alles wijzigen");
-<<<<<<< Updated upstream
-            var wijzigen = Console.ReadLine();
-            if (wijzigen == "1")
-            {
-                Console.WriteLine(" Datum: ");
-                string datumGewijzigd = Console.ReadLine();
-=======
 
             string bufferFour = File.ReadAllText(@"tafels.json");
             JsonClassTafels tafelJsonTwo = JsonConvert.DeserializeObject<JsonClassTafels>(bufferFour);
+
+            string bufferFive = File.ReadAllText(@"reservering_id.json");
+            JsonClassReservering reserveringIdJsonTwo = JsonConvert.DeserializeObject<JsonClassReservering>(bufferFive);
 
             var wijzigen = Console.ReadLine();
             if (wijzigen == "1")
@@ -403,10 +390,10 @@ public class Reservering
                     {
                         for (int i = 0; i < tafelJsonTwo.datum.Count; i++)
                         {
-                            for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
+                            for (int j = 0; j < reserveringIdJsonTwo.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
+                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJsonTwo.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -466,7 +453,7 @@ public class Reservering
                     //als het omzetten naar Datetime niet is gelukt of als de lengte van de datum lager is dan 10
                     else if (timeCheck == false || datumGewijzigd.Length < 10)
                     {
-                        Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: 01-01-2020.\n");
+                        Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: " + DateTime.Today.ToString("dd-MM-yyyy") + ".\n");
                     }
                     //als het resultaat lager is dan de datum van vandaag
                     else if (resultDate < DateTime.Today)
@@ -478,7 +465,6 @@ public class Reservering
                         Console.WriteLine(" U kunt alleen reserveren tussen nu en over een jaar, niet later dan dat.\n");
                     }
                 }
->>>>>>> Stashed changes
                 resultJson.Datum[resultJson.Datum.Count - 1] = datumGewijzigd;
                 if (check == true)
                 {
@@ -534,10 +520,6 @@ public class Reservering
             }
             if (wijzigen == "2")
             {
-<<<<<<< Updated upstream
-                Console.WriteLine(" Tijdstip: ");
-                string tijdenGewijzigd = Console.ReadLine();
-=======
                 string tijdenGewijzigd;
                 while (true)
                 {
@@ -559,15 +541,10 @@ public class Reservering
                         Console.WriteLine(" Ons restaurant is open van 17:00 tot 00:00 en u kunt alleen reserveren tussen 17:00 en 22:00!\n");
                     }
                 }
->>>>>>> Stashed changes
                 resultJson.Tijden[resultJson.Tijden.Count - 1] = tijdenGewijzigd;
             }
             if (wijzigen == "3")
             {
-<<<<<<< Updated upstream
-                Console.WriteLine(" Aantal personen: ");
-                var personenGewijzigd = Console.ReadLine();
-=======
                 //code voor het aantal personen zodat er alleen getallen worden geaccepteerd als input
                 string personenGewijzigd;
                 while (true)
@@ -641,7 +618,6 @@ public class Reservering
                         }
                     }
                 }
->>>>>>> Stashed changes
                 resultJson.Personen[resultJson.Personen.Count - 1] = Int32.Parse(personenGewijzigd);
                 if (check == true)
                 {
@@ -654,10 +630,6 @@ public class Reservering
             }
             if (wijzigen == "4")
             {
-<<<<<<< Updated upstream
-                Console.WriteLine(" Details reservering: ");
-                var detailsGewijzigd = Console.ReadLine();
-=======
                 //code voor de belangrijke details zodat er alleen maar letters(met eventueel spaties ertussen) worden geaccepteerd als input
                 string detailsGewijzigd;
                 while (true)
@@ -690,24 +662,10 @@ public class Reservering
                         break;
                     }
                 }
->>>>>>> Stashed changes
                 resultJson.Details[resultJson.Details.Count - 1] = detailsGewijzigd;
             }
             if (wijzigen == "5")
             {
-<<<<<<< Updated upstream
-                Console.WriteLine(" Datum: ");
-                string datumGewijzigd = Console.ReadLine();
-                resultJson.Datum[resultJson.Datum.Count - 1] = datumGewijzigd;
-                Console.WriteLine(" Tijdstip: ");
-                string tijdenGewijzigd = Console.ReadLine();
-                resultJson.Tijden[resultJson.Tijden.Count - 1] = tijdenGewijzigd;
-                Console.WriteLine(" Aantal personen: ");
-                var personenGewijzigd = Console.ReadLine();
-                resultJson.Personen[resultJson.Personen.Count - 1] = Int32.Parse(personenGewijzigd);
-                Console.WriteLine(" Details reservering: ");
-                var detailsGewijzigd = Console.ReadLine();
-=======
                 string datumGewijzigd;
                 while (true)
                 {
@@ -723,10 +681,10 @@ public class Reservering
                     {
                         for (int i = 0; i < tafelJsonTwo.datum.Count; i++)
                         {
-                            for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
+                            for (int j = 0; j < reserveringIdJsonTwo.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
+                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJsonTwo.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -786,7 +744,7 @@ public class Reservering
                     //als het omzetten naar Datetime niet is gelukt of als de lengte van de datum lager is dan 10
                     else if (timeCheck == false || datumGewijzigd.Length < 10)
                     {
-                        Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: 01-01-2020.\n");
+                        Console.WriteLine(" Onjuiste datum. Vul de datum in volgens dit format: " + DateTime.Today.ToString("dd-MM-yyyy") + ".\n");
                     }
                     //als het resultaat lager is dan de datum van vandaag
                     else if (resultDate < DateTime.Today)
@@ -930,7 +888,6 @@ public class Reservering
                         break;
                     }
                 }
->>>>>>> Stashed changes
                 resultJson.Details[resultJson.Details.Count - 1] = detailsGewijzigd;
 
                 if (check == true)
@@ -942,7 +899,7 @@ public class Reservering
                     }
                     else
                     {
-                        tafels.id[tafelJsonTwo.id.Count].RemoveAt(tafelJsonTwo.id[tafelJsonTwo.id.Count - 1].Count - 1);
+                        tafels.id[tafelJsonTwo.id.Count-1].RemoveAt(tafelJsonTwo.id[tafelJsonTwo.id.Count - 1].Count - 1);
                     }
                 }
                 if (check == false)
@@ -983,16 +940,19 @@ public class Reservering
             JsonClassReservering nieuweReserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(nieuweReservering);
 
             Console.WriteLine("Dit zijn uw nieuwe gegevens");
-            string[] gewijzigdeBestelling = new string[] { nieuweReserveringIdJson.Datum[nieuweReserveringIdJson.Datum.Count - 1], nieuweReserveringIdJson.Tijden[nieuweReserveringIdJson.Tijden.Count - 1], nieuweReserveringIdJson.Personen[nieuweReserveringIdJson.Personen.Count - 1].ToString(), nieuweReserveringIdJson.Details[nieuweReserveringIdJson.Details.Count - 1] };
-            for (int i = 0; i < gewijzigdeBestelling.Length; i++)
-            {
-                Console.WriteLine(gewijzigdeBestelling[i]);
-            }
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
+            Console.WriteLine(" Reservering datum:              " + nieuweReserveringIdJson.Datum[nieuweReserveringIdJson.Datum.Count - 1]);
+            Console.WriteLine(" Reservering tijdstip:           " + nieuweReserveringIdJson.Tijden[nieuweReserveringIdJson.Tijden.Count - 1]);
+            Console.WriteLine(" Aantal personen aanwezig:       " + nieuweReserveringIdJson.Personen[nieuweReserveringIdJson.Personen.Count - 1].ToString());
+            Console.WriteLine(" Opmerkingen bij de reservering: " + nieuweReserveringIdJson.Details[nieuweReserveringIdJson.Details.Count - 1] + "\n");   
+        }
+        else if (reservering == "3")
+        {
+
         }
         string strNieuweTafelJson = JsonConvert.SerializeObject(tafels);
         File.WriteAllText(@"tafels.json", strNieuweTafelJson);
         Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
-
         Console.ReadKey();
     }
 }
