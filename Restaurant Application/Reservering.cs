@@ -134,7 +134,12 @@ public class Reservering
             bool timeCheck1 = DateTime.TryParse(tijdstip, out resultTime);
             DateTime timeMin = DateTime.Parse("17:00:00");
             DateTime timeMax = DateTime.Parse("22:00:00");
-            if (timeCheck1 == true && resultTime <= timeMax && resultTime >= timeMin)
+            DateTime timeNow = DateTime.Now;
+            if (resultTime < timeNow && resultDate == DateTime.Today)
+            {
+                Console.WriteLine(" U kunt niet in het verleden reserveren.");
+            }
+            else if (timeCheck1 == true && resultTime <= timeMax && resultTime >= timeMin)
             {
                 break;
             }

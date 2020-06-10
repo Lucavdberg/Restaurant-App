@@ -181,7 +181,6 @@ public class Review
                 Console.WriteLine("\nDruk op een toets om terug te keren naar het reviewmenu.");
                 Console.ReadKey();
                 ReviewFunc();
-            }
         }
         else if (keuze == "2") //Reviews bekijken
         {
