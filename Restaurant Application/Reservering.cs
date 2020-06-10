@@ -394,7 +394,7 @@ public class Reservering
                             for (int j = 0; j < reserveringIdJsonTwo.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJsonTwo.id[j])
+                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJsonTwo.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -685,7 +685,7 @@ public class Reservering
                             for (int j = 0; j < reserveringIdJsonTwo.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJsonTwo.id[j])
+                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJsonTwo.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
