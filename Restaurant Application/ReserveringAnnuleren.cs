@@ -51,6 +51,23 @@ public class ReserveringAnnuleren
                     }
                 } while (intKeuze <= 0 || intKeuze > count);
 
+                Console.WriteLine("\nWeet u zeker dat u deze reservering wilt annuleren");
+                Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
+                string jaOfNee = "";
+                do
+                {
+                    jaOfNee = Console.ReadLine();
+                    if (jaOfNee != "1" && jaOfNee != "2")
+                    {
+                        Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
+                    }
+                } while (jaOfNee != "1" && jaOfNee != "2");
+                if (jaOfNee == "2")
+                {
+                    Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                    Console.ReadKey();
+                    break;
+                }
                 //we loopen hier door de id's van gebruikers in de reserveringen json
                 int counter = 0;
                 string gekozenDatum = "";
