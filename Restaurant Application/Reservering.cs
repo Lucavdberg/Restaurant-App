@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Reservering 
 {
-    public void reserveringFunc(JsonClassReservering resultJson, JsonClassTafels tafels, int cijfer)
+    public void reserveringFunc(JsonClassReservering resultJson, JsonClassTafels tafels, int IdIngelogdPersoon)
     {
         string bufferTwo = File.ReadAllText(@"reservering_id.json");
         JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferTwo);
@@ -53,7 +53,7 @@ public class Reservering
                     for (int j = 0; j < reserveringIdJson.Datum.Count; j++)
                     {
                         //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                        while (datum == reserveringIdJson.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJson.id[j])
+                        while (datum == reserveringIdJson.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJson.id[j])
                         {
                             Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                             Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -263,7 +263,6 @@ public class Reservering
                 Console.WriteLine(" [1]. Reservering bekijken\n [2]. Reservering wijzigen\n [3]. Terug naar de customer scherm\n");
             }
         } while (reservering != "1" && reservering != "2" && reservering != "3");
-
         //maakt nieuwe lijsten aan
         resultJson.Datum = new List<string>();
         resultJson.Tijden = new List<string>();
@@ -295,7 +294,7 @@ public class Reservering
                     indexGebruiker = i;
                     tafels.aantalPlaatsen[i] -= personAmount;
                     check = false;
-                    tafels.id[i].Add(gebruikerIdJson.id[cijfer]);
+                    tafels.id[i].Add(gebruikerIdJson.id[IdIngelogdPersoon]);
                     break;  
                 }
                 else if (datum != tafelJson.datum[i])
@@ -309,14 +308,14 @@ public class Reservering
         {
             tafels.aantalPlaatsen.Add(50 - personAmount);
             tafels.datum.Add(datum);
-            tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+            tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
         }
 
         if (tafelJson == null)
         {
             tafels.aantalPlaatsen.Add(50 - personAmount);
             tafels.datum.Add(datum);
-            tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+            tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
         }
 
         //reserveringIdJson is de json file waar de reserveringen in worden opgeslagen
@@ -337,7 +336,7 @@ public class Reservering
         resultJson.Tijden.Add(tijdstip);
         resultJson.Personen.Add(personAmount);
         resultJson.Details.Add(details);
-        resultJson.id.Add(gebruikerIdJson.id[cijfer]);
+        resultJson.id.Add(gebruikerIdJson.id[IdIngelogdPersoon]);
 
         //de resultjson lijst zetten we om in een json file
         string strReserveringJson = JsonConvert.SerializeObject(resultJson);
@@ -367,10 +366,8 @@ public class Reservering
             Console.WriteLine(" [1]. Datum wijzigen\n [2]. Tijdstip wijzigen\n [3]. Aantal personen wijzigen\n [4]. Details wijzigen\n [5]. Alles wijzigen");
             string bufferFour = File.ReadAllText(@"tafels.json");
             JsonClassTafels tafelJsonTwo = JsonConvert.DeserializeObject<JsonClassTafels>(bufferFour);
-
             string bufferFive = File.ReadAllText(@"reservering_id.json");
             JsonClassReservering reserveringIdJsonTwo = JsonConvert.DeserializeObject<JsonClassReservering>(bufferFive);
-
             var wijzigen = Console.ReadLine();
             if (wijzigen == "1")
             {
@@ -492,7 +489,7 @@ public class Reservering
                         {
                             tafels.aantalPlaatsen[i] -= personAmount;
                             check = false;
-                            tafels.id[i].Add(gebruikerIdJson.id[cijfer]);
+                            tafels.id[i].Add(gebruikerIdJson.id[IdIngelogdPersoon]);
                             break;
                         }
                         else if (datumGewijzigd != tafelJsonTwo.datum[i])
@@ -507,14 +504,14 @@ public class Reservering
                 {
                     tafels.aantalPlaatsen.Add(50 - personAmount);
                     tafels.datum.Add(datumGewijzigd);
-                    tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+                    tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
                 }
 
                 if (tafelJsonTwo == null)
                 {
                     tafels.aantalPlaatsen.Add(50 - personAmount);
                     tafels.datum.Add(datumGewijzigd);
-                    tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+                    tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
                 }
             }
             if (wijzigen == "2")
@@ -916,7 +913,7 @@ public class Reservering
                         {
                             tafels.aantalPlaatsen[i] -= Int32.Parse(personenGewijzigd);
                             check = false;
-                            tafels.id[i].Add(gebruikerIdJson.id[cijfer]);
+                            tafels.id[i].Add(gebruikerIdJson.id[IdIngelogdPersoon]);
                             break;
                         }
                         else if (datumGewijzigd != tafelJsonTwo.datum[i])
@@ -930,7 +927,7 @@ public class Reservering
                 {
                     tafels.aantalPlaatsen.Add(50 - Int32.Parse(personenGewijzigd));
                     tafels.datum.Add(datumGewijzigd);
-                    tafels.id.Add(new List<int> { gebruikerIdJson.id[cijfer] });
+                    tafels.id.Add(new List<int> { gebruikerIdJson.id[IdIngelogdPersoon] });
                 }
             }
             string strNieuweReserveringJson = JsonConvert.SerializeObject(resultJson);
