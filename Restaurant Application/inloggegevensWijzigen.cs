@@ -130,7 +130,7 @@ public class inloggegevensWijzigen
                         {
                             Console.WriteLine("Dit account bestaat al");
                         }
-                        if (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
+                        else if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@(hotmail|outlook|live|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
                         {
                             if (checkExistance == false)
                             {

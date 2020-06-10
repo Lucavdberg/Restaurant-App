@@ -127,7 +127,7 @@ public class Customerlogin
                             checkEmail = false;
                         }
 
-                        else if  (Regex.Replace(email_variabele, "^[A-Za-z0-9_-]+@(hotmail|outlook|live|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
+                        else if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@(hotmail|outlook|live|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
 
                         {
                             checkEmail = true;

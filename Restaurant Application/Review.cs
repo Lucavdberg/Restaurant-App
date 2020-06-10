@@ -172,20 +172,6 @@ public class Review
         else if (keuze == "2") //Reviews bekijken
         {
             Console.Clear();
-
-                //Hier worden de ingevulde gegevens opgeslagen in de json file.
-                string strResultJson = JsonConvert.SerializeObject(reviewJson);
-                File.WriteAllText(@"reviews.json", strResultJson);
-
-                Console.WriteLine("\nHartelijk bedankt voor moeite. Uw review is opgeslagen!");
-                Console.WriteLine("\nDruk op een toets om terug te keren naar het reviewmenu.");
-                Console.ReadKey();
-                ReviewFunc();
-        }
-        else if (keuze == "2") //Reviews bekijken
-        {
-            Console.Clear();
-
             //Kijkt of de json file bestaat in dezelfde directory als het project.
             string search_jsonfile = @"reviews.json";
             var exist_reviews = File.Exists(search_jsonfile) ? true : false;

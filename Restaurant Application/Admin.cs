@@ -72,7 +72,6 @@ public class Admin
         //kijkt of de json file bestaat in dezelfde directory als het project
         string curFile = @"gebruiker_id.json";
         var exist = File.Exists(curFile) ? true : false;
-
         //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
         if (exist == false)
         {
@@ -452,61 +451,203 @@ public class Admin
             }
             else if (keuze == "5")
             {
+                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
+                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); 
+                if (reviews1 == null || reviews1.Naam == null)
+                {
+                    Console.WriteLine("er is nog geen review");
+                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                    Console.ReadKey();
+                }
+                else if(reviews1 != null || reviews1.Naam != null)
+                {
+                    int count1 = 0;
+                    Console.WriteLine("Dit zijn de reviews");
+                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    {
+
+                        Console.WriteLine("nummer van review " + (count1 + 1));
+                        Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+                        count1++;
+                    }
+
+                    if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
+                    {
+                        Console.WriteLine("type de nummer van de review die je wilt verwijderen");
+                        string numberstring;
+                        int numberint;
+
+                        while (count1 != 0)
+                        {
+                            try
+                            {
+                                do
+                                {
+                                    numberstring = Console.ReadLine();
+                                    numberint = Int32.Parse(numberstring);
+                                    if (numberint <= 0 || numberint > count1)
+                                    {
+                                        Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                                    }
+
+                                } while (numberint <= 0 || numberint > count1);
+
+                                reviews1.Naam.RemoveAt(numberint - 1);
+                                reviews1.Gerecht.RemoveAt(numberint - 1);
+                                reviews1.Review.RemoveAt(numberint - 1);
+                                reviews1.Score.RemoveAt(numberint - 1);
+                                int count2 = 0;
+                                for (int i = 0; i < reviews1.Naam.Count; i++)
+                                {
+                                    Console.WriteLine("nummer van review " + (count2 + 1));
+                                    Console.WriteLine("Naam: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+                                    count2++;
+                                }
+                                Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                                Console.ReadKey();
+                                break;
+                            }
+
+                            catch
+                            {
+                                Console.WriteLine("type een nummer");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("er is nog geen review");
+                        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                        Console.ReadKey();
+                    }
+                    string reviews2 = JsonConvert.SerializeObject(reviews1);
+                    File.WriteAllText(@"reviews.json", reviews2);
+                }
+            }
+            else if (keuze == "6")
+            {
                 //kijkt of de json file bestaat in dezelfde directory als het project
-                string curFileTwo = @"reviews.json";
+                string curFileThree = @"reservering_id.json";
+                var existThree = File.Exists(curFileThree) ? true : false;
+
+                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+                if (existThree == false)
+                {
+                    string existance = JsonConvert.SerializeObject(null);
+                    File.WriteAllText(@"reservering_id.json", existance);
+                }
+
+                string bufferThree = File.ReadAllText(@"reservering_id.json");
+                JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferThree);
+
+                //kijkt of de json file bestaat in dezelfde directory als het project
+                string curFileTwo = @"tafels.json";
                 var existTwo = File.Exists(curFileTwo) ? true : false;
 
                 //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
                 if (existTwo == false)
                 {
                     string existance = JsonConvert.SerializeObject(null);
-                    File.WriteAllText(@"reviews.json", existance);
+                    File.WriteAllText(@"tafels.json", existance);
                 }
 
-                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
-                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1);
+                string bufferTwo = File.ReadAllText(@"tafels.json");
+                JsonClassTafels tafelJson = JsonConvert.DeserializeObject<JsonClassTafels>(bufferTwo);
 
-                if (reviews1 != null && reviews1.Naam.Count > 0) 
-                { 
-                    Console.WriteLine("Dit zijn de reviews");
-                    for (int i = 0; i < reviews1.Naam.Count; i++)
-                    {
+                if (reserveringIdJson == null)
+                {
+                    Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
+                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.ReadKey();
                     
-                        Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+                }
 
-                    }
-                    Console.WriteLine("type de naam van de reviewer van de review dat je wilt verwijderen");
-                    string naamReviewer = Console.ReadLine();
-                    Console.WriteLine("type de naam van de gerecht van de review dat je wilt verwijderen");
-                    string naamGerecht = Console.ReadLine();
-                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                int count = 0;
+                Console.WriteLine("Dit zijn al de reserveringen");
+                if (reserveringIdJson != null)
+                {
+                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
                     {
-                        if (reviews1.Naam[i] == naamReviewer && reviews1.Gerecht[i] == naamGerecht)
-                        {
-                            reviews1.Naam.RemoveAt(i);
-                            reviews1.Gerecht.RemoveAt(i);
-                            reviews1.Review.RemoveAt(i);
-                            reviews1.Score.RemoveAt(i);
+                        Console.WriteLine("reservering nummer: " + (count + 1));
+                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                        count++;
+                    }
+                    if (count == 0)
+                    {
+                        Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
+                        Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                        Console.ReadKey();
+                    }
+                }
 
+                string keuzeReservering;
+                int intKeuze;
+                while (count != 0)
+                {
+                    Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
+                    try
+                    {
+                        do
+                        {
+                            keuzeReservering = Console.ReadLine();
+                            intKeuze = Int32.Parse(keuzeReservering);
+                            if (intKeuze <= 0 || intKeuze > count)
+                            {
+                                Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                            }
+                        } while (intKeuze <= 0 || intKeuze > count);
+
+                        var gekozenDatum = reserveringIdJson.Datum[intKeuze - 1];
+                        var gekozenPersonen = reserveringIdJson.Personen[intKeuze - 1];
+                        var gekozenID = reserveringIdJson.id[intKeuze - 1];
+                        reserveringIdJson.id.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Datum.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Tijden.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Personen.RemoveAt(intKeuze - 1);
+                        reserveringIdJson.Details.RemoveAt(intKeuze - 1);
+                        for (int k = 0; k < tafelJson.id.Count; k++)
+                        {
+                            for (int j = 0; j < tafelJson.id[k].Count; j++)
+                            {
+                                if (tafelJson.datum[k] == gekozenDatum && tafelJson.id[k][j] == gekozenID)
+                                {
+                                    tafelJson.aantalPlaatsen[k] += gekozenPersonen;
+                                    tafelJson.id[k].RemoveAt(j);
+
+                                }
+                            }
                         }
                     }
-                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                    catch
                     {
-                        Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
-
+                        Console.WriteLine("");
                     }
-                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+
+                    string strNieuweReserveringJson = JsonConvert.SerializeObject(reserveringIdJson);
+                    File.WriteAllText(@"reservering_id.json", strNieuweReserveringJson);
+
+                    string strNieuweTafelJson = JsonConvert.SerializeObject(tafelJson);
+                    File.WriteAllText(@"tafels.json", strNieuweTafelJson);
+
+                    Console.Clear();
+                    Console.WriteLine("Dit is de nieuwe lijst van reserveringen");
+                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                    {
+                        Console.WriteLine("reservering nummer: " + (i + 1));
+                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                        count++;
+                    }
+                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
                     Console.ReadKey();
-                    
+                    break;
                 }
-                else 
-                {
-                    Console.WriteLine("er is nog geen review");
-                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                    Console.ReadKey();
-                }              
-                string reviews2 = JsonConvert.SerializeObject(reviews1);
-                File.WriteAllText(@"reviews.json", reviews2);
+            }
+            else if (keuze == "7")
+            {
+                Console.WriteLine("U bent uitgelogd!");
+                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                Console.ReadKey();
+                break;
             }
             else if (keuze == "6")
             {
