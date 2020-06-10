@@ -600,7 +600,6 @@ public class Admin
                         Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                         count++;
                     }
-<<<<<<< Updated upstream
                     if (count == 0)
                     {
                         Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
@@ -666,10 +665,6 @@ public class Admin
                         Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                         count++;
                     }
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
-                    Console.ReadKey();
-                    break;
-=======
                     Console.WriteLine("\nWilt u doorgaan met verwijderen");
                     Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
                     string jaOfNee2 = "";
@@ -733,15 +728,7 @@ public class Admin
                             Console.ReadKey();
                         }
                     }
->>>>>>> Stashed changes
                 }
-            }
-            else if (keuze == "7")
-            {
-                Console.WriteLine("U bent uitgelogd!");
-                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
-                Console.ReadKey();
-                break;
             }
             else if (keuze == "6")
             {
