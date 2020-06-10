@@ -365,7 +365,6 @@ public class Reservering
             Console.WriteLine(" Aantal personen aanwezig:       " + personen);
             Console.WriteLine(" Opmerkingen bij de reservering: " + details + "\n");
             Console.WriteLine(" [1]. Datum wijzigen\n [2]. Tijdstip wijzigen\n [3]. Aantal personen wijzigen\n [4]. Details wijzigen\n [5]. Alles wijzigen");
-
             string bufferFour = File.ReadAllText(@"tafels.json");
             JsonClassTafels tafelJsonTwo = JsonConvert.DeserializeObject<JsonClassTafels>(bufferFour);
 
