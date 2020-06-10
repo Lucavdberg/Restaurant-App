@@ -172,7 +172,6 @@ public class Review
         else if (keuze == "2") //Reviews bekijken
         {
             Console.Clear();
-
             //Kijkt of de json file bestaat in dezelfde directory als het project.
             string search_jsonfile = @"reviews.json";
             var exist_reviews = File.Exists(search_jsonfile) ? true : false;
