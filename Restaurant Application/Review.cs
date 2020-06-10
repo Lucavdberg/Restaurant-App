@@ -169,7 +169,6 @@ public class Review
                 ReviewFunc();
             }
         }
-      
         else if (keuze == "2") //Reviews bekijken
         {
             Console.Clear();
