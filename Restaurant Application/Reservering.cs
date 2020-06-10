@@ -218,7 +218,7 @@ public class Reservering
                 {
                     Console.WriteLine(" Het ingevoerde getal moet positief zijn en ook lager dan het maximum aantal zitplaatsen namelijk: 50");
                 }
-                else if (personAmount > 0 && personAmount < 50)
+                else if (personAmount > 0 && personAmount <= 50)
                 {
                     break;
                 }
@@ -613,7 +613,7 @@ public class Reservering
                         {
                             Console.WriteLine(" Het ingevoerde getal moet positief zijn en ook lager dan het maximum aantal zitplaatsen namelijk: 50");
                         }
-                        else if (personAmount > 0 && personAmount < 50)
+                        else if (personAmount > 0 && personAmount <= 50)
                         {
                             break;
                         }
@@ -849,7 +849,7 @@ public class Reservering
                         {
                             Console.WriteLine(" Het ingevoerde getal moet positief zijn en ook lager dan het maximum aantal zitplaatsen namelijk: 50");
                         }
-                        else if (personAmount > 0 && personAmount < 50)
+                        else if (personAmount > 0 && personAmount <= 50)
                         {
                             break;
                         }
