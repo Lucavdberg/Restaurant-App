@@ -21,13 +21,13 @@ public class inloggegevensWijzigen
             {
                 if (gebruikerIdJson.id[i] == gebruikerIdJson.id[cijfer])
                 {
-                    Console.WriteLine("Dit zijn uw huidige inloggegevens");
-                    Console.WriteLine("Gebruikersnaam: " + gebruikerIdJson.Gebruiksnaam[i] + "\n" + "Wachtwoord: " + gebruikerIdJson.Wachtwoord[i] + "\n" + "E-mail: " + gebruikerIdJson.Email[i] + "\n");
+                    Console.WriteLine("\n - Dit zijn uw huidige inloggegevens.\n");
+                    Console.WriteLine(" Gebruikersnaam: " + gebruikerIdJson.Gebruiksnaam[i] + "\n" + " Wachtwoord: " + gebruikerIdJson.Wachtwoord[i] + "\n" + " E-mail: " + gebruikerIdJson.Email[i] + "\n");
                 }
             }
 
-            Console.WriteLine("wat wilt u wijzigen");
-            Console.WriteLine(" [1]. Gebruikersnaam wijzigen\n [2]. Wachtwoord wijzigen\n [3]. E-mail wijzigen\n [4]. Terug naar de customerscherm\n");
+            Console.WriteLine(" - U kunt gegevens wijzigen als U wilt.");
+            Console.WriteLine(" [1]. Gebruikersnaam wijzigen\n [2]. Wachtwoord wijzigen\n [3]. E-mail wijzigen\n [4]. Terug naar het customerscherm\n");
 
             bool checkWachtwoord = false;
             bool checkGebruikersnaam = false;
@@ -39,8 +39,8 @@ public class inloggegevensWijzigen
                 do
                 {
                     checkExistance = false;
-                    Console.WriteLine("Voer een nieuwe gebruiksnaam in: (met een lengte van 5 karakters met letters en/of cijfers en de eerste letter als hoofdletter)");
-                    gebruikersnaam = Console.ReadLine();
+                    Console.WriteLine(" Gebruikersnaam... (LET OP: 1E LETTER HOOFDLETTER, MINIMAAL 5 KARAKTERS, LETTERS EN/OF CIJFERS)");
+                    Console.Write(" Uw nieuwe gebruikersnaam: ");
                     for (int i = 0; i < gebruikerIdJson.Gebruiksnaam.Count; i++)
                     {
                         if (gebruikersnaam == gebruikerIdJson.Gebruiksnaam[i])
@@ -50,7 +50,7 @@ public class inloggegevensWijzigen
                     }
                     if (checkExistance == true)
                     {
-                        Console.WriteLine("Deze gebruikersnaam is al ingenomen");
+                        Console.WriteLine(" Deze gebruikersnaam is al ingenomen");
                     }
                     foreach (char character in gebruikersnaam)
                     {
@@ -82,8 +82,8 @@ public class inloggegevensWijzigen
             {
                 do
                 {
-                    Console.WriteLine("Voer een nieuwe wachtwoord in: (met een lengte van 8 karakters met letters en/of cijfers en de eerste letter als hoofdletter)");
-                    wachtwoord = Console.ReadLine();
+                    Console.WriteLine("\n Wachtwoord... (LET OP: 1E LETTER HOOFDLETTER, MINIMAAL 8 KARAKTERS, LETTERS EN/OF CIJFERS)");
+                    Console.Write(" Uw nieuwe wachtwoord: ");
                     foreach (char character in wachtwoord)
                     {
                         if (!Char.IsLetterOrDigit(character) || wachtwoord.Length < 8 || !Char.IsUpper(wachtwoord[0]))
@@ -117,7 +117,7 @@ public class inloggegevensWijzigen
                     do
                     {
                         checkExistance = false;
-                        Console.WriteLine("Voer een  E-mail in: ");
+                        Console.WriteLine(" Voer een e-mailadres in: ");
                         email_variabele = Console.ReadLine();
                         for (int i = 0; i < gebruikerIdJson.Email.Count; i++)
                         {
@@ -128,7 +128,7 @@ public class inloggegevensWijzigen
                         }
                         if (checkExistance == true)
                         {
-                            Console.WriteLine("Dit account bestaat al");
+                            Console.WriteLine(" Dit account bestaat al");
                         }
                         else if (Regex.Replace(email_variabele, "\\w+([-+.']\\w+)*@(hotmail|outlook|live|gmail|yahoo)(.com|.nl)$", string.Empty).Length == 0)
                         {
@@ -141,7 +141,7 @@ public class inloggegevensWijzigen
                 }
                 catch
                 {
-                    Console.WriteLine("Voer een geldig E-mail in: ");
+                    Console.WriteLine(" Voer een geldig e-mailadres in: ");
                 }
 
                 for (int i = 0; i < gebruikerIdJson.id.Count; i++)
@@ -155,7 +155,7 @@ public class inloggegevensWijzigen
             }
             if (keuzeGegevens == "4")
             {
-                Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                Console.WriteLine(" Klik op een toets om terug te keren naar het customer scherm");
                 Console.ReadKey();
                 break;
             }

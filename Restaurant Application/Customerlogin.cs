@@ -46,7 +46,7 @@ public class Customerlogin
         do
         {
             Console.WriteLine(" [1]. Inloggen\n [2]. Account aanmaken\n [3]. Terug naar het hoofdmenu");
-            Console.Write(" Uw keuze: ");
+            Console.Write("\n Uw keuze: ");
             inloggen_aanmaken = Console.ReadLine();
         } while (inloggen_aanmaken != "1" && inloggen_aanmaken != "2" && inloggen_aanmaken != "3");
 
@@ -77,7 +77,10 @@ public class Customerlogin
                 bool checkExistance = false;
                 do
                 {
-                    Console.WriteLine("Voer een gebruiksnaam in: (met een lengte van 5 karakters met letters en/of cijfers en de eerste letter als hoofdletter)");
+                    Console.Clear();
+                    Console.WriteLine("\n - U kunt een account aanmaken... Vul onderstaande gegevens in \n");
+                    Console.WriteLine(" Gebruikersnaam... (LET OP: 1E LETTER HOOFDLETTER, MINIMAAL 5 KARAKTERS, LETTERS EN/OF CIJFERS)");
+                    Console.Write(" Uw gebruikersnaam: ");
                     gebruikersnaam = Console.ReadLine();
                     foreach (char character in gebruikersnaam)
                     {
@@ -97,7 +100,8 @@ public class Customerlogin
                 } while (checkGebruikersnaam == true);
                 do
                 {
-                    Console.WriteLine("Voer een wachtwoord in: (met een lengte van 8 karakters met letters en/of cijfers en de eerste letter als hoofdletter)");
+                    Console.WriteLine("\n Wachtwoord... (LET OP: 1E LETTER HOOFDLETTER, MINIMAAL 8 KARAKTERS, LETTERS EN/OF CIJFERS)");
+                    Console.Write(" Uw wachtwoord: ");
                     wachtwoord = Console.ReadLine();
                     foreach (char character in wachtwoord)
                     {
@@ -120,7 +124,8 @@ public class Customerlogin
                 {
                     do
                     {
-                        Console.WriteLine("Voer een  E-mail in: ");
+                        Console.WriteLine("\n E-mailadres...");
+                        Console.Write(" Uw e-mailadres: ");
                         email_variabele = Console.ReadLine();
                         if (email_variabele == "")
                         {
@@ -136,7 +141,7 @@ public class Customerlogin
                 }
                 catch
                 {
-                    Console.WriteLine("Voer een geldig E-mail in: ");
+                    Console.WriteLine(" Voer a.u.b. een geldig e-mailadres in: ");
                 }
                 if (gebruikerIdJson != null) 
                 {
@@ -149,7 +154,7 @@ public class Customerlogin
                     }
                     if(checkExistance == true)
                     {
-                        Console.WriteLine("Dit account bestaat al");
+                        Console.WriteLine(" Dit account bestaat al.");
                     }
                 }
                 if (checkWachtwoord == false && checkGebruikersnaam == false && checkEmail == true && checkExistance == false)

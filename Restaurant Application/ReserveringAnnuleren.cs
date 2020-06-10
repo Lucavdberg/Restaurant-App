@@ -16,20 +16,21 @@ public class ReserveringAnnuleren
         JsonClassTafels tafelJson = JsonConvert.DeserializeObject<JsonClassTafels>(bufferThree);
 
         int count = 0;
-        Console.WriteLine("Dit zijn al uw reserveringen");
+        Console.Clear();
+        Console.WriteLine(" - Dit zijn al uw reserveringen\n");
         for (int i = 0; i < reserveringIdJson.id.Count; i++)
         {    
             if (reserveringIdJson.id[i] == gebruikerIdJson.id[cijfer])
             {
-                Console.WriteLine("reservering nummer: " + (count + 1));
-                Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                Console.WriteLine(" Reservering nummer: " + (count + 1));
+                Console.WriteLine(" Datum:          " + reserveringIdJson.Datum[i] + "\n" + " Tijdstip:          " + reserveringIdJson.Tijden[i] + "\n" + " Personen:          " + reserveringIdJson.Personen[i] + "\n" + " Details:          " + reserveringIdJson.Details[i] + "\n");
                 count++;
             }
         }
         if (count == 0)
         {
-            Console.WriteLine("u heeft nog geen reserveringen");
-            Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+            Console.WriteLine(" U heeft nog geen reserveringen");
+            Console.WriteLine(" Klik op een toets om terug te keren naar de customer scherm");
             Console.ReadKey();
         }
 
@@ -37,7 +38,7 @@ public class ReserveringAnnuleren
         int intKeuze;
         while (count != 0)
         {
-            Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
+            Console.WriteLine(" Welke reservering wilt u annuleren? Reserveringnummer: ");
             try
             {
                 do
@@ -46,7 +47,7 @@ public class ReserveringAnnuleren
                     intKeuze = Int32.Parse(keuze);
                     if (intKeuze <= 0 || intKeuze > count)
                     {
-                        Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                        Console.WriteLine(" het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
                     }
                 } while (intKeuze <= 0 || intKeuze > count);
 
@@ -111,16 +112,16 @@ public class ReserveringAnnuleren
                 string bufferFour = File.ReadAllText(@"reservering_id.json");
                 JsonClassReservering nieuweReserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferFour);
 
-                Console.WriteLine("Uw reservering is geannuleerd");
-                Console.WriteLine("Dit is uw nieuwe lijst van reserveringen");
+                Console.WriteLine(" Uw reservering is geannuleerd");
+                Console.WriteLine(" Dit is uw nieuwe lijst van reserveringen\n");
                 for (int i = 0; i < nieuweReserveringIdJson.id.Count; i++)
                 {
                     if (nieuweReserveringIdJson.id[i] == gebruikerIdJson.id[cijfer])
                     {
-                        Console.WriteLine("Datum: " + nieuweReserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + nieuweReserveringIdJson.Tijden[i] + "\n" + "Personen: " + nieuweReserveringIdJson.Personen[i] + "\n" + "Details: " + nieuweReserveringIdJson.Details[i] + "\n");
+                        Console.WriteLine("Datum:          " + nieuweReserveringIdJson.Datum[i] + "\n" + "Tijdstip:          " + nieuweReserveringIdJson.Tijden[i] + "\n" + "Personen:          " + nieuweReserveringIdJson.Personen[i] + "\n" + "Details:          " + nieuweReserveringIdJson.Details[i] + "\n");
                     }
                 }
-                Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                Console.WriteLine(" Klik op een toets om terug te keren naar de customer scherm");
                 Console.ReadKey();
                 break;
             }
