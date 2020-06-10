@@ -96,7 +96,7 @@ public class Menu
         {
             Console.WriteLine("De admin moet nog een menu toevoegen.");
         }
-        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+        Console.WriteLine("Klik op een toets om terug te keren naar het hoofdmenu");
         Console.ReadKey();
     }
 }

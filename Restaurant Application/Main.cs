@@ -36,12 +36,17 @@ namespace oefenen1
                 var menu_of_reservering = Console.ReadLine();
                 if (menu_of_reservering == "1")
                 {
-                    Console.WriteLine("Van welke dag wilt u het menu bekijken");
+                    Console.Clear();
+                    Console.WriteLine("\n\n - Bij GROUP1 hebben wij elke dag van de week een verschillend menu.");
+                    Console.WriteLine(" - U kunt een menu bekijken door de dag in te typen.");
                     string day = "";
                     do
                     {
-                        Console.WriteLine("type een dag van de week");
+                        Console.Write("\n Van welke dag wilt u het menu bekijken: ");
                         day = Console.ReadLine();
+                        Console.Clear();
+                        Console.WriteLine("\n - Het menu van de gekozen dag! Wat heerlijk allemaal hé!");
+                        Console.WriteLine("\n");
                     }
                     while (day != "maandag" && day != "Maandag" && day != "dinsdag" && day != "Dinsdag" && day != "woensdag" && day != "Woensdag" && day != "donderdag" && day != "Donderdag" && day != "vrijdag" && day != "Vrijdag" && day != "zaterdag" && day != "Zaterdag" && day != "zondag" && day != "Zondag");
                     menuVanEenDagClass.MenuVanDeDagFunc(day, gerechtenIngevuldClass.gerechtenIngevuldFunc());
@@ -52,29 +57,35 @@ namespace oefenen1
                 }
                 else if (menu_of_reservering == "2")
                 {
-                    Console.WriteLine("Van welk gerecht wilt u weten op welke dag deze beschikbaar is?");
+                    Console.Clear();
+                    Console.WriteLine("\n\n - Bij GROUP1 hebben wij elke dag van de week een verschillend menu en dus ook verschillende gerechten.");
+                    Console.WriteLine(" - U kunt op gerechten zoeken, dan kunt u zien op welke dag wij dit gerecht in ons menu hebben staan.");
                     var gerecht = "";
                     do
                     {
-                        Console.WriteLine("type een gerecht in");
+                        Console.WriteLine("\n Gerecht zoeken.. (LET OP: GERECHTEN MOETEN OP DE JUISTE MANIER GESPELD WORDEN: carpaccio(fout) ==> Carpaccio(goed)) ");
+                        Console.Write("\n Welk gerecht wilt u zoeken: ");
                         gerecht = Console.ReadLine();
+                        Console.Clear();
+                        Console.WriteLine("\n - Dit zijn de dagen waarop uw gerecht in ons menu staat!");
+                        Console.WriteLine("\n");
                     } while (gerecht == "");
                     
-                    Console.WriteLine("---------------------------------------");
                     gerechtenClass.gerechtenFunc(gerecht, gerechtenIngevuldClass.gerechtenIngevuldFunc());
                 }
                 else if (menu_of_reservering == "3")
                 {
-                    Console.WriteLine("\n - Om een reservering te plaatsen moet u eerst inloggen, of een account aanmaken.\n");
+                    Console.WriteLine("\n - Inloggen of een account aanmaken.\n");
                     Tuple<int, int> login = loginClass.LoginFunc(gebruikerJson);
                     if (login.Item1 == 3)
                     {
-                        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                        Console.WriteLine(" Klik op een toets om terug te keren naar het hoofdmenu");
                         Console.ReadKey();
                     }
                     if (login.Item1 == 0)
                     {
-                        Console.WriteLine("u kunt nu terug keren naar het hoofdscherm om in te loggen \nklik op een toets om terug te keren naar het hoofdmenu");
+                        Console.WriteLine("\n - Uw account is aangemaakt!");
+                        Console.WriteLine(" -  Klik op een toets om terug te keren en in te loggen!");
                         Console.ReadKey();
                     }
                     if (login.Item1 == 1)
@@ -100,31 +111,34 @@ namespace oefenen1
                             JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(buffer);
 
                             Console.Clear();
-                            Console.WriteLine("Wilt u bestaande reserveringen bekijken type(1), wilt u een nieuwe reservering aanmaken type(2) of wilt u een bestaande reservering annuleren type(3), wilt u uw inloggegevens bekijken en/of wijzigen type(4) of Wilt u uitloggen type(5)");
-
+                            Console.WriteLine("\n\n - U bent nu ingelogd!");
+                            Console.WriteLine("\n [1]. Uw reserveringen bekijken\n [2]. Nieuwe reservering maken\n [3]. Bestaande reservering annuleren\n [4]. Inloggegevens bekijken/wijzigen\n [5]. Uitloggen\n");
+                            Console.Write(" Uw keuze: ");
                             var Ingelogd = Console.ReadLine();
                             if (Ingelogd == "1")
                             {
                                 if (reserveringIdJson != null)
                                 {
                                     int count = 0;
-                                    Console.WriteLine("Dit zijn al uw reserveringen");
+                                    Console.Clear();
+                                    Console.WriteLine("\n - Dit zijn al uw reserveringen\n");
                                     for (int i = 0; i < reserveringIdJson.id.Count; i++)
                                     {
                                         if (reserveringIdJson.id[i] == gebruikerIdJson.id[login.Item2])
                                         {
-                                            Console.WriteLine("reservering nummer: " + (count + 1));
-                                            Console.WriteLine("Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                                            Console.WriteLine(" Reservering nummer: " + (count + 1));
+                                            Console.WriteLine(" - - - - - - - - - - - - - - - - - - -");
+                                            Console.WriteLine(" Datum:          " + reserveringIdJson.Datum[i] + "\n" + " Tijdstip:          " + reserveringIdJson.Tijden[i] + "\n" + " Personen:          " + reserveringIdJson.Personen[i] + "\n" + " Details:          " + reserveringIdJson.Details[i] + "\n");
                                             count++;
                                         }
                                     }
-                                    Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                                    Console.WriteLine("\n Klik op een toets om terug te keren naar de customer scherm");
                                     Console.ReadKey();
                                 }
                                 if (reserveringIdJson == null)
                                 {
-                                    Console.WriteLine("U heeft nog geen reservering aangemaakt");
-                                    Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                                    Console.WriteLine(" U heeft nog geen reservering aangemaakt");
+                                    Console.WriteLine("\n Klik op een toets om terug te keren naar de customer scherm");
                                     Console.ReadKey();
                                 }  
                             }
@@ -142,19 +156,19 @@ namespace oefenen1
                                     }
                                     if (count < 3)
                                     {
-                                        Console.WriteLine("u kunt nu een reservering plaatsen");
+                                        Console.Clear();
                                         ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                                     }
                                     if (count >= 3)
                                     {
-                                        Console.WriteLine("u kunt geen reservering meer aanmaken omdat u de limiet van 3 reserveringen heeft bereikt \nannuleer een bestaande reservering voor het aanmaken van een nieuwe reservering");
-                                        Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                                        Console.WriteLine(" U kunt geen reservering meer aanmaken omdat u de limiet van 3 reserveringen heeft bereikt \n Annuleer een bestaande reservering voor het aanmaken van een nieuwe reservering");
+                                        Console.WriteLine(" Klik op een toets om terug te keren naar de customer scherm");
                                         Console.ReadKey();
                                     }
                                 }
                                 if (reserveringIdJson == null)
                                 {
-                                    Console.WriteLine("u kunt nu een reservering plaatsen");
+                                    Console.Clear();
                                     ReserveringClass.reserveringFunc(reserveringJson, tafelClass.tafelFunc(), login.Item2);
                                 }
                             }
@@ -166,8 +180,8 @@ namespace oefenen1
                                 }
                                 if (reserveringIdJson == null)
                                 {
-                                    Console.WriteLine("U heeft nog geen reservering aangemaakt");
-                                    Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+                                    Console.WriteLine(" SU heeft nog geen reservering aangemaakt");
+                                    Console.WriteLine(" Klik op een toets om terug te keren naar de customer scherm");
                                     Console.ReadKey();
                                 }  
                             }
@@ -177,8 +191,8 @@ namespace oefenen1
                             }
                             else if (Ingelogd == "5")
                             {
-                                Console.WriteLine("U bent uitgelogd!");
-                                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                                Console.WriteLine(" U bent uitgelogd!");
+                                Console.WriteLine(" Druk op een toets om terug te keren naar het hoofdmenu");
                                 Console.ReadKey();
                                 break;
                             }

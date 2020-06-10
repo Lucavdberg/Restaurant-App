@@ -29,7 +29,7 @@ public class Admin
             Console.WriteLine("Het restaurant heeft nog geen reviews");
         }
 
-        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.WriteLine("Klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void AdminReviewsBekijken()
@@ -64,7 +64,7 @@ public class Admin
             Console.WriteLine("Het restaurant heeft nog geen reviews");
         }
 
-        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.WriteLine("Klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void AdminGegevensBekijken()
@@ -90,7 +90,7 @@ public class Admin
                 Console.WriteLine("Klanten ID: " + gebruikerJson.id[i]);
                 Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
                 Console.WriteLine("Gebruikersnaam:                 " + gebruikerJson.Gebruiksnaam[i]);
-                Console.WriteLine("Wachtwoord:                     " + gebruikerJson.Wachtwoord[i]);
+                Console.WriteLine("Wachtwoord:                     " + "*******");
                 Console.WriteLine("E-mail:                         " + gebruikerJson.Email[i] + "\n");
             }
         }
@@ -98,7 +98,7 @@ public class Admin
         {
             Console.WriteLine("Het restaurant heeft nog geen gebruikers");
         }
-        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void adminFunc(JsonClassGerechten newgerechten)
@@ -117,24 +117,27 @@ public class Admin
         string buffer = File.ReadAllText(@"gerechten.json");
         JsonClassGerechten AdminGerechtenJson = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer);
         JsonClassGerechten gerechtenJson = new JsonClassGerechten();
-        Console.WriteLine("Wat is uw admin gebruiksernaam?");
+        Console.WriteLine("\n - Als Admin inloggen... Vul uw gegevens in.\n");
+        Console.Write(" Admin gebruikersnaam: ");
         var naam = Console.ReadLine();
-        Console.WriteLine("Wat is uw admin wachtwoord?");
+        Console.Write(" Admin wachtwoord: ");
         var ww = Customerlogin.ReadPassword();
         while (naam != "Admin" || ww != "Admin123")
         {
-            Console.WriteLine("De inloggevens zijn onjuist");
-            Console.WriteLine("Wat is uw admin gebruiksernaam?");
+            Console.Clear();
+            Console.WriteLine("\n FAILED TO LOG IN: Uw inlog gegevens zijn onjuist, probeer het opnieuw!\n");
+            Console.Write(" Admin gebruikersnaam: ");
             naam = Console.ReadLine();
-            Console.WriteLine("Wat is uw admin wachtwoord?");
+            Console.Write(" Admin wachtwoord: ");
             ww = Customerlogin.ReadPassword();
         }
         while (naam == "Admin" && ww == "Admin123")
         {
             Console.Clear();
-            Console.WriteLine("Logged In!\n");
-            Console.WriteLine("Welkom Administrator! Wat wilt u doen");
+            Console.WriteLine("\n ... Logged in as Admin!\n");
+            Console.WriteLine(" Welkom Administrator! Wat wilt u doen\n");
             Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle gegevens van gebruikers bekijken\n [3]. Alle reviews bekijken\n [4]. Alle reserveringen bekijken\n [5]. Review verwijderen\n [6]. Reservering verwijderen\n [7]. Uitloggen\n");
+            Console.Write(" Uw keuze: ");
             string keuze = Console.ReadLine();
             if (keuze == "1")
             {
@@ -434,7 +437,7 @@ public class Admin
                 File.WriteAllText(@"gerechten.json", nieuw);
 
 
-                Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine(" Klik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
             }
             else if (keuze == "2")
@@ -455,8 +458,8 @@ public class Admin
                 JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); 
                 if (reviews1 == null || reviews1.Naam == null)
                 {
-                    Console.WriteLine("er is nog geen review");
-                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                    Console.WriteLine(" Er is nog geen review");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
                     Console.ReadKey();
                 }
                 else if(reviews1 != null || reviews1.Naam != null)
@@ -473,7 +476,7 @@ public class Admin
 
                     if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
                     {
-                        Console.WriteLine("type de nummer van de review die je wilt verwijderen");
+                        Console.Write(" Welk nummer review wilt u verwijderen: ");
                         string numberstring;
                         int numberint;
 
@@ -499,25 +502,25 @@ public class Admin
                                 int count2 = 0;
                                 for (int i = 0; i < reviews1.Naam.Count; i++)
                                 {
-                                    Console.WriteLine("nummer van review " + (count2 + 1));
+                                    Console.WriteLine(" Nummer van review: " + (count2 + 1));
                                     Console.WriteLine("Naam: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
                                     count2++;
                                 }
-                                Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                                Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
                                 Console.ReadKey();
                                 break;
                             }
 
                             catch
                             {
-                                Console.WriteLine("type een nummer");
+                                Console.WriteLine("\n typ een nummer");
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine("er is nog geen review");
-                        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                        Console.WriteLine(" Er is nog geen review geplaatst!");
+                        Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
                         Console.ReadKey();
                     }
                     string reviews2 = JsonConvert.SerializeObject(reviews1);
@@ -556,8 +559,8 @@ public class Admin
 
                 if (reserveringIdJson == null)
                 {
-                    Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.WriteLine(" Er zijn nog geen reserveringen aangemaakt");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                     Console.ReadKey();
                     
                 }
@@ -575,7 +578,7 @@ public class Admin
                     if (count == 0)
                     {
                         Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                        Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                        Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                         Console.ReadKey();
                     }
                 }
@@ -637,15 +640,15 @@ public class Admin
                         Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                         count++;
                     }
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                     Console.ReadKey();
                     break;
                 }
             }
             else if (keuze == "7")
             {
-                Console.WriteLine("U bent uitgelogd!");
-                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine("\n U bent uitgelogd!");
+                Console.WriteLine(" Druk op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
                 break;
             }
@@ -681,8 +684,8 @@ public class Admin
 
                 if (reserveringIdJson == null)
                 {
-                    Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.WriteLine(" Er zijn nog geen reserveringen aangemaakt");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                     Console.ReadKey();
                 }
 
@@ -698,8 +701,8 @@ public class Admin
                     }
                     if (count == 0)
                     {
-                        Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                        Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                        Console.WriteLine(" Er zijn nog geen reserveringen aangemaakt");
+                        Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                         Console.ReadKey();
                     }
                 }
@@ -708,7 +711,7 @@ public class Admin
                 int intKeuze;
                 while (count != 0)
                 {
-                    Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
+                    Console.WriteLine(" Typ het nummer van de reservering die u wilt annuleren");
                     try
                     {
                         do
@@ -761,7 +764,7 @@ public class Admin
                         Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                         count++;
                     }
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                     Console.ReadKey();
                     break;
                 }
@@ -769,7 +772,7 @@ public class Admin
             else if (keuze == "7") 
             {
                 Console.WriteLine("U bent uitgelogd!");
-                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine(" Druk op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
                 break;
             }
