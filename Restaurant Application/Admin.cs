@@ -26,7 +26,7 @@ public class Admin
         }
         if (reserveringIdJson == null)
         {
-            Console.WriteLine("Het restaurant heeft nog geen reviews");
+            Console.WriteLine("Het restaurant heeft nog geen reserveringen");
         }
 
         Console.WriteLine("Klik op een toets om terug te keren naar de adminscherm");
