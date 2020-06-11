@@ -127,23 +127,29 @@ public class Review
                 Console.WriteLine(" Schrijf hier uw review (probeer het kort en bondig te houden).");
                 review = Console.ReadLine();
                 Console.WriteLine(" Wat voor cijfer geeft u dit gerecht op schaal van 1 tot 10?");
-                score = Convert.ToInt32(Console.ReadLine());
-
+                bool checkscore = false;
                 while (checkscore == false) //Deze whileloop checkt of gebruiker integer tussen 1 en 10 invuld
                 {
-                    if (score <= 10 && score > 0)
+                    try
                     {
-                        checkscore = true;
-                        break;
+                        score = Convert.ToInt32(Console.ReadLine());
+                        if (score <= 10 && score > 0)
+                        {
+                            checkscore = true;
+                            break;
+                        }
+                        else
+                        {
+                            checkscore = false;
+                            Console.WriteLine(" Vul een heel getal in tussen 1 en 10 in...");
+                        }
                     }
-                    else
+                    catch
                     {
                         checkscore = false;
-                        Console.WriteLine(" Vul een heel getal in tussen 1 en 10 in...");
-                        score = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(" Heeft u wel een getal ingevuld...");
                     }
                 }
-
                 reviewJson.Naam = new List<string>();
                 reviewJson.Gerecht = new List<string>();
                 reviewJson.Review = new List<string>();
