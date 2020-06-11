@@ -45,12 +45,12 @@ public class email {
                 mail.IsBodyHtml = true;
                 mail.Body = "Gebruiksnaam: " + naam + "<br />" + "Wachtwoord: " + wachtwoord;
                 smtp.Send(mail);
-                Console.WriteLine("Er is een mail gestuurd met uw inloggegevens naar uw email \nklik op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine("Er is een mail gestuurd met uw inloggegevens naar uw email \n Klik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
             }
             catch
             {
-                Console.WriteLine("Het ingevoerde email adres bestaat niet \nklik op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine("Het ingevoerde email adres bestaat niet \n Klik op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
             }
         }

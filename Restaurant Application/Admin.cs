@@ -29,7 +29,7 @@ public class Admin
             Console.WriteLine("Het restaurant heeft nog geen reviews");
         }
 
-        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.WriteLine("Klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void AdminReviewsBekijken()
@@ -64,7 +64,7 @@ public class Admin
             Console.WriteLine("Het restaurant heeft nog geen reviews");
         }
 
-        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.WriteLine("Klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void AdminGegevensBekijken()
@@ -90,7 +90,7 @@ public class Admin
                 Console.WriteLine("Klanten ID: " + gebruikerJson.id[i]);
                 Console.WriteLine("- - - - - - - - - - - - - - - - - - -");
                 Console.WriteLine("Gebruikersnaam:                 " + gebruikerJson.Gebruiksnaam[i]);
-                Console.WriteLine("Wachtwoord:                     " + gebruikerJson.Wachtwoord[i]);
+                Console.WriteLine("Wachtwoord:                     " + "*******");
                 Console.WriteLine("E-mail:                         " + gebruikerJson.Email[i] + "\n");
             }
         }
@@ -98,7 +98,7 @@ public class Admin
         {
             Console.WriteLine("Het restaurant heeft nog geen gebruikers");
         }
-        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+        Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
         Console.ReadKey();
     }
     public void adminFunc(JsonClassGerechten newgerechten)
@@ -117,9 +117,10 @@ public class Admin
         string buffer = File.ReadAllText(@"gerechten.json");
         JsonClassGerechten AdminGerechtenJson = JsonConvert.DeserializeObject<JsonClassGerechten>(buffer);
         JsonClassGerechten gerechtenJson = new JsonClassGerechten();
-        Console.WriteLine("Wat is uw admin gebruiksernaam?");
+        Console.WriteLine("\n - Als Admin inloggen... Vul uw gegevens in.\n");
+        Console.Write(" Admin gebruikersnaam: ");
         var naam = Console.ReadLine();
-        Console.WriteLine("Wat is uw admin wachtwoord?");
+        Console.Write(" Admin wachtwoord: ");
         var ww = Customerlogin.ReadPassword();
         int count01 = 0;
         while (naam != "Admin" || ww != "Admin123")
@@ -138,8 +139,8 @@ public class Admin
         while (naam == "Admin" && ww == "Admin123")
         {
             Console.Clear();
-            Console.WriteLine("Logged In!\n");
-            Console.WriteLine("Welkom Administrator! Wat wilt u doen");
+            Console.WriteLine("\n ... Logged in as Admin!\n");
+            Console.WriteLine(" Welkom Administrator! Wat wilt u doen\n");
             if (AdminGerechtenJson == null)
             {
                 gerechtenJson.maandag = newgerechten.maandag;
@@ -151,9 +152,10 @@ public class Admin
                 gerechtenJson.zondag = newgerechten.zondag;
                 string nieuw2 = JsonConvert.SerializeObject(gerechtenJson);
                 File.WriteAllText(@"gerechten.json", nieuw2);
-                Console.WriteLine("het menu is nu automatisch aangemaakt omdat deze er nog niet was");
+                Console.WriteLine(" Het menu is nu automatisch aangemaakt omdat deze er nog niet was.\n");
             }
             Console.WriteLine(" [1]. Menu aanpassen\n [2]. Alle gegevens van gebruikers bekijken\n [3]. Alle reviews bekijken\n [4]. Alle reserveringen bekijken\n [5]. Review verwijderen\n [6]. Reservering verwijderen\n [7]. Uitloggen\n");
+            Console.Write(" Uw keuze: ");
             string keuze = Console.ReadLine();
             if (keuze == "1")
             {
@@ -164,9 +166,9 @@ public class Admin
                 string jaOfNee = "";
                 do
                 {
-                    Console.WriteLine("type een dag van de week");
+                    Console.WriteLine("type een dag van de week of type alles (om het menu van alle dagen te wijzigen)");
                     dag = Console.ReadLine();
-                    Console.WriteLine("\nWeet u zeker dat u deze dag wilt kiezen");
+                    Console.WriteLine("\n Weet u zeker dat u deze dag wilt kiezen");
                     Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
                     do
                     {
@@ -178,8 +180,7 @@ public class Admin
                     }
                     while (jaOfNee != "1" && jaOfNee != "2");
                 }
-                while (dag != "maandag" && dag != "Maandag" && dag != "dinsdag" && dag != "Dinsdag" && dag != "woensdag" && dag != "Woensdag" && dag != "donderdag" && dag != "Donderdag" && dag != "vrijdag" && dag != "Vrijdag" && dag != "zaterdag" && dag != "Zaterdag" && dag != "zondag" && dag != "Zondag");
-
+                while (dag != "maandag" && dag != "Maandag" && dag != "dinsdag" && dag != "Dinsdag" && dag != "woensdag" && dag != "Woensdag" && dag != "donderdag" && dag != "Donderdag" && dag != "vrijdag" && dag != "Vrijdag" && dag != "zaterdag" && dag != "Zaterdag" && dag != "zondag" && dag != "Zondag" && dag != "alles" && dag != "Alles");
                 if (jaOfNee == "2")
                 {
                     Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
@@ -192,6 +193,7 @@ public class Admin
                         gerechtenJson.maandag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -204,13 +206,57 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.maandag[i] = new string[] { result1, result2, result3, result4 };
-                            gerechtenJson.dinsdag = AGJ.dinsdag;
-                            gerechtenJson.woensdag = AGJ.woensdag;
-                            gerechtenJson.donderdag = AGJ.donderdag;
-                            gerechtenJson.vrijdag = AGJ.vrijdag;
-                            gerechtenJson.zaterdag = AGJ.zaterdag;
-                            gerechtenJson.zondag = AGJ.zondag;
+                            if (gerechtenJson.dinsdag != null)
+                            {
+                                gerechtenJson.dinsdag = AGJ.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag != null)
+                            {
+                                gerechtenJson.woensdag = AGJ.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag != null)
+                            {
+                                gerechtenJson.donderdag = AGJ.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag != null)
+                            {
+                                gerechtenJson.vrijdag = AGJ.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag != null)
+                            {
+                                gerechtenJson.zaterdag = AGJ.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag != null)
+                            {
+                                gerechtenJson.zondag = AGJ.zondag;
+                            }
+
+                            if (gerechtenJson.dinsdag == null)
+                            {
+                                gerechtenJson.dinsdag = newgerechten.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag == null)
+                            {
+                                gerechtenJson.woensdag = newgerechten.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag == null)
+                            {
+                                gerechtenJson.donderdag = newgerechten.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag == null)
+                            {
+                                gerechtenJson.vrijdag = newgerechten.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag == null)
+                            {
+                                gerechtenJson.zaterdag = newgerechten.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag == null)
+                            {
+                                gerechtenJson.zondag = newgerechten.zondag;
+                            }
                         }
                     }
                     if (dag == "dinsdag" || dag == "Dinsdag")
@@ -218,6 +264,7 @@ public class Admin
                         gerechtenJson.dinsdag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -230,7 +277,57 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.dinsdag[i] = new string[] { result1, result2, result3, result4 };
+                            if (gerechtenJson.maandag != null)
+                            {
+                                gerechtenJson.maandag = AGJ.maandag;
+                            }
+                            else if (gerechtenJson.woensdag != null)
+                            {
+                                gerechtenJson.woensdag = AGJ.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag != null)
+                            {
+                                gerechtenJson.donderdag = AGJ.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag != null)
+                            {
+                                gerechtenJson.vrijdag = AGJ.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag != null)
+                            {
+                                gerechtenJson.zaterdag = AGJ.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag != null)
+                            {
+                                gerechtenJson.zondag = AGJ.zondag;
+                            }
+
+                            if (gerechtenJson.maandag == null)
+                            {
+                                gerechtenJson.maandag = newgerechten.maandag;
+                            }
+                            else if (gerechtenJson.woensdag == null)
+                            {
+                                gerechtenJson.woensdag = newgerechten.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag == null)
+                            {
+                                gerechtenJson.donderdag = newgerechten.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag == null)
+                            {
+                                gerechtenJson.vrijdag = newgerechten.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag == null)
+                            {
+                                gerechtenJson.zaterdag = newgerechten.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag == null)
+                            {
+                                gerechtenJson.zondag = newgerechten.zondag;
+                            }
                         }
                     }
                     if (dag == "woensdag" || dag == "Woensdag")
@@ -238,6 +335,7 @@ public class Admin
                         gerechtenJson.woensdag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -250,8 +348,57 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
-
+                            Console.WriteLine("\n");
                             gerechtenJson.woensdag[i] = new string[] { result1, result2, result3, result4 };
+                            if (gerechtenJson.dinsdag != null)
+                            {
+                                gerechtenJson.dinsdag = AGJ.dinsdag;
+                            }
+                            else if (gerechtenJson.maandag != null)
+                            {
+                                gerechtenJson.maandag = AGJ.maandag;
+                            }
+                            else if (gerechtenJson.donderdag != null)
+                            {
+                                gerechtenJson.donderdag = AGJ.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag != null)
+                            {
+                                gerechtenJson.vrijdag = AGJ.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag != null)
+                            {
+                                gerechtenJson.zaterdag = AGJ.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag != null)
+                            {
+                                gerechtenJson.zondag = AGJ.zondag;
+                            }
+
+                            if (gerechtenJson.dinsdag == null)
+                            {
+                                gerechtenJson.dinsdag = newgerechten.dinsdag;
+                            }
+                            else if (gerechtenJson.maandag == null)
+                            {
+                                gerechtenJson.maandag = newgerechten.maandag;
+                            }
+                            else if (gerechtenJson.donderdag == null)
+                            {
+                                gerechtenJson.donderdag = newgerechten.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag == null)
+                            {
+                                gerechtenJson.vrijdag = newgerechten.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag == null)
+                            {
+                                gerechtenJson.zaterdag = newgerechten.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag == null)
+                            {
+                                gerechtenJson.zondag = newgerechten.zondag;
+                            }
                         }
                     }
                     if (dag == "donderdag" || dag == "Donderdag")
@@ -259,6 +406,7 @@ public class Admin
                         gerechtenJson.donderdag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -271,7 +419,57 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.donderdag[i] = new string[] { result1, result2, result3, result4 };
+                            if (gerechtenJson.dinsdag != null)
+                            {
+                                gerechtenJson.dinsdag = AGJ.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag != null)
+                            {
+                                gerechtenJson.woensdag = AGJ.woensdag;
+                            }
+                            else if (gerechtenJson.maandag != null)
+                            {
+                                gerechtenJson.maandag = AGJ.maandag;
+                            }
+                            else if (gerechtenJson.vrijdag != null)
+                            {
+                                gerechtenJson.vrijdag = AGJ.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag != null)
+                            {
+                                gerechtenJson.zaterdag = AGJ.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag != null)
+                            {
+                                gerechtenJson.zondag = AGJ.zondag;
+                            }
+
+                            if (gerechtenJson.dinsdag == null)
+                            {
+                                gerechtenJson.dinsdag = newgerechten.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag == null)
+                            {
+                                gerechtenJson.woensdag = newgerechten.woensdag;
+                            }
+                            else if (gerechtenJson.maandag == null)
+                            {
+                                gerechtenJson.maandag = newgerechten.maandag;
+                            }
+                            else if (gerechtenJson.vrijdag == null)
+                            {
+                                gerechtenJson.vrijdag = newgerechten.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag == null)
+                            {
+                                gerechtenJson.zaterdag = newgerechten.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag == null)
+                            {
+                                gerechtenJson.zondag = newgerechten.zondag;
+                            }
                         }
                     }
                     if (dag == "vrijdag" || dag == "Vrijdag")
@@ -279,6 +477,7 @@ public class Admin
                         gerechtenJson.vrijdag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -291,7 +490,57 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.vrijdag[i] = new string[] { result1, result2, result3, result4 };
+                            if (gerechtenJson.dinsdag != null)
+                            {
+                                gerechtenJson.dinsdag = AGJ.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag != null)
+                            {
+                                gerechtenJson.woensdag = AGJ.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag != null)
+                            {
+                                gerechtenJson.donderdag = AGJ.donderdag;
+                            }
+                            else if (gerechtenJson.maandag != null)
+                            {
+                                gerechtenJson.maandag = AGJ.maandag;
+                            }
+                            else if (gerechtenJson.zaterdag != null)
+                            {
+                                gerechtenJson.zaterdag = AGJ.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag != null)
+                            {
+                                gerechtenJson.zondag = AGJ.zondag;
+                            }
+
+                            if (gerechtenJson.dinsdag == null)
+                            {
+                                gerechtenJson.dinsdag = newgerechten.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag == null)
+                            {
+                                gerechtenJson.woensdag = newgerechten.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag == null)
+                            {
+                                gerechtenJson.donderdag = newgerechten.donderdag;
+                            }
+                            else if (gerechtenJson.maandag == null)
+                            {
+                                gerechtenJson.maandag = newgerechten.maandag;
+                            }
+                            else if (gerechtenJson.zaterdag == null)
+                            {
+                                gerechtenJson.zaterdag = newgerechten.zaterdag;
+                            }
+                            else if (gerechtenJson.zondag == null)
+                            {
+                                gerechtenJson.zondag = newgerechten.zondag;
+                            }
                         }
                     }
                     if (dag == "zaterdag" || dag == "Zaterdag")
@@ -299,6 +548,7 @@ public class Admin
                         gerechtenJson.zaterdag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -311,7 +561,57 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.zaterdag[i] = new string[] { result1, result2, result3, result4 };
+                            if (gerechtenJson.dinsdag != null)
+                            {
+                                gerechtenJson.dinsdag = AGJ.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag != null)
+                            {
+                                gerechtenJson.woensdag = AGJ.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag != null)
+                            {
+                                gerechtenJson.donderdag = AGJ.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag != null)
+                            {
+                                gerechtenJson.vrijdag = AGJ.vrijdag;
+                            }
+                            else if (gerechtenJson.maandag != null)
+                            {
+                                gerechtenJson.maandag = AGJ.maandag;
+                            }
+                            else if (gerechtenJson.zondag != null)
+                            {
+                                gerechtenJson.zondag = AGJ.zondag;
+                            }
+
+                            if (gerechtenJson.dinsdag == null)
+                            {
+                                gerechtenJson.dinsdag = newgerechten.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag == null)
+                            {
+                                gerechtenJson.woensdag = newgerechten.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag == null)
+                            {
+                                gerechtenJson.donderdag = newgerechten.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag == null)
+                            {
+                                gerechtenJson.vrijdag = newgerechten.vrijdag;
+                            }
+                            else if (gerechtenJson.maandag == null)
+                            {
+                                gerechtenJson.maandag = newgerechten.maandag;
+                            }
+                            else if (gerechtenJson.zondag == null)
+                            {
+                                gerechtenJson.zondag = newgerechten.zondag;
+                            }
                         }
                     }
                     if (dag == "zondag" || dag == "Zondag")
@@ -319,6 +619,7 @@ public class Admin
                         gerechtenJson.zondag = new string[11][];
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -331,14 +632,66 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.zondag[i] = new string[] { result1, result2, result3, result4 };
+                            if (gerechtenJson.dinsdag != null)
+                            {
+                                gerechtenJson.dinsdag = AGJ.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag != null)
+                            {
+                                gerechtenJson.woensdag = AGJ.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag != null)
+                            {
+                                gerechtenJson.donderdag = AGJ.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag != null)
+                            {
+                                gerechtenJson.vrijdag = AGJ.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag != null)
+                            {
+                                gerechtenJson.zaterdag = AGJ.zaterdag;
+                            }
+                            else if (gerechtenJson.maandag != null)
+                            {
+                                gerechtenJson.maandag = AGJ.maandag;
+                            }
+
+                            if (gerechtenJson.dinsdag == null)
+                            {
+                                gerechtenJson.dinsdag = newgerechten.dinsdag;
+                            }
+                            else if (gerechtenJson.woensdag == null)
+                            {
+                                gerechtenJson.woensdag = newgerechten.woensdag;
+                            }
+                            else if (gerechtenJson.donderdag == null)
+                            {
+                                gerechtenJson.donderdag = newgerechten.donderdag;
+                            }
+                            else if (gerechtenJson.vrijdag == null)
+                            {
+                                gerechtenJson.vrijdag = newgerechten.vrijdag;
+                            }
+                            else if (gerechtenJson.zaterdag == null)
+                            {
+                                gerechtenJson.zaterdag = newgerechten.zaterdag;
+                            }
+                            else if (gerechtenJson.maandag == null)
+                            {
+                                gerechtenJson.maandag = newgerechten.maandag;
+                            }
                         }
                     }
                     if (dag == "alles" || dag == "Alles")
                     {
                         gerechtenJson.maandag = new string[11][];
+                        Console.WriteLine("U bent bij maandag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -351,12 +704,14 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
-                            Console.WriteLine("U bent bij maandag gegevens:" + i);
+                            Console.WriteLine("\n");
                             gerechtenJson.maandag[i] = new string[] { result1, result2, result3, result4 };
                         }
                         gerechtenJson.dinsdag = new string[11][];
+                        Console.WriteLine("U bent bij dinsdag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -369,12 +724,14 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
-                            Console.WriteLine("U bent bij dinsdag gegevens:" + i);
+                            Console.WriteLine("\n");
                             gerechtenJson.dinsdag[i] = new string[] { result1, result2, result3, result4 };
                         }
                         gerechtenJson.woensdag = new string[11][];
+                        Console.WriteLine("U bent bij woensdag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -387,10 +744,14 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.woensdag[i] = new string[] { result1, result2, result3, result4 };
                         }
+                        gerechtenJson.donderdag = new string[11][];
+                        Console.WriteLine("U bent bij donderdag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -403,11 +764,14 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.donderdag[i] = new string[] { result1, result2, result3, result4 };
                         }
                         gerechtenJson.vrijdag = new string[11][];
+                        Console.WriteLine("U bent bij vrijdag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -420,11 +784,14 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.vrijdag[i] = new string[] { result1, result2, result3, result4 };
                         }
                         gerechtenJson.zaterdag = new string[11][];
+                        Console.WriteLine("U bent bij zaterdag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -437,11 +804,14 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.zaterdag[i] = new string[] { result1, result2, result3, result4 };
                         }
                         gerechtenJson.zondag = new string[11][];
+                        Console.WriteLine("U bent bij zondag gegevens:");
                         for (int i = 0; i < 11; i++)
                         {
+                            Console.WriteLine("gegevens gerecht " + (i + 1));
                             Console.WriteLine("Naam gerecht:");
                             string naamgerecht = Console.ReadLine();
                             var result1 = naamgerecht == "" ? "NoName" : naamgerecht;
@@ -454,6 +824,7 @@ public class Admin
                             Console.WriteLine("Prijs gerecht:");
                             var prijsgerecht = Console.ReadLine();
                             var result4 = prijsgerecht == "" ? "10,00 Euro" : prijsgerecht;
+                            Console.WriteLine("\n");
                             gerechtenJson.zondag[i] = new string[] { result1, result2, result3, result4 };
                         }
                     }
@@ -461,7 +832,7 @@ public class Admin
                     File.WriteAllText(@"gerechten.json", nieuw);
 
 
-                    Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar het hoofdmenu");
                     Console.ReadKey();
                 }
             }
@@ -479,15 +850,25 @@ public class Admin
             }
             else if (keuze == "5")
             {
-                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
-                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1); 
-                if (reviews1 == null || reviews1.Naam == null)
+                //kijkt of de json file bestaat in dezelfde directory als het project
+                string curFileTwo = @"reviews.json";
+                var existTwo = File.Exists(curFileTwo) ? true : false;
+
+                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
+                if (existTwo == false)
                 {
-                    Console.WriteLine("er is nog geen review");
-                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                    string existance = JsonConvert.SerializeObject(null);
+                    File.WriteAllText(@"reviews.json", existance);
+                }
+                string jsonfile_review1 = File.ReadAllText(@"reviews.json");
+                JsonClassReview reviews1 = JsonConvert.DeserializeObject<JsonClassReview>(jsonfile_review1);
+                if (reviews1 == null || reviews1.Naam == null || reviews1.Naam.Count == 0)
+                {
+                    Console.WriteLine(" Er is nog geen review");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
                     Console.ReadKey();
                 }
-                else if(reviews1 != null || reviews1.Naam != null)
+                else if (reviews1 != null || reviews1.Naam != null || reviews1.Naam.Count != 0)
                 {
                     int count1 = 0;
                     Console.WriteLine("Dit zijn de reviews");
@@ -498,58 +879,77 @@ public class Admin
                         Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
                         count1++;
                     }
-
-                    if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
+                    Console.WriteLine("\n Wilt u doorgaan met verwijderen");
+                    Console.WriteLine(" [1]. Ja (LET OP DIT IS DEFINITIEF!)\n [2]. Nee\n");
+                    string jaOfNee2 = "";
+                    do
                     {
-                        Console.WriteLine("type de nummer van de review die je wilt verwijderen");
-                        string numberstring;
-                        int numberint;
-
-                        while (count1 != 0)
+                        jaOfNee2 = Console.ReadLine();
+                        if (jaOfNee2 != "1" && jaOfNee2 != "2")
                         {
-                            try
+                            Console.WriteLine(" [1]. Ja (LET OP DIT IS DEFINITIEF!)\n [2]. Nee\n");
+                        }
+                    }
+                    while (jaOfNee2 != "1" && jaOfNee2 != "2");
+                    if (jaOfNee2 == "2")
+                    {
+                        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                        Console.ReadKey();
+                    }
+                    if (jaOfNee2 == "1")
+                    {
+                        if (reviews1 != null && reviews1.Naam.Count > 0 && reviews1.Review.Count > 0 && reviews1.Score.Count > 0 && reviews1.Gerecht.Count > 0)
+                        {
+                            Console.Write(" Welk nummer review wilt u verwijderen: ");
+                            string numberstring;
+                            int numberint;
+
+                            while (count1 != 0)
                             {
-                                do
+                                try
                                 {
-                                    numberstring = Console.ReadLine();
-                                    numberint = Int32.Parse(numberstring);
-                                    if (numberint <= 0 || numberint > count1)
+                                    do
                                     {
-                                        Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                                        numberstring = Console.ReadLine();
+                                        numberint = Int32.Parse(numberstring);
+                                        if (numberint <= 0 || numberint > count1)
+                                        {
+                                            Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                                        }
+
+                                    } while (numberint <= 0 || numberint > count1);
+
+                                    reviews1.Naam.RemoveAt(numberint - 1);
+                                    reviews1.Gerecht.RemoveAt(numberint - 1);
+                                    reviews1.Review.RemoveAt(numberint - 1);
+                                    reviews1.Score.RemoveAt(numberint - 1);
+                                    int count2 = 0;
+                                    for (int i = 0; i < reviews1.Naam.Count; i++)
+                                    {
+                                        Console.WriteLine(" Nummer van review: " + (count2 + 1));
+                                        Console.WriteLine(" Naam: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
+                                        count2++;
                                     }
-
-                                } while (numberint <= 0 || numberint > count1);
-
-                                reviews1.Naam.RemoveAt(numberint - 1);
-                                reviews1.Gerecht.RemoveAt(numberint - 1);
-                                reviews1.Review.RemoveAt(numberint - 1);
-                                reviews1.Score.RemoveAt(numberint - 1);
-                                int count2 = 0;
-                                for (int i = 0; i < reviews1.Naam.Count; i++)
-                                {
-                                    Console.WriteLine("nummer van review " + (count2 + 1));
-                                    Console.WriteLine("Naam: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
-                                    count2++;
+                                    Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
+                                    Console.ReadKey();
+                                    break;
                                 }
-                                Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                                Console.ReadKey();
-                                break;
-                            }
 
-                            catch
-                            {
-                                Console.WriteLine("type een nummer");
+                                catch
+                                {
+                                    Console.WriteLine("\n typ een nummer");
+                                }
                             }
                         }
+                        else
+                        {
+                            Console.WriteLine(" Er is nog geen review geplaatst!");
+                            Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
+                            Console.ReadKey();
+                        }
+                        string reviews2 = JsonConvert.SerializeObject(reviews1);
+                        File.WriteAllText(@"reviews.json", reviews2);
                     }
-                    else
-                    {
-                        Console.WriteLine("er is nog geen review");
-                        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                        Console.ReadKey();
-                    }
-                    string reviews2 = JsonConvert.SerializeObject(reviews1);
-                    File.WriteAllText(@"reviews.json", reviews2);
                 }
             }
             else if (keuze == "6")
@@ -584,282 +984,67 @@ public class Admin
 
                 if (reserveringIdJson == null)
                 {
-                    Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                    Console.WriteLine(" Er zijn nog geen reserveringen aangemaakt");
+                    Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                     Console.ReadKey();
-                    
+
                 }
 
-                int count = 0;
-                Console.WriteLine("Dit zijn al de reserveringen");
-                if (reserveringIdJson != null)
+                if (reserveringIdJson != null && reserveringIdJson.Datum.Count > 0)
                 {
-                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
-                    {
-                        Console.WriteLine("reservering nummer: " + (count + 1));
-                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
-                        count++;
-                    }
-<<<<<<< Updated upstream
-                    if (count == 0)
-                    {
-                        Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                        Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
-                        Console.ReadKey();
-                    }
-                }
-
-                string keuzeReservering;
-                int intKeuze;
-                while (count != 0)
-                {
-                    Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
-                    try
-                    {
-                        do
-                        {
-                            keuzeReservering = Console.ReadLine();
-                            intKeuze = Int32.Parse(keuzeReservering);
-                            if (intKeuze <= 0 || intKeuze > count)
-                            {
-                                Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
-                            }
-                        } while (intKeuze <= 0 || intKeuze > count);
-
-                        var gekozenDatum = reserveringIdJson.Datum[intKeuze - 1];
-                        var gekozenPersonen = reserveringIdJson.Personen[intKeuze - 1];
-                        var gekozenID = reserveringIdJson.id[intKeuze - 1];
-                        reserveringIdJson.id.RemoveAt(intKeuze - 1);
-                        reserveringIdJson.Datum.RemoveAt(intKeuze - 1);
-                        reserveringIdJson.Tijden.RemoveAt(intKeuze - 1);
-                        reserveringIdJson.Personen.RemoveAt(intKeuze - 1);
-                        reserveringIdJson.Details.RemoveAt(intKeuze - 1);
-                        for (int k = 0; k < tafelJson.id.Count; k++)
-                        {
-                            for (int j = 0; j < tafelJson.id[k].Count; j++)
-                            {
-                                if (tafelJson.datum[k] == gekozenDatum && tafelJson.id[k][j] == gekozenID)
-                                {
-                                    tafelJson.aantalPlaatsen[k] += gekozenPersonen;
-                                    tafelJson.id[k].RemoveAt(j);
-
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        Console.WriteLine("");
-                    }
-
-                    string strNieuweReserveringJson = JsonConvert.SerializeObject(reserveringIdJson);
-                    File.WriteAllText(@"reservering_id.json", strNieuweReserveringJson);
-
-                    string strNieuweTafelJson = JsonConvert.SerializeObject(tafelJson);
-                    File.WriteAllText(@"tafels.json", strNieuweTafelJson);
-
+                    int count = 0;
                     Console.Clear();
-                    Console.WriteLine("Dit is de nieuwe lijst van reserveringen");
-                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                    Console.WriteLine("Dit zijn al de reserveringen");
+                    if (reserveringIdJson != null)
                     {
-                        Console.WriteLine("reservering nummer: " + (i + 1));
-                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
-                        count++;
+                        for (int i = 0; i < reserveringIdJson.id.Count; i++)
+                        {
+                            Console.WriteLine("reservering nummer: " + (count + 1));
+                            Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
+                            count++;
+                        }
+                        if (count == 0)
+                        {
+                            Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
+                            Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
+                            Console.ReadKey();
+                        }
                     }
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
-                    Console.ReadKey();
-                    break;
-=======
-                    Console.WriteLine("\nWilt u doorgaan met verwijderen");
-                    Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
+                    Console.WriteLine("\n Wilt u doorgaan met verwijderen ");
+                    Console.WriteLine(" [1]. Ja (LET OP DIT IS DEFINITIEF!)\n [2]. Nee\n");
                     string jaOfNee2 = "";
                     do
                     {
                         jaOfNee2 = Console.ReadLine();
                         if (jaOfNee2 != "1" && jaOfNee2 != "2")
                         {
-                            Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
+                            Console.WriteLine(" [1]. Ja (LET OP DIT IS DEFINITIEF!)\n [2]. Nee\n");
                         }
                     }
                     while (jaOfNee2 != "1" && jaOfNee2 != "2");
                     if (jaOfNee2 == "2")
                     {
-                        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
+                        Console.WriteLine(" Klik op een toets om terug te keren naar de adminscherm");
                         Console.ReadKey();
                     }
-
-                    if (jaOfNee2 != "2")
+                    string keuzeReservering;
+                    int intKeuze;
+                    if (jaOfNee2 == "1")
                     {
-                        Console.WriteLine("type de naam van de reviewer van de review dat je wilt verwijderen");
-                        string naamReviewer = Console.ReadLine();
-                        Console.WriteLine("type de naam van de gerecht van de review dat je wilt verwijderen");
-                        string naamGerecht = Console.ReadLine();
-
-                        Console.WriteLine("\nWeet u zeker dat u deze review wilt annuleren");
-                        Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
-                        string jaOfNee = "";
-                        do
-                        {
-                            jaOfNee = Console.ReadLine();
-                            if (jaOfNee != "1" && jaOfNee != "2")
-                            {
-                                Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
-                            }
-                        }
-                        while (jaOfNee != "1" && jaOfNee != "2");
-                        if (jaOfNee == "2")
-                        {
-                            Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                            Console.ReadKey();
-                        }
-                        if (jaOfNee != "2")
-                        {
-                            for (int i = 0; i < reviews1.Naam.Count; i++)
-                            {
-                                if (reviews1.Naam[i] == naamReviewer && reviews1.Gerecht[i] == naamGerecht)
-                                {
-                                    reviews1.Naam.RemoveAt(i);
-                                    reviews1.Gerecht.RemoveAt(i);
-                                    reviews1.Review.RemoveAt(i);
-                                    reviews1.Score.RemoveAt(i);
-                                }
-                            }
-                            for (int i = 0; i < reviews1.Naam.Count; i++)
-                            {
-                                Console.WriteLine("Name: " + reviews1.Naam[i] + "\n" + "gerecht: " + reviews1.Gerecht[i] + "\n" + "review: " + reviews1.Review[i] + "\n" + "score : " + reviews1.Score[i] + "\n");
-
-                            }
-                            Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                            Console.ReadKey();
-                        }
-                    }
->>>>>>> Stashed changes
-                }
-            }
-            else if (keuze == "7")
-            {
-                Console.WriteLine("U bent uitgelogd!");
-                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
-                Console.ReadKey();
-                break;
-            }
-            else if (keuze == "6")
-            {
-                //kijkt of de json file bestaat in dezelfde directory als het project
-                string curFileThree = @"reservering_id.json";
-                var existThree = File.Exists(curFileThree) ? true : false;
-
-                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
-                if (existThree == false)
-                {
-                    string existance = JsonConvert.SerializeObject(null);
-                    File.WriteAllText(@"reservering_id.json", existance);
-                }
-
-                string bufferThree = File.ReadAllText(@"reservering_id.json");
-                JsonClassReservering reserveringIdJson = JsonConvert.DeserializeObject<JsonClassReservering>(bufferThree);
-
-                //kijkt of de json file bestaat in dezelfde directory als het project
-                string curFileTwo = @"tafels.json";
-                var existTwo = File.Exists(curFileTwo) ? true : false;
-
-                //de json file bestaat niet in het project folder en wordt aangemaakt en gevuld met null
-                if (existTwo == false)
-                {
-                    string existance = JsonConvert.SerializeObject(null);
-                    File.WriteAllText(@"tafels.json", existance);
-                }
-
-                string bufferTwo = File.ReadAllText(@"tafels.json");
-                JsonClassTafels tafelJson = JsonConvert.DeserializeObject<JsonClassTafels>(bufferTwo);
-
-                if (reserveringIdJson == null)
-                {
-                    Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                    Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
-                    Console.ReadKey();
-                }
-
-                int count = 0;
-                Console.WriteLine("Dit zijn al de reserveringen");
-                if (reserveringIdJson != null)
-                {
-                    for (int i = 0; i < reserveringIdJson.id.Count; i++)
-                    {
-                        Console.WriteLine("reservering nummer: " + (count + 1));
-                        Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
-                        count++;
-                    }
-                    if (count == 0)
-                    {
-                        Console.WriteLine("Er zijn nog geen reserveringen aangemaakt");
-                        Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
-                        Console.ReadKey();
-                    }
-                }
-
-                if (reserveringIdJson != null && reserveringIdJson.Datum.Count != 0)
-                {
-                    Console.WriteLine("\nWilt u doorgaan met verwijderen");
-                    Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
-                    string jaOfNee2 = "";
-                    do
-                    {
-                        jaOfNee2 = Console.ReadLine();
-                        if (jaOfNee2 != "1" && jaOfNee2 != "2")
-                        {
-                            Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
-                        }
-                    }
-                    while (jaOfNee2 != "1" && jaOfNee2 != "2");
-                    if (jaOfNee2 == "2")
-                    {
-                        Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                        Console.ReadKey();
-                    }
-
-                    if (jaOfNee2 != "2")
-                    {
-                        string keuzeReservering;
-                        int intKeuze;
                         while (count != 0)
                         {
-                            string jaOfNee = "";
-                            Console.WriteLine("type het getal in van welke reservering u wilt annuleren");
+                            Console.WriteLine(" Typ het nummer van de reservering die u wilt annuleren: ");
                             try
                             {
                                 do
                                 {
                                     keuzeReservering = Console.ReadLine();
                                     intKeuze = Int32.Parse(keuzeReservering);
-                                    Console.WriteLine("\nWeet u zeker dat u deze reservering wilt annuleren");
-                                    Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
-                                    do
-                                    {
-                                        jaOfNee = Console.ReadLine();
-                                        if (jaOfNee != "1" && jaOfNee != "2")
-                                        {
-                                            Console.WriteLine(" [1]. Ja\n [2]. Nee\n");
-                                        }
-                                    }
-                                    while (jaOfNee != "1" && jaOfNee != "2");
-                                    if (jaOfNee == "2")
-                                    {
-
-                                        break;
-                                    }
                                     if (intKeuze <= 0 || intKeuze > count)
                                     {
-                                        Console.WriteLine("het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
+                                        Console.WriteLine(" Het ingevoerde getal moet positief zijn en ook lager dan het aantal reserveringen");
                                     }
                                 } while (intKeuze <= 0 || intKeuze > count);
-
-                                if (jaOfNee == "2")
-                                {
-                                    Console.WriteLine("klik op een toets om terug te keren naar de adminscherm");
-                                    Console.ReadKey();
-                                    break;
-                                }
 
                                 var gekozenDatum = reserveringIdJson.Datum[intKeuze - 1];
                                 var gekozenPersonen = reserveringIdJson.Personen[intKeuze - 1];
@@ -901,21 +1086,21 @@ public class Admin
                                 Console.WriteLine("klantenID: " + reserveringIdJson.id[i] + "\n" + "Datum: " + reserveringIdJson.Datum[i] + "\n" + "Tijdstip: " + reserveringIdJson.Tijden[i] + "\n" + "Personen: " + reserveringIdJson.Personen[i] + "\n" + "Details: " + reserveringIdJson.Details[i] + "\n");
                                 count++;
                             }
-                            Console.WriteLine("klik op een toets om terug te keren naar de admin scherm");
+                            Console.WriteLine(" Klik op een toets om terug te keren naar de admin scherm");
                             Console.ReadKey();
                             break;
                         }
                     }
                 }
             }
-            else if (keuze == "7") 
+            else if (keuze == "7")
             {
-                Console.WriteLine("U bent uitgelogd!");
-                Console.WriteLine("Druk op een toets om terug te keren naar het hoofdmenu");
+                Console.WriteLine("\n U bent uitgelogd!");
+                Console.WriteLine(" Druk op een toets om terug te keren naar het hoofdmenu");
                 Console.ReadKey();
                 break;
             }
         }
+
     }
-    
 }

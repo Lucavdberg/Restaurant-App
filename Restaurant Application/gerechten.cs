@@ -26,7 +26,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.maandag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Maandag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Maandag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -37,7 +37,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.dinsdag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Dinsdag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Dinsdag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -48,7 +48,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.woensdag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Woensdag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Woensdag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -59,7 +59,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.donderdag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Donderdag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Donderdag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -70,7 +70,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.vrijdag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Vrijdag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Vrijdag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -81,7 +81,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.zaterdag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Zaterdag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Zaterdag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -92,7 +92,7 @@ public class gerechten
                 {
                     if (gerecht == AdminGerechtenJson.zondag[i][j])
                     {
-                        Console.WriteLine("Dit gerecht staat in ons menu voor Zondag");
+                        Console.WriteLine(" Dit gerecht staat in ons menu voor Zondag\n");
                         gerechtenCheck = true;
                     }
                 }
@@ -100,14 +100,14 @@ public class gerechten
 
             if (gerechtenCheck == false)
             {
-                Console.WriteLine("Dit gerecht staat helaas op dit moment niet in ons menu voor deze week");
+                Console.WriteLine(" Dit gerecht staat helaas op dit moment niet in ons menu voor deze week");
             }
         }
         if (AdminGerechtenJson == null)
         {
-            Console.WriteLine("De admin moet nog een menu toevoegen.");
+            Console.WriteLine(" De admin moet nog een menu toevoegen.");
         }
-        Console.WriteLine("klik op een toets om terug te keren naar het hoofdmenu");
+        Console.WriteLine("\n Klik op een toets om terug te keren naar het hoofdmenu");
         Console.ReadKey();
     }
 }

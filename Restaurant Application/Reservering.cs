@@ -35,10 +35,10 @@ public class Reservering
         int personAmount;
         DateTime resultDate;
         DateTime resultTime;
-        Console.WriteLine(" Wat leuk dat u bij ons komt eten, om te reserveren moet u de volgende velden invullen.");
+        Console.WriteLine("\n - Wat leuk dat u bij ons komt eten, om te reserveren moet u de volgende velden invullen.\n");
         while (true)
         {
-            Console.WriteLine(" Datum: ");
+            Console.Write(" Datum: ");
             datum = Console.ReadLine();
             var charsToRemove = new string[] { "/", " " }; 
             //vervangt het symbool (´/´) en (spatie) naar het symbool `-`
@@ -128,7 +128,7 @@ public class Reservering
 
         while (true)
         {
-            Console.WriteLine(" Tijdstip: ");
+            Console.Write(" Tijdstip: ");
             tijdstip = Console.ReadLine();
             bool timeCheck1 = DateTime.TryParse(tijdstip, out resultTime);
             DateTime timeMin = DateTime.Parse("17:00:00");
@@ -156,7 +156,7 @@ public class Reservering
         while (true) 
         {
             bool isNumeric = true;
-            Console.WriteLine(" Aantal personen: ");
+            Console.Write(" Aantal personen: ");
             personen = Console.ReadLine();
             //loopt door elke getallen van de input
             foreach (char c in personen)
@@ -229,7 +229,7 @@ public class Reservering
         while (true)
         {
             bool isLetter = true;
-            Console.WriteLine(" Vul hier eventuele details in (verjaardag, allergiën, etc). Heeft u geen details, typ dan 'geen': ");
+            Console.Write(" Vul hier eventuele details in (verjaardag, allergiën, etc). Heeft u geen details, typ dan 'geen': ");
             details = Console.ReadLine();
             //loopt door elke letter van de input
             foreach (char c in details)
@@ -257,7 +257,7 @@ public class Reservering
             }
         }
 
-        Console.WriteLine(" Uw reservering is aangemaakt!");
+        Console.WriteLine("\n - Uw reservering is aangemaakt!\n");
         Console.WriteLine(" [1]. Reservering bekijken\n [2]. Reservering wijzigen\n [3]. Terug naar de customer scherm\n");
         do
         {
@@ -394,7 +394,7 @@ public class Reservering
                             for (int j = 0; j < reserveringIdJsonTwo.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJsonTwo.id[j])
+                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJsonTwo.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -685,7 +685,7 @@ public class Reservering
                             for (int j = 0; j < reserveringIdJsonTwo.Datum.Count; j++)
                             {
                                 //zorgt ervoor dat een gebruiker niet op dezelfde dag nog een reservering kan plaatsen
-                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[cijfer] == reserveringIdJsonTwo.id[j])
+                                while (datumGewijzigd == reserveringIdJsonTwo.Datum[j] && gebruikerIdJson.id[IdIngelogdPersoon] == reserveringIdJsonTwo.id[j])
                                 {
                                     Console.WriteLine(" U kunt maar 1 reservering plaatsen op dezelfde dag");
                                     Console.WriteLine(" Vul alstublieft een andere datum in: ");
@@ -953,7 +953,7 @@ public class Reservering
         }
         string strNieuweTafelJson = JsonConvert.SerializeObject(tafels);
         File.WriteAllText(@"tafels.json", strNieuweTafelJson);
-        Console.WriteLine("klik op een toets om terug te keren naar de customer scherm");
+        Console.WriteLine(" Klik op een toets om terug te keren naar de customer scherm");
         Console.ReadKey();
     }
 }
