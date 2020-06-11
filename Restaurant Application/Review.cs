@@ -127,7 +127,6 @@ public class Review
                 Console.WriteLine(" Schrijf hier uw review (probeer het kort en bondig te houden).");
                 review = Console.ReadLine();
                 Console.WriteLine(" Wat voor cijfer geeft u dit gerecht op schaal van 1 tot 10?");
-                bool checkscore = false;
                 while (checkscore == false) //Deze whileloop checkt of gebruiker integer tussen 1 en 10 invuld
                 {
                     try
